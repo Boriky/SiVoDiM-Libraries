@@ -7,5 +7,6 @@ public class Anger extends Emotion{
     public Anger(){
         // insert effect parameters
         // addEffect(,);
+        // test comment
     }
 }
