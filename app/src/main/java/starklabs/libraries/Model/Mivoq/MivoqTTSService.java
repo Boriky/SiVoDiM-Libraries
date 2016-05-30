@@ -1,5 +1,6 @@
 package starklabs.libraries.Model.Mivoq;
 
+import android.media.AudioFormat;
 import android.speech.tts.SynthesisCallback;
 import android.speech.tts.SynthesisRequest;
 import android.speech.tts.TextToSpeechService;
@@ -8,6 +9,8 @@ import android.speech.tts.TextToSpeechService;
  * Created by Alberto Andriolo on 25/05/2016.
  */
 public class MivoqTTSService extends TextToSpeechService{
+
+    private SynthesisCallback mCallback;
 
     @Override
     protected int onIsLanguageAvailable(String lang, String country, String variant) {
@@ -30,7 +33,18 @@ public class MivoqTTSService extends TextToSpeechService{
     }
 
     @Override
-    protected void onSynthesizeText(SynthesisRequest request, SynthesisCallback callback) {
+    protected void onSynthesizeText(SynthesisRequest req, SynthesisCallback call) {
+        MivoqTTSSingleton engine= MivoqTTSSingleton.getInstance();
+
+        mCallback=call;
+
+        mCallback.start(16000, AudioFormat.ENCODING_PCM_16BIT, 1);
+
+        byte[] result= engine.SynthesizeText(req.getText());
+
+        mCallback.audioAvailable(result,24,result.length-24);
+
+        mCallback.done();
 
     }
 }

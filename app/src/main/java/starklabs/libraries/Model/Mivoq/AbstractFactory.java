@@ -5,4 +5,6 @@ package starklabs.libraries.Model.Mivoq;
  */
 public abstract class AbstractFactory {
     public abstract MivoqConnection createConnection();
+    public abstract MivoqInfo 		createInfoConnection();
+
 }

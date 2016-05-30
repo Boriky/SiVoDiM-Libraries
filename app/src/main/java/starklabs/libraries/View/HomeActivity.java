@@ -1,10 +1,11 @@
 package starklabs.libraries.View;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,21 +13,49 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 
+import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
 import starklabs.libraries.Presenter.HomePresenter;
 import starklabs.libraries.R;
 
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, HomeActivityInterface {
+        implements NavigationView.OnNavigationItemSelectedListener, HomeActivityInterface, TextToSpeech.OnInitListener {
 
     private HomePresenter homePresenter;
+
+    private ArrayAdapter<String> voiceListAdapter;
+    private ListView listView;
+
+    private TextToSpeech mtts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Button voiceList= (Button) findViewById(R.id.buttonVoiceList);
+        voiceList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goVoiceListActivity();
+            }
+        });
+
+        Button newVoice = (Button) findViewById(R.id.buttonNewVoice);
+        newVoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goNewVoiceActivity();
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +74,24 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        Button button = (Button) findViewById(R.id.button1);
+        assert button != null;
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                MivoqTTSSingleton engine = MivoqTTSSingleton.getInstance();
+
+                engine.setContext(getApplicationContext());
+
+                byte[] audio = engine.SynthesizeText("Oggi una giornata meravigliosa.");
+
+                //String voci = engine.getVoice();
+
+            }
+        });
+
+        mtts = new TextToSpeech(this, this, "starklabs.libraries.Model.Mivoq.MivoqTTSService");
     }
 
     @Override
@@ -102,5 +149,39 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void goNewVoiceActivity(){
+        Intent intent= new Intent(this, NewVoiceActivity.class);
+        startActivity(intent);
+    }
+
+    private void goVoiceListActivity(){
+        Intent intent= new Intent(this, VoiceListActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onInit(int status) {
+        /*
+        int status1= mtts.setEngineByPackageName("starklabs.libraries.Model.Mivoq.MivoqTTService");
+        System.out.println(status1);
+        mtts.speak("Sono android", TextToSpeech.QUEUE_FLUSH, null);
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        mtts.speak("Sono androidiano", TextToSpeech.QUEUE_FLUSH, null);
+
+        try {
+            System.out.println("-------------------------");
+            System.out.println(getApplicationContext().getPackageManager().getPackageInfo("starklabs.libraries.Model.Mivoq.MivoqTTService",
+                    PackageManager.COMPONENT_ENABLED_STATE_DEFAULT).toString());
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("------------NOT FOUND-------------");
+        }
+        */
     }
 }
