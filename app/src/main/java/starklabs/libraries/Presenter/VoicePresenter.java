@@ -1,5 +1,8 @@
 package starklabs.libraries.Presenter;
 
+import android.content.Context;
+import android.widget.ArrayAdapter;
+
 import starklabs.libraries.Model.Voice.Voice;
 
 /**
@@ -9,4 +12,9 @@ public interface VoicePresenter {
 
     Voice getVoice();
 
+    void loadVoiceGender(Context context);
+    ArrayAdapter<String> getGenderAdapter(Context context);
+
+    void loadVoiceLanguage(Context context);
+    ArrayAdapter<String> getLanguageAdapter(Context context);
 }

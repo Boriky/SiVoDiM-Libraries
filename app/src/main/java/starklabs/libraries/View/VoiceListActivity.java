@@ -1,29 +1,31 @@
 package starklabs.libraries.View;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import starklabs.libraries.Presenter.VoiceListPresenter;
+import starklabs.libraries.Presenter.VoiceListPresenterImpl;
 import starklabs.libraries.R;
 
-public class VoiceListActivity extends AppCompatActivity implements VoiceListActivityInterface {
-    //first comment
-    private VoiceListPresenter voiceListPresenter;
-
-    private ArrayAdapter<String> voiceAdapt;
-    private ListView listView;
+public class VoiceListActivity extends AppCompatActivity implements VoiceListActivityInterface{
+    private static VoiceListPresenter voiceListPresenter;
+    private ListView voiceListView;
+    private ListAdapter voiceListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice_list);
+
+        if(voiceListPresenter==null) voiceListPresenter=new VoiceListPresenterImpl(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -31,22 +33,20 @@ public class VoiceListActivity extends AppCompatActivity implements VoiceListAct
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        //list of voices
+        voiceListView = (ListView) findViewById(R.id.voiceListView);
+        voiceListAdapter = voiceListPresenter.getVoicesAdapter(this);
+        voiceListView.setAdapter(voiceListAdapter);
+
+        voiceListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selected=(String) parent.getItemAtPosition(position);
+                Intent intent = new Intent(view.getContext(), EditVoiceActivity.class);
+                intent.putExtra("VoiceSelected", selected);
+                startActivity(intent);
             }
         });
-
-        listView = (ListView) findViewById(R.id.voiceListView);
-
-        voiceAdapt = new VoiceAdapter(getApplicationContext(), R.layout.voice);
-        listView.setAdapter(voiceAdapt);
-
-        voiceAdapt.add("Fede");
-        voiceAdapt.add("Enri");
     }
 
     @Override
@@ -60,5 +60,4 @@ public class VoiceListActivity extends AppCompatActivity implements VoiceListAct
 
         }
     }
-
 }

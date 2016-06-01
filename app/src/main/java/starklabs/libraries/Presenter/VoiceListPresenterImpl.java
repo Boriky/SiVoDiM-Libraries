@@ -1,9 +1,10 @@
 package starklabs.libraries.Presenter;
 
-import java.util.Vector;
+import android.content.Context;
+import android.widget.ArrayAdapter;
 
 import starklabs.libraries.Model.EngineManager.Engine;
-import starklabs.libraries.Model.Voice.Voice;
+import starklabs.libraries.R;
 import starklabs.libraries.View.VoiceListActivityInterface;
 
 /**
@@ -11,12 +12,33 @@ import starklabs.libraries.View.VoiceListActivityInterface;
  */
 public class VoiceListPresenterImpl implements VoiceListPresenter{
 
+    VoiceListActivityInterface voiceListActivityInterface;
+    VoiceListPresenter voiceListPresenter;
+    ArrayAdapter<String> voicesAdapterName;
+
     private Engine engine;
 
-    private VoiceListActivityInterface voiceListActivityInterface;
+    public VoiceListPresenterImpl(VoiceListActivityInterface voiceListActivityInterface) {
+        this.voiceListActivityInterface=voiceListActivityInterface;}
 
     @Override
-    public Vector<Voice> getVoices() {
-        return null;
+    public void loadVoiceNames(Context context) {
+        voicesAdapterName=new ArrayAdapter<String>(context, R.layout.voice);
+        voicesAdapterName.add("Fede");
+        voicesAdapterName.add("Enri");
     }
+
+    @Override
+    public ArrayAdapter<String> getVoicesAdapter(Context context) {
+        if(voicesAdapterName==null){
+            loadVoiceNames(context);
+        }
+        return voicesAdapterName;
+    }
+
+    @Override
+    public void createVoiceList() {
+
+    }
+
 }
