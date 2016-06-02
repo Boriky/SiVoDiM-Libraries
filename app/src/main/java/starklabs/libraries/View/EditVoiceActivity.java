@@ -3,8 +3,11 @@ package starklabs.libraries.View;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
+import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
 import starklabs.libraries.Presenter.VoicePresenter;
 import starklabs.libraries.R;
 
@@ -24,6 +27,16 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
         String voiceName = (String)getIntent().getSerializableExtra("VoiceSelected");
         EditText textViewNameVoice= (EditText) findViewById(R.id.editText2);
         textViewNameVoice.setText(voiceName);
+
+        ImageButton button = (ImageButton) findViewById(R.id.previewButton);
+        assert button != null;
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                MivoqTTSSingleton engine = MivoqTTSSingleton.getInstance();
+                engine.setContext(getApplicationContext());
+                byte[] audio = engine.SynthesizeText("Testo di prova della voce creata.");
+            }
+        });
     }
 
     @Override

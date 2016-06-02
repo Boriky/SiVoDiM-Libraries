@@ -26,6 +26,26 @@ public class VoiceListPresenterImpl implements VoiceListPresenter{
         voicesAdapterName=new ArrayAdapter<String>(context, R.layout.voice);
         voicesAdapterName.add("Fede");
         voicesAdapterName.add("Enri");
+        voicesAdapterName.add("Fede");
+        voicesAdapterName.add("Enri");
+        voicesAdapterName.add("Fede");
+        voicesAdapterName.add("Enri");
+        voicesAdapterName.add("Fede");
+        voicesAdapterName.add("Enri");
+        voicesAdapterName.add("Fede");
+        voicesAdapterName.add("Enri");
+        voicesAdapterName.add("Fede");
+        voicesAdapterName.add("Enri");
+        voicesAdapterName.add("Fede");
+        voicesAdapterName.add("Enri");
+        voicesAdapterName.add("Fede");
+        voicesAdapterName.add("Enri");
+        voicesAdapterName.add("Fede");
+        voicesAdapterName.add("Enri");
+        voicesAdapterName.add("Fede");
+        voicesAdapterName.add("Enri");
+        voicesAdapterName.add("Fede");
+        voicesAdapterName.add("Enri");
     }
 
     @Override

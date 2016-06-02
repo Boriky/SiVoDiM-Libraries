@@ -40,7 +40,6 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
         languageAdapter=voicePresenter.getLanguageAdapter(this);
         language.setAdapter(languageAdapter);
 
-
         ImageButton button = (ImageButton) findViewById(R.id.previewButton);
         assert button != null;
         button.setOnClickListener(new View.OnClickListener() {
