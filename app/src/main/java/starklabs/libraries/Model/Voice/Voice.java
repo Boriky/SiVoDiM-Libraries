@@ -19,7 +19,6 @@ public abstract class Voice {
     }
 
     public void addEffect(Effect effect){
-        //check the order of insertion effects??
         effects.add(effect);
     }
 

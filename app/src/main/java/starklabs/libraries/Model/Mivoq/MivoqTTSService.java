@@ -1,6 +1,5 @@
 package starklabs.libraries.Model.Mivoq;
 
-import android.media.AudioFormat;
 import android.speech.tts.SynthesisCallback;
 import android.speech.tts.SynthesisRequest;
 import android.speech.tts.TextToSpeechService;
@@ -34,7 +33,7 @@ public class MivoqTTSService extends TextToSpeechService{
 
     @Override
     protected void onSynthesizeText(SynthesisRequest req, SynthesisCallback call) {
-        MivoqTTSSingleton engine= MivoqTTSSingleton.getInstance();
+       /* MivoqTTSSingleton engine= MivoqTTSSingleton.getInstance();
 
         mCallback=call;
 
@@ -45,6 +44,7 @@ public class MivoqTTSService extends TextToSpeechService{
         mCallback.audioAvailable(result,24,result.length-24);
 
         mCallback.done();
-
+        */
     }
+
 }

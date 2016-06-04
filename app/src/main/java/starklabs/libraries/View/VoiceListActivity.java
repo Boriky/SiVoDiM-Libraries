@@ -19,12 +19,21 @@ public class VoiceListActivity extends AppCompatActivity implements VoiceListAct
     private ListView voiceListView;
     private ListAdapter voiceListAdapter;
 
+    //------------------------SET PRESENTER--------------------
+    public static void setPresenter(VoiceListPresenter voiceListPresenter){
+        VoiceListActivity.voiceListPresenter=voiceListPresenter;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice_list);
 
-        if(voiceListPresenter==null) voiceListPresenter=new VoiceListPresenterImpl(this);
+        if(voiceListPresenter==null)
+            voiceListPresenter=new VoiceListPresenterImpl(this);
+        else
+            voiceListPresenter.setActivity(this);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

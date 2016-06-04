@@ -16,7 +16,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
 import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
+import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.Presenter.HomePresenter;
 import starklabs.libraries.R;
 
@@ -47,7 +51,7 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-        Button newVoice = (Button) findViewById(R.id.buttonNewVoice);
+        final Button newVoice = (Button) findViewById(R.id.buttonNewVoice);
         newVoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,7 +68,6 @@ public class HomeActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
         Button button = (Button) findViewById(R.id.button1);
         assert button != null;
         button.setOnClickListener(new View.OnClickListener() {
@@ -73,9 +76,47 @@ public class HomeActivity extends AppCompatActivity
 
                 engine.setContext(getApplicationContext());
 
-                byte[] audio = engine.SynthesizeText("Oggi una giornata meravigliosa.");
+                MivoqVoice Fede=engine.CreateVoice("Fede", "male", "it");
 
-                //String voci = engine.getVoice();
+                MivoqVoice Fedeen=engine.CreateVoice("Fedede", "female", "en");
+
+                MivoqVoice Fedefr=engine.CreateVoice("Fedefr", "male", "fr");
+
+                engine.Speak(Fede, "Cosa faremo stasera, Prof? " +
+                        "Quello che facciamo tutte le sere, Mignolo." +
+                        "Tenteremo di conquistare il mondo!");
+
+                //String a= "data/data/starklabs.libraries/provafile.wav";
+                File path=getFilesDir();
+                File myFile=new File(path,"nomeFile.wav");
+
+                try {
+                    engine.SynthesizeToFile(myFile.toString(),Fede, "Cosa faremo stasera, Prof? " +
+                            "Quello che facciamo tutte le sere, Mignolo." +
+                            "Tenteremo di conquistare il mondo!");
+                    System.out.println("File scritto");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                String b= "data/data/starklabs.libraries/provafileen.wav";
+                try {
+                    engine.SynthesizeToFile(b,Fedeen, "Cosa faremo stasera, Prof? " +
+                            "Quello che facciamo tutte le sere, Mignolo." +
+                            "Tenteremo di conquistare il mondo!");
+                    System.out.println("File scritto");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                String c= "data/data/starklabs.libraries/provafilefr.wav";
+                try {
+                    engine.SynthesizeToFile(c,Fedefr, "Cosa faremo stasera, Prof? " +
+                            "Quello che facciamo tutte le sere, Mignolo." +
+                            "Tenteremo di conquistare il mondo!");
+                    System.out.println("File scritto");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
 
             }
         });
@@ -92,14 +133,7 @@ public class HomeActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
-*/
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
