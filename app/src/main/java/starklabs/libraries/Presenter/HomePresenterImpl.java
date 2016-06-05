@@ -7,6 +7,7 @@ import starklabs.libraries.Model.EngineManager.Engine;
 import starklabs.libraries.View.HomeActivityInterface;
 import starklabs.libraries.View.NewVoiceActivity;
 import starklabs.libraries.View.VoiceListActivity;
+import starklabs.libraries.View.VoiceListActivityInterface;
 
 /**
  * Created by AlbertoAndriolo on 26/05/2016.
@@ -20,9 +21,15 @@ public class HomePresenterImpl implements HomePresenter {
     private VoiceListPresenter voiceListPresenter;
 
     private HomeActivityInterface homeActivityInterface;
+    VoiceListActivityInterface voiceListActivityInterface;
 
     public HomePresenterImpl(Engine engine) {
         this.engine = engine;
+    }
+
+    @Override
+    public void setActivity(VoiceListActivityInterface voiceListActivityInterface) {
+        this.voiceListActivityInterface=voiceListActivityInterface;
     }
 
     //--------------------GO TO----------------------------

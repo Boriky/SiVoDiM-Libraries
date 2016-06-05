@@ -27,7 +27,7 @@ public class EffectImpl implements Effect{
     @Override
     public void setValue(String f)
     {
-        value="f";
+        value=f;
     }
 
     @Override

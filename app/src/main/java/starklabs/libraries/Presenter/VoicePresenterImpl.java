@@ -14,7 +14,6 @@ import starklabs.libraries.View.NewVoiceActivityInterface;
  */
 public class
 VoicePresenterImpl implements VoicePresenter{
-    /**Javadoc try*/
 
     private Voice voice;
 

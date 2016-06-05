@@ -46,7 +46,11 @@ public class MivoqVoice extends android.speech.tts.Voice {
             result+=myEmotion.toString();
 
         for (int i=0; i<Effects.size(); i++)
+        {
             result+=Effects.get(i).toString();
+            if( i != Effects.size()-1 )
+                result+= "," ;
+        }
 
         result+="]";
         return result;

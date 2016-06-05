@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 
 import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
@@ -47,6 +46,7 @@ public class HomeActivity extends AppCompatActivity
         voiceList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //homePresenter.goToVoiceListActivity(getApplicationContext());
                 goVoiceListActivity();
             }
         });
@@ -55,6 +55,7 @@ public class HomeActivity extends AppCompatActivity
         newVoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //homePresenter.goToNewVoiceActivity(getApplicationContext());
                 goNewVoiceActivity();
             }
         });
@@ -78,12 +79,12 @@ public class HomeActivity extends AppCompatActivity
 
                 MivoqVoice Fede=engine.CreateVoice("Fede", "male", "it");
 
-         //       MivoqVoice Fedeen=engine.CreateVoice("Fedede", "female", "en");
+                MivoqVoice Fedede=engine.CreateVoice("Fedede", "female", "de");
 
          //       MivoqVoice Fedefr=engine.CreateVoice("Fedefr", "male", "fr");
 
                 //String a= "data/data/starklabs.libraries/provafile.wav";
-                File path=getFilesDir();
+            /*    File path=getFilesDir();
                 File myFile=new File(path,"nomeFile.wav");
                 try {
                     engine.SynthesizeToFile(myFile.toString(),Fede, "Cosa faremo stasera, Prof? " +
@@ -93,20 +94,23 @@ public class HomeActivity extends AppCompatActivity
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-                engine.Speak(Fede, "Cosa faremo stasera, Prof? " +
-                        "Quello che facciamo tutte le sere, Mignolo." +
-                        "Tenteremo di conquistare il mondo!");
+                */
 
-/*
-                String b= "data/data/starklabs.libraries/provafileen.wav";
+                String b= "data/data/starklabs.libraries/provafilede.wav";
                 try {
-                    engine.SynthesizeToFile(b,Fedeen, "Cosa faremo stasera, Prof? " +
+                    engine.SynthesizeToFile(b,Fedede, "Cosa faremo stasera, Prof? " +
                             "Quello che facciamo tutte le sere, Mignolo." +
                             "Tenteremo di conquistare il mondo!");
                     System.out.println("File scritto");
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
+
+                engine.Speak(Fedede, "Cosa faremo stasera, Prof? " +
+                        "Quello che facciamo tutte le sere, Mignolo." +
+                        "Tenteremo di conquistare il mondo!");
+
+                /*
                 String c= "data/data/starklabs.libraries/provafilefr.wav";
                 try {
                     engine.SynthesizeToFile(c,Fedefr, "Cosa faremo stasera, Prof? " +
