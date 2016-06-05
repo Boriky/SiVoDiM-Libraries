@@ -6,7 +6,7 @@ import android.widget.ArrayAdapter;
 
 import starklabs.libraries.Model.EngineManager.Engine;
 import starklabs.libraries.R;
-import starklabs.libraries.View.VoiceListActivity;
+import starklabs.libraries.View.EditVoiceActivity;
 import starklabs.libraries.View.VoiceListActivityInterface;
 
 /**
@@ -16,20 +16,21 @@ public class VoiceListPresenterImpl implements VoiceListPresenter{
 
     VoiceListActivityInterface voiceListActivityInterface;
     VoiceListPresenter voiceListPresenter;
+    VoicePresenter voicePresenter;
     ArrayAdapter<String> voicesAdapterName;
 
     private Engine engine;
 
-    //--------------------GO TO----------------------------
-    @Override
-    public void goToVoiceListActivity(Context context) {
-        Intent voiceListIntent = new Intent(context, VoiceListActivity.class);
-        VoiceListActivity.setPresenter(this);
-        context.startActivity(voiceListIntent);
-    }
-
     public VoiceListPresenterImpl(VoiceListActivityInterface voiceListActivityInterface) {
         this.voiceListActivityInterface=voiceListActivityInterface;}
+
+
+    @Override
+    public void goToEditVoiceActivity(Context context) {
+        Intent editVoiceIntent = new Intent(context, EditVoiceActivity.class);
+        EditVoiceActivity.setPresenter(voicePresenter);
+        context.startActivity(editVoiceIntent);
+    }
 
     @Override
     public void loadVoiceNames(Context context) {
@@ -67,7 +68,7 @@ public class VoiceListPresenterImpl implements VoiceListPresenter{
     }
 
     @Override
-    public void setActivity(VoiceListActivity voiceListActivity) {
+    public void setActivity(VoiceListActivityInterface voiceListActivityInterface) {
         this.voiceListActivityInterface=voiceListActivityInterface;
     }
 

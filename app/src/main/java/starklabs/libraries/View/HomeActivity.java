@@ -27,7 +27,7 @@ import starklabs.libraries.R;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HomeActivityInterface, TextToSpeech.OnInitListener {
 
-    private HomePresenter homePresenter;
+    private static HomePresenter homePresenter;
 
     private ArrayAdapter<String> voiceListAdapter;
     private ListView listView;
@@ -78,18 +78,13 @@ public class HomeActivity extends AppCompatActivity
 
                 MivoqVoice Fede=engine.CreateVoice("Fede", "male", "it");
 
-                MivoqVoice Fedeen=engine.CreateVoice("Fedede", "female", "en");
+         //       MivoqVoice Fedeen=engine.CreateVoice("Fedede", "female", "en");
 
-                MivoqVoice Fedefr=engine.CreateVoice("Fedefr", "male", "fr");
-
-                engine.Speak(Fede, "Cosa faremo stasera, Prof? " +
-                        "Quello che facciamo tutte le sere, Mignolo." +
-                        "Tenteremo di conquistare il mondo!");
+         //       MivoqVoice Fedefr=engine.CreateVoice("Fedefr", "male", "fr");
 
                 //String a= "data/data/starklabs.libraries/provafile.wav";
                 File path=getFilesDir();
                 File myFile=new File(path,"nomeFile.wav");
-
                 try {
                     engine.SynthesizeToFile(myFile.toString(),Fede, "Cosa faremo stasera, Prof? " +
                             "Quello che facciamo tutte le sere, Mignolo." +
@@ -98,7 +93,11 @@ public class HomeActivity extends AppCompatActivity
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
+                engine.Speak(Fede, "Cosa faremo stasera, Prof? " +
+                        "Quello che facciamo tutte le sere, Mignolo." +
+                        "Tenteremo di conquistare il mondo!");
 
+/*
                 String b= "data/data/starklabs.libraries/provafileen.wav";
                 try {
                     engine.SynthesizeToFile(b,Fedeen, "Cosa faremo stasera, Prof? " +
@@ -117,7 +116,7 @@ public class HomeActivity extends AppCompatActivity
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-
+*/
             }
         });
 

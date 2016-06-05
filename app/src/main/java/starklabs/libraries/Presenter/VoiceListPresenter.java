@@ -3,7 +3,7 @@ package starklabs.libraries.Presenter;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
-import starklabs.libraries.View.VoiceListActivity;
+import starklabs.libraries.View.VoiceListActivityInterface;
 
 /**
  * Created by AlbertoAndriolo on 26/05/2016.
@@ -18,6 +18,7 @@ public interface VoiceListPresenter {
 
     ArrayAdapter<String> getVoicesAdapter(Context context);
 
-    void setActivity(VoiceListActivity voiceListActivity);
-    void goToVoiceListActivity(Context context);
+    void setActivity(VoiceListActivityInterface voiceListActivityInterface);
+
+    void goToEditVoiceActivity(Context context);
 }
