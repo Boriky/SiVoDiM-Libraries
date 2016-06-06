@@ -32,7 +32,6 @@ public class MivoqConnectionImpl implements MivoqConnection{
     private Context myContext;
     private static RequestQueue myRequestQueue;
 
-    //private MivoqTTSSingleton Observer;
     private byte[] Response = null;
 
     public MivoqConnectionImpl(){}
@@ -44,16 +43,14 @@ public class MivoqConnectionImpl implements MivoqConnection{
 
     public void setQueue(RequestQueue RQ) {myRequestQueue=RQ;}
 
-//public void setObserver(MivoqTTSSingleton o){}
-
     public void sendRequest(String Text)
     {
-//http://www.techstricks.com/download-file-using-android-volley/
-// Guide to handle file download with volley
+    //http://www.techstricks.com/download-file-using-android-volley/
+    // Guide to handle file download with volley
 
         Map<String, String> Params = new HashMap<String, String>();
 
-//Insert parameters for the Mivoq Service
+    //Insert parameters for the Mivoq Service
         Params.put("input[type]",InputType);
         Params.put("input[content]",Text);
         Params.put("input[locale]",Locale);
@@ -81,6 +78,7 @@ public class MivoqConnectionImpl implements MivoqConnection{
             public void onErrorResponse(VolleyError error) {
 
                 System.out.println("c'e' stato un errore");
+                System.out.println(error.getMessage());
             }
         } );
 

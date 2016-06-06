@@ -14,7 +14,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import starklabs.libraries.Model.Voice.Effect;
 import starklabs.libraries.Model.Voice.EffectImpl;
@@ -44,7 +43,11 @@ public class MivoqTTSSingleton {
 
     private RequestQueue Queue;
 
-    private List<MivoqVoice> VoiceList;
+    private ArrayList<MivoqVoice> VoiceList;
+
+    public boolean hasContext() {
+        return (myContext!=null);
+    }
 
     public void setContext(Context T) {
         myContext=T;
@@ -178,7 +181,7 @@ public class MivoqTTSSingleton {
 
     }
 
-    public List<MivoqVoice> getVoices() {
+    public ArrayList<MivoqVoice> getVoices() {
         return VoiceList;
     }
 

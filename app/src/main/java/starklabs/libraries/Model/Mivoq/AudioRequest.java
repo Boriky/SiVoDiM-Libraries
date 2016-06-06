@@ -23,13 +23,9 @@ public class AudioRequest extends Request<byte[]> {
     //create a static map for directly accessing headers
     public Map<String, String> responseHeaders ;
 
-
-
     public AudioRequest(int post, String mUrl, Map<String, String> params, Response.Listener<byte[]> listener,
                         Response.ErrorListener errorListener) {
         // TODO Auto-generated constructor stub
-
-
 
         super(post, mUrl, errorListener);
         mErrorListener=errorListener;

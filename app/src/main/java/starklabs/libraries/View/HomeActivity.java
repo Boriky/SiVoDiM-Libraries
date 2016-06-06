@@ -16,10 +16,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.FileNotFoundException;
-
-import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
-import starklabs.libraries.Model.Voice.MivoqVoice;
+import starklabs.libraries.Model.EngineManager.Engine;
+import starklabs.libraries.Model.EngineManager.EngineImpl;
 import starklabs.libraries.Presenter.HomePresenter;
 import starklabs.libraries.R;
 
@@ -73,18 +71,27 @@ public class HomeActivity extends AppCompatActivity
         assert button != null;
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                Engine myEngine=new EngineImpl(getApplicationContext());
+                myEngine.CreateVoice("Fede", "male", "it");
+                myEngine.Speak("Fede", "Fede un genio.");
+
+     /*
                 MivoqTTSSingleton engine = MivoqTTSSingleton.getInstance();
 
                 engine.setContext(getApplicationContext());
 
                 MivoqVoice Fede=engine.CreateVoice("Fede", "male", "it");
+                engine.Speak(Fede, "Cosa faremo stasera, Prof? " +
+                        //"Quello che facciamo tutte le sere, Mignolo." +
+                        "Tenteremo di conquistare il mondo!");
 
                 MivoqVoice Fedede=engine.CreateVoice("Fedede", "female", "de");
 
          //       MivoqVoice Fedefr=engine.CreateVoice("Fedefr", "male", "fr");
 
                 //String a= "data/data/starklabs.libraries/provafile.wav";
-            /*    File path=getFilesDir();
+                File path=getFilesDir();
                 File myFile=new File(path,"nomeFile.wav");
                 try {
                     engine.SynthesizeToFile(myFile.toString(),Fede, "Cosa faremo stasera, Prof? " +
@@ -94,7 +101,7 @@ public class HomeActivity extends AppCompatActivity
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-                */
+
 
                 String b= "data/data/starklabs.libraries/provafilede.wav";
                 try {
@@ -110,7 +117,7 @@ public class HomeActivity extends AppCompatActivity
                         "Quello che facciamo tutte le sere, Mignolo." +
                         "Tenteremo di conquistare il mondo!");
 
-                /*
+
                 String c= "data/data/starklabs.libraries/provafilefr.wav";
                 try {
                     engine.SynthesizeToFile(c,Fedefr, "Cosa faremo stasera, Prof? " +
