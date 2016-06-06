@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import starklabs.libraries.Presenter.VoicePresenter;
-import starklabs.libraries.Presenter.VoicePresenterImpl;
 import starklabs.libraries.R;
 
 public class EditVoiceActivity extends AppCompatActivity implements EditVoiceActivityInterface{
@@ -26,16 +25,14 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_voice);
 
-        if(voicePresenter==null)
-            voicePresenter=new VoicePresenterImpl(this);
-        else
-            voicePresenter.setActivity(this);
+        voicePresenter.setActivity(this);
 
         getSupportActionBar().setTitle("Modifica voce");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String voiceName = (String)getIntent().getSerializableExtra("VoiceSelected");
+        String voiceName = voicePresenter.getVoiceName();
+
         EditText textViewNameVoice= (EditText) findViewById(R.id.editText2);
         textViewNameVoice.setText(voiceName);
 

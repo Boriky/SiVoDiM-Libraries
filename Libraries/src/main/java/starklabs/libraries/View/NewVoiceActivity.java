@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import starklabs.libraries.Presenter.VoicePresenter;
-import starklabs.libraries.Presenter.VoicePresenterImpl;
 import starklabs.libraries.R;
 
 public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActivityInterface{
@@ -28,10 +27,7 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
 
-        if(voicePresenter==null)
-            voicePresenter=new VoicePresenterImpl(this);
-        else
-            voicePresenter.setActivity(this);
+        voicePresenter.setActivity(this);
 
         getSupportActionBar().setTitle("Crea nuova voce");
         getSupportActionBar().setHomeButtonEnabled(true);

@@ -91,7 +91,7 @@ public class EngineImpl implements Engine{
         MivoqVoice VID= VoiceList.get(0); boolean found=false;
 
         for(int i=0; !found && i<VoiceList.size(); i++)
-            if(VoiceList.get(i).getName() == VoiceID)
+            if(VoiceList.get(i).getName().equals(VoiceID))
             {
                 VID= VoiceList.get(i);
                 found=true;
@@ -153,7 +153,7 @@ public class EngineImpl implements Engine{
         MivoqVoice VID= VoiceList.get(0); boolean found=false;
 
         for(int i=0; !found && i<VoiceList.size(); i++)
-            if(VoiceList.get(i).getName() == VoiceID)
+            if(VoiceList.get(i).getName().equals(VoiceID))
             {
                 VID= VoiceList.get(i);
                 found=true;

@@ -1,6 +1,5 @@
 package starklabs.libraries.View;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.NavigationView;
@@ -22,6 +21,7 @@ import starklabs.libraries.Model.Voice.Effect;
 import starklabs.libraries.Model.Voice.EffectImpl;
 import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.Presenter.HomePresenter;
+import starklabs.libraries.Presenter.HomePresenterImpl;
 import starklabs.libraries.R;
 
 public class HomeActivity extends AppCompatActivity
@@ -40,6 +40,8 @@ public class HomeActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_home);
 
+        if(homePresenter==null) homePresenter = new HomePresenterImpl(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -47,8 +49,7 @@ public class HomeActivity extends AppCompatActivity
         voiceList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //homePresenter.goToVoiceListActivity(getApplicationContext());
-                goVoiceListActivity();
+                homePresenter.goToVoiceListActivity(v.getContext());
             }
         });
 
@@ -56,8 +57,7 @@ public class HomeActivity extends AppCompatActivity
         newVoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //homePresenter.goToNewVoiceActivity(getApplicationContext());
-                goNewVoiceActivity();
+                homePresenter.goToNewVoiceActivity(view.getContext());
             }
         });
 
@@ -80,11 +80,7 @@ public class HomeActivity extends AppCompatActivity
                 Effect e1=new EffectImpl("Rate");
                 e1.setValue("0.8");
                 Fede.setEffect(e1);
-                myEngine.Speak("Fede", "Gino va in città");
-
-
-
-
+                myEngine.Speak("Fede", "C'è un gatto, l'uomo, quell'aereo.");
 
      /*
                 MivoqTTSSingleton engine = MivoqTTSSingleton.getInstance();
@@ -188,16 +184,6 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    private void goNewVoiceActivity(){
-        Intent intent= new Intent(this, NewVoiceActivity.class);
-        startActivity(intent);
-    }
-
-    private void goVoiceListActivity(){
-        Intent intent= new Intent(this, VoiceListActivity.class);
-        startActivity(intent);
     }
 
     @Override

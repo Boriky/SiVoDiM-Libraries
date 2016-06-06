@@ -15,8 +15,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import starklabs.libraries.Model.Voice.Effect;
-import starklabs.libraries.Model.Voice.EffectImpl;
 import starklabs.libraries.Model.Voice.Language;
 import starklabs.libraries.Model.Voice.MivoqVoice;
 
@@ -71,10 +69,16 @@ public class MivoqTTSSingleton {
             request.setLocale(v.getLanguage());
             request.setEffects(v.getStringEffects());
 
+            // Workaround to fix ' and . problems
+            String FixText= Text;
+
+            FixText=FixText.replace("'","' ");
+            FixText+= ".";
+
             // Set text here     |
             //		     |
             //		     V
-            request.sendRequest(Text);
+            request.sendRequest(FixText);
             try{
                 while(request.getResponse()==null)
                 {
@@ -138,22 +142,22 @@ public class MivoqTTSSingleton {
         switch (myLanguage)
         {
             case "it":
-                if(Gender=="female") VoiceName="istc-lucia-hsmm";
+                if(Gender.equals("female")) VoiceName="istc-lucia-hsmm";
                 else VoiceName="istc-speaker_internazionale-hsmm";
 
                 break;
             case "fr":
-                if(Gender=="female") VoiceName="enst-camilla-hsmm";
+                if(Gender.equals("female")) VoiceName="enst-camilla-hsmm";
                 else VoiceName="upmc-pierre-hsmm";
                 break;
             case "de":
-                if(Gender=="female")
+                if(Gender.equals("female"))
                     effects=true;
                 VoiceName="dfki-stefan-hsmm";
                 break;
             case "en":
             case "en_US":
-                if(Gender=="female") VoiceName="cmu-slt-hsmm";
+                if(Gender.equals("female")) VoiceName="cmu-slt-hsmm";
                 else VoiceName="istc-piero-hsmm";
                 break;
         }
@@ -164,13 +168,7 @@ public class MivoqTTSSingleton {
 
         if(effects)
         {
-            Effect E1 = new EffectImpl("HMMTractScaler");
-            E1.setValue("1.3");
-            Effect E2 = new EffectImpl("F0Add");
-            E2.setValue("120.0");
-
-            V.setEffect(E1);
-            V.setEffect(E2);
+            V.setFemaleDe(true); // Workaround to use a female German voice
         }
 
         V.setGender(Gender);

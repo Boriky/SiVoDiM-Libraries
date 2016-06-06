@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import starklabs.libraries.Model.EngineManager.Engine;
+import starklabs.libraries.Model.EngineManager.EngineImpl;
 import starklabs.libraries.View.HomeActivityInterface;
 import starklabs.libraries.View.NewVoiceActivity;
 import starklabs.libraries.View.VoiceListActivity;
@@ -15,16 +16,11 @@ import starklabs.libraries.View.VoiceListActivityInterface;
 public class HomePresenterImpl implements HomePresenter {
 
     private Engine engine;
-
-    private VoicePresenter voicePresenter;
-
-    private VoiceListPresenter voiceListPresenter;
-
     private HomeActivityInterface homeActivityInterface;
-    VoiceListActivityInterface voiceListActivityInterface;
+    private VoiceListActivityInterface voiceListActivityInterface;
 
-    public HomePresenterImpl(Engine engine) {
-        this.engine = engine;
+    public HomePresenterImpl(Context context) {
+        this.engine = new EngineImpl(context);
     }
 
     @Override
@@ -34,17 +30,19 @@ public class HomePresenterImpl implements HomePresenter {
 
     //--------------------GO TO----------------------------
     @Override
-    public void goToVoiceListActivity(Context context) {
-        Intent voiceListIntent = new Intent(context, VoiceListActivity.class);
-        VoiceListActivity.setPresenter(voiceListPresenter);
-        context.startActivity(voiceListIntent);
+    public void goToNewVoiceActivity(Context context) {
+        Intent newVoiceIntent = new Intent(context, NewVoiceActivity.class);
+        VoicePresenter voicePresenter = new VoicePresenterImpl(engine);
+        NewVoiceActivity.setPresenter(voicePresenter);
+        context.startActivity(newVoiceIntent);
     }
 
     //--------------------GO TO----------------------------
     @Override
-    public void goToNewVoiceActivity(Context context) {
-        Intent newVoiceIntent = new Intent(context, NewVoiceActivity.class);
-        NewVoiceActivity.setPresenter(voicePresenter);
-        context.startActivity(newVoiceIntent);
+    public void goToVoiceListActivity(Context context) {
+        Intent voiceListIntent = new Intent(context, VoiceListActivity.class);
+        VoiceListPresenter voiceListPresenter = new VoiceListPresenterImpl(engine);
+        VoiceListActivity.setPresenter(voiceListPresenter);
+        context.startActivity(voiceListIntent);
     }
 }

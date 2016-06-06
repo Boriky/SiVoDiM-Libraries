@@ -22,4 +22,6 @@ public interface VoicePresenter {
 
     void setActivity(NewVoiceActivityInterface newVoiceActivityInterface);
     void setActivity(EditVoiceActivityInterface editVoiceActivityInterface);
+
+    String getVoiceName();
 }

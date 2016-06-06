@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.ArrayAdapter;
 
 import starklabs.libraries.Model.EngineManager.Engine;
+import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.Model.Voice.Voice;
 import starklabs.libraries.R;
 import starklabs.libraries.View.EditVoiceActivityInterface;
@@ -15,10 +16,8 @@ import starklabs.libraries.View.NewVoiceActivityInterface;
 public class
 VoicePresenterImpl implements VoicePresenter{
 
-    private Voice voice;
-
+    private MivoqVoice mivoqVoice;
     private Engine engine;
-
     private EditVoiceActivityInterface editVoiceActivityInterface;
     private VoicePresenter voicePresenter;
     ArrayAdapter<String> genderAdapter;
@@ -74,15 +73,20 @@ VoicePresenterImpl implements VoicePresenter{
     }
 
     @Override
+    public String getVoiceName() {
+        return mivoqVoice.getName();
+    }
+
+    @Override
     public Voice getVoice() {
         return null;
     }
 
-    public VoicePresenterImpl(NewVoiceActivityInterface newVoiceActivityInterface) {
-        this.newVoiceActivityInterface=newVoiceActivityInterface;
+    public VoicePresenterImpl(Engine engine) {
+        this.engine = engine;
     }
 
-    public VoicePresenterImpl(EditVoiceActivityInterface editVoiceActivityInterface){
-        this.editVoiceActivityInterface=editVoiceActivityInterface;
+    public VoicePresenterImpl(MivoqVoice mivoqVoice) {
+        this.mivoqVoice=mivoqVoice;
     }
 }

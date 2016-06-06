@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.widget.ArrayAdapter;
 
 import starklabs.libraries.Model.EngineManager.Engine;
+import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.R;
 import starklabs.libraries.View.EditVoiceActivity;
 import starklabs.libraries.View.VoiceListActivityInterface;
@@ -15,21 +16,25 @@ import starklabs.libraries.View.VoiceListActivityInterface;
 public class VoiceListPresenterImpl implements VoiceListPresenter{
 
     VoiceListActivityInterface voiceListActivityInterface;
-    VoiceListPresenter voiceListPresenter;
-    VoicePresenter voicePresenter;
     ArrayAdapter<String> voicesAdapterName;
 
     private Engine engine;
 
-    public VoiceListPresenterImpl(VoiceListActivityInterface voiceListActivityInterface) {
-        this.voiceListActivityInterface=voiceListActivityInterface;}
-
+    public VoiceListPresenterImpl(Engine engine) {
+        this.engine = engine;
+    }
 
     @Override
-    public void goToEditVoiceActivity(Context context) {
+    public void goToEditVoiceActivity(Context context, MivoqVoice mivoqVoice) {
         Intent editVoiceIntent = new Intent(context, EditVoiceActivity.class);
+        VoicePresenter voicePresenter = new VoicePresenterImpl(mivoqVoice);
         EditVoiceActivity.setPresenter(voicePresenter);
         context.startActivity(editVoiceIntent);
+    }
+
+    @Override
+    public MivoqVoice createMivoqVoice(String s) {
+        return engine.CreateVoice(s, "g", "mL");
     }
 
     @Override

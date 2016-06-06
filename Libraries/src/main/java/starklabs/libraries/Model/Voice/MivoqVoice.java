@@ -5,81 +5,142 @@ import java.util.ArrayList;
 /**
  * Created by AlbertoAndriolo on 02/06/2016.
  */
-public class MivoqVoice extends android.speech.tts.Voice {
-    private String Name;
-    private String Gender;
-    private ArrayList<Effect> Effects;
-    private Emotion myEmotion;
-
-    private Language Lang;
-
-    public MivoqVoice(String name, String voiceName, Language locale)
+    public class MivoqVoice
     {
-        //Need to double check the 5's for latency and quality
-        super(voiceName,null,5,5,true,null);
-        Effects= new ArrayList<Effect>();
-        Name=name;
-        Lang=locale;
-    }
+        private String Name;
+        private String VoiceName;
+        private String Gender;
 
-    public String getLanguage()
-    {
-        return Lang.toString();
-    }
+        private ArrayList<Effect> Effects;
+        private boolean Female_de_Adding_Effects;
+        private Emotion myEmotion;
+        private Language Lang;
 
-    public String getVoiceName()
-    {
-        return super.getName();
-    }
-
-    public String getName()
-    {
-        return Name;
-    }
-
-    //return the String with effects to apply to the voice for the request to Mivoq server
-    public String getStringEffects()
-    {
-        String result="[";
-
-        if(myEmotion!=null)
-            result+=myEmotion.toString();
-
-        for (int i=0; i<Effects.size(); i++)
+        public MivoqVoice(String name, String myVoiceName, Language locale)
         {
-            result+=Effects.get(i).toString();
-            if( i != Effects.size()-1 )
-                result+= "," ;
+            VoiceName=myVoiceName;
+            Name=name;
+            Lang=locale;
+            Effects= new ArrayList<Effect>();
+            Female_de_Adding_Effects=false;
         }
 
-        result+="]";
-        return result;
+        public void setGenderLanguage(String gen, String lang)
+        {
+            VoiceName= getEncodedName(gen,lang);
+
+            Female_de_Adding_Effects=false;
+
+            if(gen.equals("female") && lang.equals("de"))
+                Female_de_Adding_Effects=true;
+
+            Lang= new Language(lang);
+            Gender=gen;
+        }
+
+        public void setFemaleDe(boolean b)
+        {
+            Female_de_Adding_Effects=b;
+        }
+
+        public String getEncodedName(String gen, String lang)
+        {
+            String VoiceName=null;
+            //boolean effects=false;
+
+            switch (lang)
+            {
+                case "it":
+                    if(gen.equals("female")) VoiceName="istc-lucia-hsmm";
+                    else VoiceName="istc-speaker_internazionale-hsmm";
+
+                    break;
+                case "fr":
+                    if(gen.equals("female")) VoiceName="enst-camilla-hsmm";
+                    else VoiceName="upmc-pierre-hsmm";
+                    break;
+                case "de":
+                    //if(Gender=="female")
+                    //effects=true;
+                    VoiceName="dfki-stefan-hsmm";
+                    break;
+                case "en":
+                case "en_US":
+                    if(gen.equals("female")) VoiceName="cmu-slt-hsmm";
+                    else VoiceName="istc-piero-hsmm";
+                    break;
+            }
+            return VoiceName;
+        }
+
+        public void setName(String N)
+        {
+            Name=N;
+        }
+
+        public void setGender(String G)
+        {
+            Gender=G;
+        }
+
+        public String getVoiceName()
+        {
+            return VoiceName;
+        }
+
+        public String getName()
+        {
+            return Name;
+        }
+
+        public String getStringEffects()
+        {
+            String result="[";
+
+            if(myEmotion!=null)
+                result+=myEmotion.toString();
+
+            for (int i=0; i<Effects.size(); i++)
+            {
+                result+=Effects.get(i).toString();
+                if( i != Effects.size()-1 )
+                    result+= "," ;
+            }
+            if(Female_de_Adding_Effects)
+                result+=",{HMMTractScaler:1.3,F0Add:120.0}";
+
+            result+="]";
+            return result;
+        }
+
+        public String getGender()
+        {
+            return Gender;
+        }
+
+        public String getLanguage()
+        {
+            return Lang.toString();
+        }
+
+        public void setEmotion(Emotion E)
+        {
+            myEmotion=E;
+        }
+
+        public void setEffect(Effect E)
+        {
+            Effects.add(E);
+        }
+
+        public ArrayList<Effect> getEffects()
+        {
+            return Effects;
+        }
+
+        public void removeEffect(int index)
+        {
+            Effects.remove(index);
+        }
+
     }
-
-    //return the list of the effects saved
-    public ArrayList<Effect> getEffects()
-    {
-        return Effects;
-    }
-
-    public String getGender()
-    {
-        return Gender;
-    }
-
-    public void setGender(String G) { Gender=G; }
-
-    //set Emotion of the Speech
-    public void setEmotion(Emotion E)
-    {
-        myEmotion=E;
-    }
-
-    //set Effect of the Voice
-    public void setEffect(Effect E) {  Effects.add(E);  }
-
-    public void removeEffect(int index)
-    {
-        Effects.remove(index);
-    }
-}

@@ -1,6 +1,5 @@
 package starklabs.libraries.View;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,8 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.Presenter.VoiceListPresenter;
-import starklabs.libraries.Presenter.VoiceListPresenterImpl;
 import starklabs.libraries.R;
 
 public class VoiceListActivity extends AppCompatActivity implements VoiceListActivityInterface{
@@ -29,10 +28,7 @@ public class VoiceListActivity extends AppCompatActivity implements VoiceListAct
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice_list);
 
-        if(voiceListPresenter==null)
-            voiceListPresenter=new VoiceListPresenterImpl(this);
-        else
-            voiceListPresenter.setActivity(this);
+        voiceListPresenter.setActivity(this);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -51,9 +47,8 @@ public class VoiceListActivity extends AppCompatActivity implements VoiceListAct
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selected=(String) parent.getItemAtPosition(position);
-                Intent intent = new Intent(view.getContext(), EditVoiceActivity.class);
-                intent.putExtra("VoiceSelected", selected);
-                startActivity(intent);
+                MivoqVoice mV = voiceListPresenter.createMivoqVoice(selected);
+                voiceListPresenter.goToEditVoiceActivity(view.getContext(), mV);
             }
         });
     }

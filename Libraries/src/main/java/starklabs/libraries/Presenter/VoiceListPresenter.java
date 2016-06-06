@@ -3,6 +3,7 @@ package starklabs.libraries.Presenter;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
+import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.View.VoiceListActivityInterface;
 
 /**
@@ -20,5 +21,7 @@ public interface VoiceListPresenter {
 
     void setActivity(VoiceListActivityInterface voiceListActivityInterface);
 
-    void goToEditVoiceActivity(Context context);
+    void goToEditVoiceActivity(Context context, MivoqVoice mivoqVoice);
+
+    MivoqVoice createMivoqVoice(String s);
 }
