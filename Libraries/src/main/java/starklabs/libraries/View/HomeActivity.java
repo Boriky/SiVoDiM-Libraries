@@ -18,6 +18,9 @@ import android.widget.Toast;
 
 import starklabs.libraries.Model.EngineManager.Engine;
 import starklabs.libraries.Model.EngineManager.EngineImpl;
+import starklabs.libraries.Model.Voice.Effect;
+import starklabs.libraries.Model.Voice.EffectImpl;
+import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.Presenter.HomePresenter;
 import starklabs.libraries.R;
 
@@ -73,8 +76,15 @@ public class HomeActivity extends AppCompatActivity
             public void onClick(View v) {
 
                 Engine myEngine=new EngineImpl(getApplicationContext());
-                myEngine.CreateVoice("Fede", "male", "it");
-                myEngine.Speak("Fede", "Fede un genio.");
+                MivoqVoice Fede=myEngine.CreateVoice("Fede", "male", "it");
+                Effect e1=new EffectImpl("Rate");
+                e1.setValue("0.8");
+                Fede.setEffect(e1);
+                myEngine.Speak("Fede", "Gino va in città");
+
+
+
+
 
      /*
                 MivoqTTSSingleton engine = MivoqTTSSingleton.getInstance();

@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Libraries/Libraries.iml" filepath="$PROJECT_DIR$/Libraries/Libraries.iml" />
       <module fileurl="file://$PROJECT_DIR$/SiVoDiM-Libraries.iml" filepath="$PROJECT_DIR$/SiVoDiM-Libraries.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Libraries/app.iml" filepath="$PROJECT_DIR$/Libraries/app.iml" />
     </modules>
   </component>
 </project>

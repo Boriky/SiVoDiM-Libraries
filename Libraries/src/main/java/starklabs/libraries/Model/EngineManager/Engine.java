@@ -12,7 +12,7 @@ public interface Engine {
 
     public void SynthesizeToFile (String Path, String VoiceID, String myEmotion, String Text, Listener myListener);
     public void Speak(String VoiceID, String Text);
-    public void CreateVoice(String Name, String Gender, String myLanguage);
+    public MivoqVoice CreateVoice(String Name, String Gender, String myLanguage);
     public void RemoveVoice(int index);
     public interface Listener {
         public void OnCompleteSynthesis();

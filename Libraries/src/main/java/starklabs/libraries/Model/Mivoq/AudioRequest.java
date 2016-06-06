@@ -7,6 +7,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -33,6 +34,13 @@ public class AudioRequest extends Request<byte[]> {
         setShouldCache(false);
         mListener = listener;
         mParams=params;
+    }
+
+    @Override
+    public Map<String, String> getHeaders() throws AuthFailureError {
+        HashMap<String, String> headers = new HashMap<String, String>();
+        headers.put("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+        return headers;
     }
 
     @Override
@@ -66,10 +74,6 @@ public class AudioRequest extends Request<byte[]> {
     @Override
     public void deliverError(VolleyError error) {
         mErrorListener.onErrorResponse(error);
-    }
-
-    public Map<String, String> getHeaders() throws AuthFailureError{
-        return mParams;
     }
 
     @Override

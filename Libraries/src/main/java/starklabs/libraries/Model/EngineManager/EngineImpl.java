@@ -9,6 +9,7 @@ import android.speech.tts.TextToSpeech;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
 import starklabs.libraries.Model.Voice.Emotion;
@@ -126,6 +127,10 @@ public class EngineImpl implements Engine{
         }
         else 	/*TextToSpeech di sistema*/
         {
+            Locale lang= new Locale(VID.getLanguage());
+
+            if(backupEngine.isLanguageAvailable(lang)==TextToSpeech.LANG_AVAILABLE)
+                backupEngine.setLanguage(lang);
             File f= new File(Path);
 
             backupEngine.synthesizeToFile(Text,null,Path);
@@ -164,6 +169,10 @@ public class EngineImpl implements Engine{
         }
         else
         {
+            Locale lang= new Locale(VID.getLanguage());
+
+            if(backupEngine.isLanguageAvailable(lang)==TextToSpeech.LANG_AVAILABLE)
+                backupEngine.setLanguage(lang);
             backupEngine.speak(Text,TextToSpeech.QUEUE_FLUSH,null);
         }
     }
@@ -172,8 +181,8 @@ public class EngineImpl implements Engine{
         return myEngine.getVoices();
     }
 
-    public void CreateVoice(String Name, String Gender, String myLanguage) {
-        myEngine.CreateVoice(Name,Gender,myLanguage);
+    public MivoqVoice CreateVoice(String Name, String Gender, String myLanguage) {
+        return myEngine.CreateVoice(Name,Gender,myLanguage);
     }
 
     public void RemoveVoice(int index) {

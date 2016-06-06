@@ -116,7 +116,7 @@ public class MivoqTTSSingleton {
         byte[] audio = SynthesizeText(v,Text);
 
         try {
-            AudioTrack audioTrack = new AudioTrack(AudioManager.STREAM_VOICE_CALL, 16000,
+            AudioTrack audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 16000,
                     AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT,
                     audio.length, AudioTrack.MODE_STATIC);
 
