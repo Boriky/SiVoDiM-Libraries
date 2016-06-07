@@ -10,9 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import starklabs.libraries.Model.EngineManager.Engine;
@@ -28,11 +26,6 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HomeActivityInterface, TextToSpeech.OnInitListener {
 
     private static HomePresenter homePresenter;
-
-    private ArrayAdapter<String> voiceListAdapter;
-    private ListView listView;
-
-    private TextToSpeech mtts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
