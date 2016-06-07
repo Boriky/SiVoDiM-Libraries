@@ -6,40 +6,40 @@ package starklabs.libraries.Model.Voice;
 
 public class Language {
 
-    private String Lang;
-    private String State;
-    private String Modifier;
+    private String lang;
+    private String state;
+    private String modifier;
 
     // lang_state.modifier
 
     public Language(String l)
     {
-        Lang=l;
+        lang=l;
     }
 
     public void setLanguage(String l)
     {
-        Lang=l;
+        lang=l;
     }
 
     public void setState(String s)
     {
-        State=s;
+        state=s;
     }
 
     public void setModifier(String m)
     {
-        Modifier=m;
+        modifier=m;
     }
 
     public String toString()
     {
-        String result=Lang;
-        if(State != null && State.equals(State))
+        String result=lang;
+        if(state != null && state.equals(state))
         {
-            result+="_"+State;
-            if(Modifier != null && Modifier.equals(Modifier))
-                result+="."+Modifier;
+            result+="_"+state;
+            if(modifier != null && modifier.equals(modifier))
+                result+="."+modifier;
         }
         return result;
     }

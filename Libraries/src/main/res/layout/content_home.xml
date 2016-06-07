@@ -12,7 +12,7 @@
     tools:context=".View.HomeActivity"
     tools:showIn="@layout/app_bar_home">
 
-    <Button
+    <!--Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Prova Sintesi Vocale"
@@ -22,20 +22,19 @@
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/buttonVoiceList"
         android:layout_alignEnd="@+id/buttonVoiceList"
-        android:textSize="16dp" />
+        android:textSize="16dp" />-->
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Aggiungi Nuova Voce"
         android:id="@+id/buttonNewVoice"
-        android:layout_below="@+id/button1"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_alignStart="@+id/button1"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:textSize="16dp"
-        android:layout_marginTop="15dp" />
+        android:layout_marginTop="15dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"

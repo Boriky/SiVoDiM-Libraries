@@ -69,7 +69,7 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+/*
         Button button = (Button) findViewById(R.id.button1);
         assert button != null;
         button.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +82,7 @@ public class HomeActivity extends AppCompatActivity
                 Fede.setEffect(e1);
                 myEngine.speak("Fede", "C'è un gatto, l'uomo, quell'aereo.");
 
-     /*
+
                 MivoqTTSSingleton engine = MivoqTTSSingleton.getInstance();
 
                 engine.setContext(getApplicationContext());
@@ -133,11 +133,12 @@ public class HomeActivity extends AppCompatActivity
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-*/
+
             }
         });
 
         mtts = new TextToSpeech(this, this, "starklabs.libraries.Model.Mivoq.MivoqTTSService");
+        */
     }
 
     @Override
@@ -173,6 +174,14 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
         Toast toast;
         if (id == R.id.nav_guide) {
+
+            Engine myEngine=new EngineImpl(getApplicationContext());
+            MivoqVoice Fede=myEngine.createVoice("Fede", "male", "it");
+            Effect e1=new EffectImpl("Rate");
+            e1.setValue("0.8");
+            Fede.setEffect(e1);
+            myEngine.speak("Fede", "C'è un gatto, l'uomo, quell'aereo.");
+
             toast = Toast.makeText(getApplicationContext(), "Apre il manuale utente", Toast.LENGTH_SHORT);
             toast.show();
         } else if (id == R.id.nav_info) {

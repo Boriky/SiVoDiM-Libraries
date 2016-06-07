@@ -14,31 +14,31 @@ import java.util.Map;
  * Created by Alberto Andriolo on 25/05/2016.
  */
 public class MivoqConnectionImpl implements MivoqConnection{
-    private String Locale;
-    private String VoiceGender;
-    private String VoiceName;
+    private String locale;
+    private String voiceGender;
+    private String voiceName;
     //private String VoiceAge;
-    private String Effects;
+    private String effects;
 
-    private static final String Select_Algorithm= "ssml";
+    private static final String select_Algorithm= "ssml";
 
-    private static final String InputType="TEXT";
-    private static final String OutputType="AUDIO";
-    private static final String OutputFormat="WAVE_FILE";
-    private static final String Url ="http://fic2fatts.tts.mivoq.it/say";
+    private static final String inputType="TEXT";
+    private static final String outputType="AUDIO";
+    private static final String outputFormat="WAVE_FILE";
+    private static final String url ="http://fic2fatts.tts.mivoq.it/say";
 
     private Request request;
     private Context myContext;
     private static RequestQueue myRequestQueue;
 
-    private byte[] Response = null;
+    private byte[] response = null;
 
     public MivoqConnectionImpl(){}
 
-    public void setVoiceGender(String s){ VoiceGender=s; }
-    public void setVoiceName(String s) { VoiceName=s; }
-    public void setLocale(String s) { Locale=s; }
-    public void setEffects(String s) { Effects=s; }
+    public void setVoiceGender(String s){ voiceGender=s; }
+    public void setVoiceName(String s) { voiceName=s; }
+    public void setLocale(String s) { locale=s; }
+    public void setEffects(String s) { effects=s; }
     public void setQueue(RequestQueue rq) {myRequestQueue=rq;}
 
     public void sendRequest(String text)
@@ -49,17 +49,17 @@ public class MivoqConnectionImpl implements MivoqConnection{
         Map<String, String> Params = new HashMap<String, String>();
 
     //Insert parameters for the Mivoq Service
-        Params.put("input[type]",InputType);
+        Params.put("input[type]",inputType);
         Params.put("input[content]",text);
-        Params.put("input[locale]",Locale);
-        Params.put("output[type]",OutputType);
-        Params.put("output[format]",OutputFormat);
-        Params.put("voice[gender]",VoiceGender);
-        Params.put("voice[name]",VoiceName);
-        Params.put("voice[selection_algorythm",Select_Algorithm);
-        Params.put("utterance[effects]",Effects);
+        Params.put("input[locale]",locale);
+        Params.put("output[type]",outputType);
+        Params.put("output[format]",outputFormat);
+        Params.put("voice[gender]",voiceGender);
+        Params.put("voice[name]",voiceName);
+        Params.put("voice[selection_algorythm",select_Algorithm);
+        Params.put("utterance[effects]",effects);
 
-        request = new AudioRequest(Request.Method.POST, Url, Params,
+        request = new AudioRequest(Request.Method.POST, url, Params,
                 new Response.Listener<byte[]>()
                 {
                     @Override
@@ -67,7 +67,7 @@ public class MivoqConnectionImpl implements MivoqConnection{
                     //Saving of the response in the byte array
                         synchronized(this) {
                             System.out.println("Consegna avvenuta con successo");
-                            Response = myResponse;
+                            response = myResponse;
                             this.notifyAll();
                         }
                     }}
@@ -86,6 +86,6 @@ public class MivoqConnectionImpl implements MivoqConnection{
     }
 
     public byte[] getResponse(){
-        return Response;
+        return response;
     }
 }

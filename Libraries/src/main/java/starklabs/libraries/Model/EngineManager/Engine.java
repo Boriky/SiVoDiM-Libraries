@@ -29,7 +29,7 @@ public interface Engine {
     MivoqVoice createVoice(String name, String gender, String myLanguage);
     void removeVoice(int index);
     interface Listener {
-        void OnCompleteSynthesis();
+        void onCompleteSynthesis();
     }
 }
 

@@ -46,7 +46,7 @@ public class EngineImpl implements Engine{
 
         protected void onPostExecute( ) {
             if(myListener != null)
-                myListener.OnCompleteSynthesis();
+                myListener.onCompleteSynthesis();
         }
     }
 
