@@ -11,17 +11,37 @@ import starklabs.libraries.View.VoiceListActivityInterface;
  */
 public interface VoiceListPresenter {
 
-    //ArrayAdapter<String> getVoices(Context context);
-
-    void createVoiceList();
-
-    void loadVoiceNames(Context context);
-
-    ArrayAdapter<String> getVoicesAdapter(Context context);
-
-    void setActivity(VoiceListActivityInterface voiceListActivityInterface);
-
+    /** Method to switch from VoiceListActivity to EditVoiceActivity
+     *
+     * @param context
+     * @param mivoqVoice
+     */
     void goToEditVoiceActivity(Context context, MivoqVoice mivoqVoice);
 
+    /** Method to set Activity to the VoiceListPresenter
+     *
+     * @param voiceListActivityInterface
+     */
+    void setActivity(VoiceListActivityInterface voiceListActivityInterface);
+
+    /** Method to create MivoqVoice from the engine
+     *
+     * @param s
+     * @return
+     */
     MivoqVoice createMivoqVoice(String s);
+
+    /** Method to load create ArrayAdapter with VoiceNames
+     *  and add VoiceName
+     * @param context
+     */
+    void loadVoiceNames(Context context);
+
+    /** Method that return an ArrayAdapter with the VoiceName
+     *
+     * @param context
+     * @return
+     */
+    ArrayAdapter<String> getVoicesAdapter(Context context);
+
 }

@@ -6,13 +6,13 @@ import com.android.volley.RequestQueue;
  * Created by Alberto Andriolo on 25/05/2016.
  */
 public interface MivoqConnection {
-    public void setVoiceGender(String s);
-    public void setVoiceName(String s);
-    public void setLocale(String s);
-    public void setEffects(String s);
-    public void setQueue(RequestQueue RQ);
+    void setVoiceGender(String s);
+    void setVoiceName(String s);
+    void setLocale(String s);
+    void setEffects(String s);
+    void setQueue(RequestQueue rq);
 
-    public void sendRequest(String Text);
+    void sendRequest(String text);
 
-    public byte[] getResponse();
+    byte[] getResponse();
 }

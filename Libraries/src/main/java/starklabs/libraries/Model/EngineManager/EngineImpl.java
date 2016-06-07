@@ -36,7 +36,7 @@ public class EngineImpl implements Engine{
         @Override
         protected Void doInBackground(Void... params) {
             try{
-                myEngine.SynthesizeToFile(myPath,myVoice,myText);
+                myEngine.synthesizeToFile(myPath,myVoice,myText);
             }catch(FileNotFoundException e)
             {
                 //File not found exception
@@ -59,7 +59,7 @@ public class EngineImpl implements Engine{
         }
         @Override
         protected Void doInBackground(Void... params) {
-            myEngine.Speak(myVoice,myText);
+            myEngine.speak(myVoice,myText);
             return null;
         }
     }
@@ -78,7 +78,11 @@ public class EngineImpl implements Engine{
                     });
     }
 
-    public void SynthesizeToFile (String Path, String VoiceID, String myEmotion, String Text, Listener myListener){
+    public ArrayList<MivoqVoice> getVoices() {
+        return myEngine.getVoices();
+    }
+
+    public void synthesizeToFile (String path, String voiceID, String myEmotion, String text, Listener myListener){
         ConnectivityManager cm =
                 (ConnectivityManager)myContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -91,7 +95,7 @@ public class EngineImpl implements Engine{
         MivoqVoice VID= VoiceList.get(0); boolean found=false;
 
         for(int i=0; !found && i<VoiceList.size(); i++)
-            if(VoiceList.get(i).getName().equals(VoiceID))
+            if(VoiceList.get(i).getName().equals(voiceID))
             {
                 VID= VoiceList.get(i);
                 found=true;
@@ -121,7 +125,7 @@ public class EngineImpl implements Engine{
 
         if(isConnected)
         {
-            SynthesisTask Runner= new SynthesisTask(Path,VID,Text,myListener);
+            SynthesisTask Runner= new SynthesisTask(path,VID,text,myListener);
 
             Runner.execute();
         }
@@ -131,13 +135,13 @@ public class EngineImpl implements Engine{
 
             if(backupEngine.isLanguageAvailable(lang)==TextToSpeech.LANG_AVAILABLE)
                 backupEngine.setLanguage(lang);
-            File f= new File(Path);
+            File f= new File(path);
 
-            backupEngine.synthesizeToFile(Text,null,Path);
+            backupEngine.synthesizeToFile(text,null,path);
         }
     }
 
-    public void Speak(String VoiceID, String Text) {
+    public void speak(String voiceID, String text) {
         ConnectivityManager cm =
                 (ConnectivityManager)myContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -153,7 +157,7 @@ public class EngineImpl implements Engine{
         MivoqVoice VID= VoiceList.get(0); boolean found=false;
 
         for(int i=0; !found && i<VoiceList.size(); i++)
-            if(VoiceList.get(i).getName().equals(VoiceID))
+            if(voiceID.equals(VoiceList.get(i).getName()))
             {
                 VID= VoiceList.get(i);
                 found=true;
@@ -163,7 +167,7 @@ public class EngineImpl implements Engine{
 
         if(isConnected)
         {
-            SpeakTask Runner= new SpeakTask(VID,Text);
+            SpeakTask Runner= new SpeakTask(VID,text);
 
             Runner.execute();
         }
@@ -173,20 +177,16 @@ public class EngineImpl implements Engine{
 
             if(backupEngine.isLanguageAvailable(lang)==TextToSpeech.LANG_AVAILABLE)
                 backupEngine.setLanguage(lang);
-            backupEngine.speak(Text,TextToSpeech.QUEUE_FLUSH,null);
+            backupEngine.speak(text,TextToSpeech.QUEUE_FLUSH,null);
         }
     }
 
-    public ArrayList<MivoqVoice> getVoices() {
-        return myEngine.getVoices();
+    public MivoqVoice createVoice(String name, String gender, String myLanguage) {
+        return myEngine.createVoice(name,gender,myLanguage);
     }
 
-    public MivoqVoice CreateVoice(String Name, String Gender, String myLanguage) {
-        return myEngine.CreateVoice(Name,Gender,myLanguage);
-    }
-
-    public void RemoveVoice(int index) {
+    public void removeVoice(int index) {
         if(index!= 0)
-            myEngine.RemoveVoice(index);
+            myEngine.removeVoice(index);
     }
 }

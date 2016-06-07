@@ -7,10 +7,13 @@ public interface Effect {
 
     String effectDetails();
 
-    String getName();
-
     String getValue();
+
     void setValue(String f);
 
+    String getName();
+
     String toString();
+
+
 }

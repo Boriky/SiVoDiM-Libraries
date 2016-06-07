@@ -4,7 +4,6 @@ import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
-import android.media.MediaPlayer;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.HurlStack;
@@ -23,25 +22,19 @@ import starklabs.libraries.Model.Voice.MivoqVoice;
  */
 public class MivoqTTSSingleton {
 
-    private MediaPlayer mediaPlayer;
+    private Context myContext;
+    private RequestQueue queue;
+    private ArrayList<MivoqVoice> voiceList;
 
     private static MivoqTTSSingleton ourInstance = new MivoqTTSSingleton();
-
+    private static AbstractFactory myFactory= new MivoqConnectionFactory();
     public static MivoqTTSSingleton getInstance() {
         return ourInstance;
     }
 
     private MivoqTTSSingleton() {
-        VoiceList= new ArrayList<MivoqVoice>();
+        voiceList= new ArrayList<MivoqVoice>();
     }
-
-    private static AbstractFactory myFactory= new MivoqConnectionFactory();
-
-    private Context myContext;
-
-    private RequestQueue Queue;
-
-    private ArrayList<MivoqVoice> VoiceList;
 
     public boolean hasContext() {
         return (myContext!=null);
@@ -51,18 +44,18 @@ public class MivoqTTSSingleton {
         myContext=T;
     }
 
-    public byte[] SynthesizeText(MivoqVoice v, String Text) {
+    public byte[] synthesizeText(MivoqVoice v, String text) {
         byte[] result;
 
-        if(Queue== null)
-            Queue = Volley.newRequestQueue(myContext, new HurlStack());
+        if(queue== null)
+            queue = Volley.newRequestQueue(myContext, new HurlStack());
 
         MivoqConnection request= myFactory.createConnection();
 
         synchronized(request)
         {
             //Set parameters
-            request.setQueue(Queue);
+            request.setQueue(queue);
 
             request.setVoiceGender(v.getGender());
             request.setVoiceName(v.getVoiceName());
@@ -70,7 +63,7 @@ public class MivoqTTSSingleton {
             request.setEffects(v.getStringEffects());
 
             // Workaround to fix ' and . problems
-            String FixText= Text;
+            String FixText= text;
 
             FixText=FixText.replace("'","' ");
             FixText+= ".";
@@ -99,10 +92,10 @@ public class MivoqTTSSingleton {
 
     }
 
-    public void SynthesizeToFile (String Path, MivoqVoice V, String Text) throws FileNotFoundException {
-        byte[] result=SynthesizeText(V,Text);
+    public void synthesizeToFile (String path, MivoqVoice v, String text) throws FileNotFoundException {
+        byte[] result=synthesizeText(v, text);
 
-        FileOutputStream fos = new FileOutputStream(Path);
+        FileOutputStream fos = new FileOutputStream(path);
         try {
             fos.write(result);
         } catch (IOException e) {
@@ -115,9 +108,9 @@ public class MivoqTTSSingleton {
         }
     }
 
-    public void Speak(MivoqVoice v, String Text) {
+    public void speak(MivoqVoice v, String text) {
 
-        byte[] audio = SynthesizeText(v,Text);
+        byte[] audio = synthesizeText(v,text);
 
         try {
             AudioTrack audioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, 16000,
@@ -135,55 +128,26 @@ public class MivoqTTSSingleton {
         }
     }
 
-    public MivoqVoice CreateVoice(String Name, String Gender, String myLanguage) {
-        String VoiceName=" ";
-        boolean effects=false;
-
-        switch (myLanguage)
-        {
-            case "it":
-                if(Gender.equals("female")) VoiceName="istc-lucia-hsmm";
-                else VoiceName="istc-speaker_internazionale-hsmm";
-
-                break;
-            case "fr":
-                if(Gender.equals("female")) VoiceName="enst-camilla-hsmm";
-                else VoiceName="upmc-pierre-hsmm";
-                break;
-            case "de":
-                if(Gender.equals("female"))
-                    effects=true;
-                VoiceName="dfki-stefan-hsmm";
-                break;
-            case "en":
-            case "en_US":
-                if(Gender.equals("female")) VoiceName="cmu-slt-hsmm";
-                else VoiceName="istc-piero-hsmm";
-                break;
-        }
+    public MivoqVoice createVoice(String name, String gender, String myLanguage) {
+        String VoiceName="istc-speaker_internazionale-hsmm";
 
         Language L= new Language(myLanguage); // Using Locale or Language?
+        MivoqVoice V=  new MivoqVoice(name,VoiceName,L);
+        V.setGenderLanguage(gender,myLanguage);
 
-        MivoqVoice V = new MivoqVoice(Name, VoiceName, L);
+        V.setGender(gender);
 
-        if(effects)
-        {
-            V.setFemaleDe(true); // Workaround to use a female German voice
-        }
-
-        V.setGender(Gender);
-
-        VoiceList.add(V);
+        voiceList.add(V);
 
         return V;
 
     }
 
     public ArrayList<MivoqVoice> getVoices() {
-        return VoiceList;
+        return voiceList;
     }
 
-    public void RemoveVoice(int index) {
-        VoiceList.remove(index);
+    public void removeVoice(int index) {
+        voiceList.remove(index);
     }
 }

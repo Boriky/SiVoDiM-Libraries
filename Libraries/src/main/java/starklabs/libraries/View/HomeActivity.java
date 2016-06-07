@@ -76,11 +76,11 @@ public class HomeActivity extends AppCompatActivity
             public void onClick(View v) {
 
                 Engine myEngine=new EngineImpl(getApplicationContext());
-                MivoqVoice Fede=myEngine.CreateVoice("Fede", "male", "it");
+                MivoqVoice Fede=myEngine.createVoice("Fede", "male", "it");
                 Effect e1=new EffectImpl("Rate");
                 e1.setValue("0.8");
                 Fede.setEffect(e1);
-                myEngine.Speak("Fede", "C'è un gatto, l'uomo, quell'aereo.");
+                myEngine.speak("Fede", "C'è un gatto, l'uomo, quell'aereo.");
 
      /*
                 MivoqTTSSingleton engine = MivoqTTSSingleton.getInstance();

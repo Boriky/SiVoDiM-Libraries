@@ -5,10 +5,8 @@ import android.content.Intent;
 
 import starklabs.libraries.Model.EngineManager.Engine;
 import starklabs.libraries.Model.EngineManager.EngineImpl;
-import starklabs.libraries.View.HomeActivityInterface;
 import starklabs.libraries.View.NewVoiceActivity;
 import starklabs.libraries.View.VoiceListActivity;
-import starklabs.libraries.View.VoiceListActivityInterface;
 
 /**
  * Created by AlbertoAndriolo on 26/05/2016.
@@ -16,16 +14,13 @@ import starklabs.libraries.View.VoiceListActivityInterface;
 public class HomePresenterImpl implements HomePresenter {
 
     private Engine engine;
-    private HomeActivityInterface homeActivityInterface;
-    private VoiceListActivityInterface voiceListActivityInterface;
 
+    /** Constructor of HomePresenterImpl with instantiation of the
+     *  engine
+     * @param context
+     */
     public HomePresenterImpl(Context context) {
         this.engine = new EngineImpl(context);
-    }
-
-    @Override
-    public void setActivity(VoiceListActivityInterface voiceListActivityInterface) {
-        this.voiceListActivityInterface=voiceListActivityInterface;
     }
 
     //--------------------GO TO----------------------------
@@ -45,4 +40,13 @@ public class HomePresenterImpl implements HomePresenter {
         VoiceListActivity.setPresenter(voiceListPresenter);
         context.startActivity(voiceListIntent);
     }
+
+    //private HomeActivityInterface homeActivityInterface;
+    //private VoiceListActivityInterface voiceListActivityInterface;
+    /*
+    @Override
+    public void setActivity(VoiceListActivityInterface voiceListActivityInterface) {
+        this.voiceListActivityInterface=voiceListActivityInterface;
+    }
+*/
 }

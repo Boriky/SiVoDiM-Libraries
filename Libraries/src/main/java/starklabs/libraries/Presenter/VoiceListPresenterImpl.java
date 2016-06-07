@@ -17,9 +17,12 @@ public class VoiceListPresenterImpl implements VoiceListPresenter{
 
     VoiceListActivityInterface voiceListActivityInterface;
     ArrayAdapter<String> voicesAdapterName;
-
     private Engine engine;
 
+    /** Constructor of VoiceListPresenterImpl
+     *
+     * @param engine from the HomeActivity
+     */
     public VoiceListPresenterImpl(Engine engine) {
         this.engine = engine;
     }
@@ -33,27 +36,18 @@ public class VoiceListPresenterImpl implements VoiceListPresenter{
     }
 
     @Override
+    public void setActivity(VoiceListActivityInterface voiceListActivityInterface) {
+        this.voiceListActivityInterface=voiceListActivityInterface;
+    }
+
+    @Override
     public MivoqVoice createMivoqVoice(String s) {
-        return engine.CreateVoice(s, "g", "mL");
+        return engine.createVoice(s, "g", "mL");
     }
 
     @Override
     public void loadVoiceNames(Context context) {
         voicesAdapterName=new ArrayAdapter<String>(context, R.layout.voice);
-        voicesAdapterName.add("Fede");
-        voicesAdapterName.add("Enri");
-        voicesAdapterName.add("Fede");
-        voicesAdapterName.add("Enri");
-        voicesAdapterName.add("Fede");
-        voicesAdapterName.add("Enri");
-        voicesAdapterName.add("Fede");
-        voicesAdapterName.add("Enri");
-        voicesAdapterName.add("Fede");
-        voicesAdapterName.add("Enri");
-        voicesAdapterName.add("Fede");
-        voicesAdapterName.add("Enri");
-        voicesAdapterName.add("Fede");
-        voicesAdapterName.add("Enri");
         voicesAdapterName.add("Fede");
         voicesAdapterName.add("Enri");
         voicesAdapterName.add("Fede");
@@ -70,16 +64,6 @@ public class VoiceListPresenterImpl implements VoiceListPresenter{
             loadVoiceNames(context);
         }
         return voicesAdapterName;
-    }
-
-    @Override
-    public void setActivity(VoiceListActivityInterface voiceListActivityInterface) {
-        this.voiceListActivityInterface=voiceListActivityInterface;
-    }
-
-    @Override
-    public void createVoiceList() {
-
     }
 
 }

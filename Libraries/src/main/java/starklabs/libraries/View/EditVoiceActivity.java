@@ -43,7 +43,11 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
         Spinner language=(Spinner)findViewById(R.id.Emotion);
         languageAdapter=voicePresenter.getLanguageAdapter(this);
         language.setAdapter(languageAdapter);
-/*
+
+        String Text = language.getSelectedItem().toString();
+        System.out.println("Text = " + Text);
+
+    /*
         ImageButton button = (ImageButton) findViewById(R.id.previewButton);
         assert button != null;
         button.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +58,7 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
             }
         });
 
-        */
+    */
     }
 
     @Override

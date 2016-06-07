@@ -5,7 +5,6 @@ import android.widget.ArrayAdapter;
 
 import starklabs.libraries.Model.EngineManager.Engine;
 import starklabs.libraries.Model.Voice.MivoqVoice;
-import starklabs.libraries.Model.Voice.Voice;
 import starklabs.libraries.R;
 import starklabs.libraries.View.EditVoiceActivityInterface;
 import starklabs.libraries.View.NewVoiceActivityInterface;
@@ -18,12 +17,36 @@ VoicePresenterImpl implements VoicePresenter{
 
     private MivoqVoice mivoqVoice;
     private Engine engine;
-    private EditVoiceActivityInterface editVoiceActivityInterface;
-    private VoicePresenter voicePresenter;
     ArrayAdapter<String> genderAdapter;
     ArrayAdapter<String> languageAdapter;
-
+    private EditVoiceActivityInterface editVoiceActivityInterface;
     private NewVoiceActivityInterface newVoiceActivityInterface;
+
+    /** Constructor of the VoicePresenterImpl
+     *
+     * @param engine from the HomeActivity
+     */
+    public VoicePresenterImpl(Engine engine) {
+        this.engine = engine;
+    }
+
+    /** Second constructor of the VoicePresenterImpl
+     *
+     * @param mivoqVoice from the VoiceListActivity
+     */
+    public VoicePresenterImpl(MivoqVoice mivoqVoice) {
+        this.mivoqVoice=mivoqVoice;
+    }
+
+    @Override
+    public void setActivity(NewVoiceActivityInterface newVoiceActivityInterface) {
+        this.newVoiceActivityInterface=newVoiceActivityInterface;
+    }
+
+    @Override
+    public void setActivity(EditVoiceActivityInterface editVoiceActivityInterface) {
+        this.editVoiceActivityInterface=editVoiceActivityInterface;
+    }
 
     @Override
     public void loadVoiceGender(Context context){
@@ -61,32 +84,13 @@ VoicePresenterImpl implements VoicePresenter{
         return languageAdapter;
     }
 
-
-    @Override
-    public void setActivity(NewVoiceActivityInterface newVoiceActivityInterface) {
-        this.newVoiceActivityInterface=newVoiceActivityInterface;
-    }
-
-    @Override
-    public void setActivity(EditVoiceActivityInterface editVoiceActivityInterface) {
-        this.editVoiceActivityInterface=editVoiceActivityInterface;
-    }
-
     @Override
     public String getVoiceName() {
         return mivoqVoice.getName();
     }
 
     @Override
-    public Voice getVoice() {
+    public MivoqVoice getVoice() {
         return null;
-    }
-
-    public VoicePresenterImpl(Engine engine) {
-        this.engine = engine;
-    }
-
-    public VoicePresenterImpl(MivoqVoice mivoqVoice) {
-        this.mivoqVoice=mivoqVoice;
     }
 }

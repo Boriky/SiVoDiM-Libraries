@@ -43,17 +43,4 @@ public class Language {
         }
         return result;
     }
-
-    /*
-    private String languageDetails;
-
-    public String getLanguageDetails(){
-        return languageDetails;
-    }
-
-    public Language(String languageDetails){
-        this.languageDetails=languageDetails;
-    }
-    */
-
 }

@@ -15,7 +15,6 @@ import java.util.Map;
  */
 public class MivoqConnectionImpl implements MivoqConnection{
     private String Locale;
-
     private String VoiceGender;
     private String VoiceName;
     //private String VoiceAge;
@@ -40,10 +39,9 @@ public class MivoqConnectionImpl implements MivoqConnection{
     public void setVoiceName(String s) { VoiceName=s; }
     public void setLocale(String s) { Locale=s; }
     public void setEffects(String s) { Effects=s; }
+    public void setQueue(RequestQueue rq) {myRequestQueue=rq;}
 
-    public void setQueue(RequestQueue RQ) {myRequestQueue=RQ;}
-
-    public void sendRequest(String Text)
+    public void sendRequest(String text)
     {
     //http://www.techstricks.com/download-file-using-android-volley/
     // Guide to handle file download with volley
@@ -52,7 +50,7 @@ public class MivoqConnectionImpl implements MivoqConnection{
 
     //Insert parameters for the Mivoq Service
         Params.put("input[type]",InputType);
-        Params.put("input[content]",Text);
+        Params.put("input[content]",text);
         Params.put("input[locale]",Locale);
         Params.put("output[type]",OutputType);
         Params.put("output[format]",OutputFormat);
@@ -88,8 +86,6 @@ public class MivoqConnectionImpl implements MivoqConnection{
     }
 
     public byte[] getResponse(){
-
         return Response;
-
     }
 }

@@ -39,12 +39,11 @@ public class MivoqTTSService extends TextToSpeechService{
 
         mCallback.start(16000, AudioFormat.ENCODING_PCM_16BIT, 1);
 
-        byte[] result= engine.SynthesizeText(req.getText());
+        byte[] result= engine.synthesizeText(req.getText());
 
         mCallback.audioAvailable(result,24,result.length-24);
 
         mCallback.done();
         */
     }
-
 }
