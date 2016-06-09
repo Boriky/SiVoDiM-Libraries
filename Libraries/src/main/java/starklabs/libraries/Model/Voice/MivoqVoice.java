@@ -12,7 +12,7 @@ import java.util.ArrayList;
         private String gender;
 
         private ArrayList<Effect> effects;
-        private boolean female_de_Adding_Effects;
+        private boolean femaleDeAddingEffects;
         private Emotion myEmotion;
         private Language lang;
 
@@ -28,7 +28,7 @@ import java.util.ArrayList;
             name=name;
             lang=locale;
             effects= new ArrayList<Effect>();
-            female_de_Adding_Effects=false;
+            femaleDeAddingEffects=false;
         }
 
         /**
@@ -40,10 +40,10 @@ import java.util.ArrayList;
         {
             voiceName= getEncodedName(gen,myLang);
 
-            female_de_Adding_Effects=false;
+            femaleDeAddingEffects=false;
 
             if(gen.equals("female") && lang.equals("de"))
-                female_de_Adding_Effects=true;
+                femaleDeAddingEffects=true;
 
             lang= new Language(myLang);
             gender = gen;
@@ -55,7 +55,7 @@ import java.util.ArrayList;
          */
         public void setFemaleDe(boolean b)
         {
-            female_de_Adding_Effects=b;
+            femaleDeAddingEffects=b;
         }
 
         /**
@@ -150,7 +150,7 @@ import java.util.ArrayList;
                 if( i != effects.size()-1 )
                     result+= "," ;
             }
-            if(female_de_Adding_Effects)
+            if(femaleDeAddingEffects)
                 result+=",{HMMTractScaler:1.3,F0Add:120.0}";
 
             result+="]";

@@ -169,11 +169,11 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.nav_guide) {
 
             Engine myEngine=new EngineImpl(getApplicationContext());
-            MivoqVoice Fede=myEngine.createVoice("Fede", "male", "it");
+            MivoqVoice Fede=myEngine.createVoice("Fede", "female", "it");
             Effect e1=new EffectImpl("Rate");
             e1.setValue("0.8");
             Fede.setEffect(e1);
-            myEngine.speak("Fede", "C'è un gatto, l'uomo, quell'aereo.");
+            myEngine.speak("Fede", "Ciao come stai");
 
             toast = Toast.makeText(getApplicationContext(), "Apre il manuale utente", Toast.LENGTH_SHORT);
             toast.show();

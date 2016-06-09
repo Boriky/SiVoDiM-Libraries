@@ -41,12 +41,4 @@ public class HomePresenterImpl implements HomePresenter {
         context.startActivity(voiceListIntent);
     }
 
-    //private HomeActivityInterface homeActivityInterface;
-    //private VoiceListActivityInterface voiceListActivityInterface;
-    /*
-    @Override
-    public void setActivity(VoiceListActivityInterface voiceListActivityInterface) {
-        this.voiceListActivityInterface=voiceListActivityInterface;
-    }
-*/
 }

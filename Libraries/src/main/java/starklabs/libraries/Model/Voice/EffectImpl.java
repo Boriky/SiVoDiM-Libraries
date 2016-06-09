@@ -5,7 +5,7 @@ package starklabs.libraries.Model.Voice;
  */
 public class EffectImpl implements Effect{
 
-    private String effect_name;
+    private String effectName;
     private String value;
 
     /**Constructor of the EffectImpl class
@@ -14,7 +14,7 @@ public class EffectImpl implements Effect{
      */
     public EffectImpl(String name)
     {
-        effect_name=name;
+        effectName=name;
     }
 
     @Override
@@ -32,13 +32,13 @@ public class EffectImpl implements Effect{
     @Override
     public String getName()
     {
-        return effect_name;
+        return effectName;
     }
 
     @Override
     public String toString()
     {
-        String result= "{"+effect_name+":"+value+"}";
+        String result= "{"+effectName+":"+value+"}";
         return result;
     }
 }

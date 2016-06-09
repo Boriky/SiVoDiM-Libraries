@@ -20,7 +20,7 @@ public class MivoqConnectionImpl implements MivoqConnection{
     //private String VoiceAge;
     private String effects;
 
-    private static final String select_Algorithm= "ssml";
+    private static final String selectAlgorithm= "ssml";
 
     private static final String inputType="TEXT";
     private static final String outputType="AUDIO";
@@ -56,7 +56,7 @@ public class MivoqConnectionImpl implements MivoqConnection{
         Params.put("output[format]",outputFormat);
         Params.put("voice[gender]",voiceGender);
         Params.put("voice[name]",voiceName);
-        Params.put("voice[selection_algorythm",select_Algorithm);
+        Params.put("voice[selection_algorythm",selectAlgorithm);
         Params.put("utterance[effects]",effects);
 
         request = new AudioRequest(Request.Method.POST, url, Params,
