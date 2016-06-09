@@ -5,8 +5,6 @@ package starklabs.libraries.Model.Voice;
  */
 public interface Effect {
 
-    String effectDetails();
-
     String getValue();
 
     void setValue(String f);

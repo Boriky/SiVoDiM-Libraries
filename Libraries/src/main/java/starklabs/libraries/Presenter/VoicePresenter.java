@@ -12,8 +12,6 @@ import starklabs.libraries.View.NewVoiceActivityInterface;
  */
 public interface VoicePresenter {
 
-    MivoqVoice getVoice();
-
     /** Method to set Activity to the VoicePresenter
      *
      * @param newVoiceActivityInterface
@@ -53,4 +51,6 @@ public interface VoicePresenter {
     ArrayAdapter<String> getLanguageAdapter(Context context);
 
     String getVoiceName();
+
+    MivoqVoice getVoice();
 }

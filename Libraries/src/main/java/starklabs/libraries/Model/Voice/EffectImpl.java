@@ -18,11 +18,6 @@ public class EffectImpl implements Effect{
     }
 
     @Override
-    public String effectDetails() {
-        return null;
-    }
-
-    @Override
     public String getValue()
     {
         return value;

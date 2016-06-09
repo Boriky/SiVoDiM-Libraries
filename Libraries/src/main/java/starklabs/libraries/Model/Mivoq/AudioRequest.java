@@ -4,7 +4,6 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 
 import java.util.HashMap;
@@ -57,23 +56,6 @@ public class AudioRequest extends Request<byte[]> {
             delivered=true;
             mListener.onResponse(response);
         }
-    }
-
-    @Override
-    protected VolleyError parseNetworkError(VolleyError volleyError) {
-        if (volleyError.networkResponse != null
-                && volleyError.networkResponse.data != null) {
-            VolleyError error = new VolleyError(new String(
-                    volleyError.networkResponse.data));
-            volleyError = error;
-        }
-
-        return volleyError;
-    }
-
-    @Override
-    public void deliverError(VolleyError error) {
-        mErrorListener.onErrorResponse(error);
     }
 
     @Override
