@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Sivodim</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_list_chapter">ListChapterActivity</string>
+    <string name="title_activity_list_speeches">ListSpeechesActivity</string>
+    <string name="title_activity_list_character">ListCharacterActivity</string>
+</resources>

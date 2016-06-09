@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_config"
+            android:icon="@mipmap/config_ico"
+            android:title="Configura voci" />
+        <item
+            android:id="@+id/nav_guide"
+            android:icon="@mipmap/guide_ico"
+            android:title="Manuale utente" />
+        <item
+            android:id="@+id/nav_info"
+            android:icon="@mipmap/info_ico"
+            android:title="Info" />
+    </group>
+
+</menu>

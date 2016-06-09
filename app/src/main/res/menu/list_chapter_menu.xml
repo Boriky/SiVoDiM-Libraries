@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/saveMenu"
+        android:title="Salva progetto"/>
+    <item
+        android:id="@+id/exportMenu"
+        android:title="Esporta progetto"/>
+    <item
+        android:id="@+id/shareMenu"
+        android:title="Condividi progetto"/>
+    <item
+        android:id="@+id/editMenu"
+        android:title="Modifica progetto"/>
+    <item
+        android:id="@+id/newCharacterMenu"
+        android:title="Crea personaggio"/>
+    <item
+        android:id="@+id/importCharactersMenu"
+        android:title="Importa personaggi"/>
+    <item
+        android:id="@+id/charactersListMenu"
+        android:title="Lista personaggi"/>
+</menu>

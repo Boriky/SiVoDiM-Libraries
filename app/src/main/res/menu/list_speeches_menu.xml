@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/editChapterMenu"
+        android:title="Modifica capitolo"/>
+    <item
+        android:id="@+id/newCharacterMenu"
+        android:title="Crea personaggio"/>
+    <item
+        android:id="@+id/listCharacterMenu"
+        android:title="Lista personaggi"/>
+</menu>
