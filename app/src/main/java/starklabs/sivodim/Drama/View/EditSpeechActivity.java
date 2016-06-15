@@ -114,8 +114,22 @@ public class EditSpeechActivity extends AppCompatActivity implements EditSpeechI
             @Override
             public void onClick(View v) {
                 Engine engine=new EngineImpl(getApplicationContext());
-                final File path=new File(getFilesDir(),"preview.wav");
+                final File path=new File(speechPresenter.getAudioPath());
                 final String effect=(String)emotion.getSelectedItem();
+                String characterName=(String)character.getSelectedItem();
+                Character selectedCharacter=speechPresenter.getSpeechCharacter();
+                Iterator<Character>characterIterator1=speechPresenter.getScreenplayCharacters();
+                boolean found=false;
+                while (!found && characterIterator1.hasNext()){
+                    Character characterSel=characterIterator1.next();
+                    String name=characterSel.getName();
+                    if(characterName.equals(name)){
+                        found=true;
+                        selectedCharacter=characterSel;
+                    }
+                }
+                final String voice=selectedCharacter.getVoiceID();
+                System.out.println(voice);
                 if(!path.exists()){
                     try {
                         path.createNewFile();
@@ -123,8 +137,7 @@ public class EditSpeechActivity extends AppCompatActivity implements EditSpeechI
                         e.printStackTrace();
                     }
                 }
-                String nameVoice=engine.getVoices().get(0).getVoiceName();
-                engine.synthesizeToFile(path.getAbsolutePath(), nameVoice, effect,
+                engine.synthesizeToFile(path.getAbsolutePath(), voice, effect,
                         speechText.getText().toString(), new Engine.Listener() {
                             @Override
                             public void onCompleteSynthesis() {

@@ -83,7 +83,7 @@ public class EngineImpl implements Engine{
         return myEngine.getVoices();
     }
 
-    public void synthesizeToFile (String path, String voiceID, String myEmotion, String text, Listener myListener){
+    public void synthesizeToFile (String path, String voiceID, String myEmotion, String text, final Listener myListener){
         ConnectivityManager cm =
                 (ConnectivityManager)myContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -95,12 +95,12 @@ public class EngineImpl implements Engine{
         ArrayList<MivoqVoice> VoiceList= myEngine.getVoices();
         MivoqVoice VID= VoiceList.get(0); boolean found=false;
 
-        /*for(int i=0; !found && i<VoiceList.size(); i++)
+        for(int i=0; !found && i<VoiceList.size(); i++)
             if(VoiceList.get(i).getName().equals(voiceID))
             {
                 VID= VoiceList.get(i);
                 found=true;
-            }*/
+            }
 
         Emotion myEmot= null;
 
@@ -137,7 +137,18 @@ public class EngineImpl implements Engine{
             if(backupEngine.isLanguageAvailable(lang)==TextToSpeech.LANG_AVAILABLE)
                 backupEngine.setLanguage(lang);
 
-            backupEngine.synthesizeToFile(text,new HashMap<String, String>(),path);
+            backupEngine.setOnUtteranceCompletedListener(new TextToSpeech.OnUtteranceCompletedListener() {
+                @Override
+                public void onUtteranceCompleted(String utteranceId) {
+                    System.out.println("Utterance ReacheD");
+                    myListener.onCompleteSynthesis();
+                }
+            });
+
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "myUtteranceID");
+
+            backupEngine.synthesizeToFile(text,params,path);
         }
     }
 

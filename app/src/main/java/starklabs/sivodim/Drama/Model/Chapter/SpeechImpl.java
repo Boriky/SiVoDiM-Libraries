@@ -3,9 +3,14 @@ package starklabs.sivodim.Drama.Model.Chapter;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
+import starklabs.libraries.Model.EngineManager.Engine;
+import starklabs.libraries.Model.EngineManager.EngineImpl;
+import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
+import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Model.Utilities.SoundFx;
 import starklabs.sivodim.Drama.Model.Utilities.SpeechSound;
@@ -82,6 +87,7 @@ public class SpeechImpl implements Speech {
         character = builder.characterB;
         soundFx = builder.soundFxB;
         audioPath =builder.audioPathB;
+        audioStatus=false;
     }
 
     // setter methods: edit existing parameters or set new values (text, emotionID, character, soundFx)
@@ -129,8 +135,19 @@ public class SpeechImpl implements Speech {
     public Character getCharacter() { return this.character; }
 
     @Override
-    public void getAudio() {
-        //call Libraries
+    public void synthesizeAudio(Context context, final String path) {
+        Engine engine=new EngineImpl(context);
+        engine.synthesizeToFile(path,
+                getCharacter().getVoiceID(),
+                getEmotion(),
+                getText(),
+                new Engine.Listener() {
+            @Override
+            public void onCompleteSynthesis() {
+                setAudioPath(path);
+                setAudioStatus(true);
+            }
+        });
     }
 
     @Override
@@ -166,13 +183,14 @@ public class SpeechImpl implements Speech {
 
     public static ArrayAdapter<String> getVoices(Context context){
         Vector<String> emotions = new Vector<String>();
-        //callback to retrieve emotions
-        emotions.add("Voice1");
-        emotions.add("Voice2");
-        emotions.add("Voice3");
-        emotions.add("Voice4");
-        emotions.add("voice5");
-        emotions.add("Voice6");
+        //callback to retrieve voices
+        MivoqTTSSingleton mivoqTTSSingleton=MivoqTTSSingleton.getInstance();
+        ArrayList<MivoqVoice>voices=mivoqTTSSingleton.getVoices();
+        Iterator<MivoqVoice>iterator=voices.iterator();
+        while (iterator.hasNext()){
+            MivoqVoice voice=iterator.next();
+            if(voice!=null)emotions.add(voice.getName());
+        }
         return new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,emotions);
     }
 

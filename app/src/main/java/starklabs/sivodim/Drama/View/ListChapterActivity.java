@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ShareCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -158,7 +160,7 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
                 //---- end of test FFmpeg -----------------------------------------------------*/
                 break;
             case R.id.shareMenu:
-                //onShare();
+                onShare();
                 Toast.makeText(this,"Condividi",Toast.LENGTH_LONG).show();
                 break;
             case R.id.editMenu:
@@ -178,11 +180,35 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
     }
 
     public void onShare() {
-        final Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-        String audioClipFileName="export.mp3";
+        String audioClipFileName=screenplayPresenter.getScreenplayTitle().replace(" ","_")+".mp3";
+        File filePath=new File(getFilesDir(),audioClipFileName);
+        /*final Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
         shareIntent.setType("audio/mp3");
-        shareIntent.putExtra(android.content.Intent.EXTRA_STREAM, Uri.parse("file://"+"/sdcard/Uni/Swe/"+audioClipFileName));
+        shareIntent.putExtra(android.content.Intent.EXTRA_STREAM,
+                Uri.parse("file://"+file.getAbsolutePath()));
+        System.out.println("Share file: "+file.getAbsolutePath()+" <----");
         shareIntent.setPackage("com.whatsapp");
-        startActivity(Intent.createChooser(shareIntent, "Share Audio Clip"));
+        startActivity(Intent.createChooser(shareIntent, "Share Audio Clip"));*/
+        /*final Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        shareIntent.setType("audio/mp3");
+        shareIntent.putExtra(android.content.Intent.EXTRA_STREAM, Uri.parse("file://"+file.getAbsolutePath()));
+        startActivity(Intent.createChooser(shareIntent,"Titolo"));*/
+        // concatenate the internal cache folder with the document its path and filename
+        final File file = new File(getFilesDir(), audioClipFileName);
+// let the FileProvider generate an URI for this private file
+        final Uri uri = FileProvider.getUriForFile(this, "com.mydomain.fileprovider", file);
+// create an intent, so the user can choose which application he/she wants to use to share this file
+        final Intent intent = ShareCompat.IntentBuilder.from(this)
+                .setType("audio/mp3")
+                .setSubject("Condividi sceneggiato")
+                .setStream(uri)
+                .setChooserTitle("Condivisione di "+audioClipFileName)
+                .createChooserIntent()
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        startActivity(intent);
+
+        System.out.println("Share file: "+file.getAbsolutePath()+" <----");
     }
 }

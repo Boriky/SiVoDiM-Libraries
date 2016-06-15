@@ -1,5 +1,7 @@
 package starklabs.sivodim.Drama.Presenter;
 
+import android.content.Context;
+
 import java.util.Iterator;
 
 import starklabs.sivodim.Drama.Model.Chapter.Speech;
@@ -55,6 +57,11 @@ public class SpeechPresenterImpl implements SpeechPresenter {
     }
 
     @Override
+    public String getAudioPath() {
+        return speech.getAudioPath();
+    }
+
+    @Override
     public Character getSpeechCharacter(){
         return speech.getCharacter();
     }
@@ -75,5 +82,10 @@ public class SpeechPresenterImpl implements SpeechPresenter {
     @Override
     public void setSpeechCharacter(Character character){
         speech.setCharacter(character);
+    }
+
+    @Override
+    public void createAudio(Context context, String path) {
+        speech.synthesizeAudio(context,path);
     }
 }

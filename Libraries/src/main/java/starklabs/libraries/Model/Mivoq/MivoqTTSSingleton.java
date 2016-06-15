@@ -34,9 +34,10 @@ public class MivoqTTSSingleton {
 
     private MivoqTTSSingleton() {
         voiceList= new ArrayList<MivoqVoice>();
-        createVoice("tedesca","female","de");
-        createVoice("Fede","male","it");
-        createVoice("Gio","female","it");
+        createVoice("Federico","male","it");
+        createVoice("Alessia","female","it");
+        createVoice("Franz","male","de");
+        createVoice("Olivier","male","fr");
     }
 
     public boolean hasContext() {

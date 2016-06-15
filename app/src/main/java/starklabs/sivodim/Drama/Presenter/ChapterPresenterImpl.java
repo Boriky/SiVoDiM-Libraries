@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.ArrayAdapter;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.Vector;
@@ -187,7 +190,7 @@ public class ChapterPresenterImpl implements ChapterPresenter {
      * @param emotion the emotion that determine the synthesis parameters
      */
     @Override
-    public void newSpeech(String text,String chatacterName,String emotion) {
+    public void newSpeech(String text,String chatacterName,String emotion,Context context) {
         Speech speech=new SpeechImpl.SpeechBuilder()
                 .setText(text)
                 //get character by name
@@ -195,6 +198,17 @@ public class ChapterPresenterImpl implements ChapterPresenter {
                 .setEmotion(emotion)
                 .build();
         //add SoundFx
+        Date date=new Date();
+        String name=projectName.replace(" ","_")+"/speech"+date.getTime()+".wav";
+        File path=new File(context.getFilesDir(),name);
+        if(!path.exists()){
+            try {
+                path.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        speech.synthesizeAudio(context,path.getAbsolutePath());
         chapter.addSpeech(speech);
     }
 

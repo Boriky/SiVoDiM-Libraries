@@ -248,7 +248,9 @@ public class XMLParser {
                         Element speechElem = doc.createElement("speech");
                         speechElem.setAttribute("character", speech.getCharacter().getName());
                         speechElem.setAttribute("emotion", speech.getEmotion());
-                            speechElem.setAttribute("audioPath", speech.getAudioPath());
+                            String audioPath=speech.getAudioPath();
+                        if(audioPath!=null)
+                            speechElem.setAttribute("audioPath", audioPath);
                         speechElem.setTextContent(speech.getText());
 
                         // debug

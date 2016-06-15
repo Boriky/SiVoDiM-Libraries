@@ -1,5 +1,7 @@
 package starklabs.sivodim.Drama.Presenter;
 
+import android.content.Context;
+
 import java.util.Iterator;
 
 import starklabs.sivodim.Drama.Model.Chapter.Speech;
@@ -45,6 +47,12 @@ public interface SpeechPresenter {
      */
     Iterator<Character> getScreenplayCharacters();
 
+    /**
+     * Gives the path to the SpeechSound
+     * @return
+     */
+    String getAudioPath();
+
 
     // ------------------------------- SETTER ---------------------------------------------
 
@@ -65,4 +73,13 @@ public interface SpeechPresenter {
      * @param character
      */
     void setSpeechCharacter(Character character);
+
+    // -------------------------- UTILITIES ---------------------------------------------
+
+    /**
+     * Synthesize the speech
+     * @param context
+     * @param path
+     */
+    void createAudio(Context context,String path);
 }

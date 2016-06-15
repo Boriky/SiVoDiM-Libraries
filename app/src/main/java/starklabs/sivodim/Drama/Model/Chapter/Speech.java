@@ -1,5 +1,7 @@
 package starklabs.sivodim.Drama.Model.Chapter;
 
+import android.content.Context;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.ListIterator;
@@ -71,7 +73,7 @@ public interface Speech extends Serializable {
      */
     Character getCharacter();
 
-    void getAudio();
+    void synthesizeAudio(Context context,String path);
 
     String getAudioPath();
 

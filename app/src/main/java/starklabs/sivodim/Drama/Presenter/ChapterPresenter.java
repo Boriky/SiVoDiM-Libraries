@@ -92,7 +92,7 @@ public interface ChapterPresenter {
      * @param chatacterName The name of the character who says the speech
      * @param emotion the emotion that determine the synthesis parameters
      */
-    void newSpeech(String text,String chatacterName,String emotion);
+    void newSpeech(String text,String chatacterName,String emotion,Context context);
 
     /**
      * Delete a speech from the chapter if it is inside
