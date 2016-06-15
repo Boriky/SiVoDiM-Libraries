@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -28,6 +29,13 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
     private static ChapterPresenter chapterPresenter;
     private ListView speechListView;
     private SpeechArrayAdapter speechListAdapter;
+    private LinearLayout moveButtons;
+    private FloatingActionButton upButton;
+    private FloatingActionButton downButton;
+    private FloatingActionButton doneButton;
+    private FloatingActionButton deleteButton;
+    private FloatingActionButton addSpeech;
+
 
     public static void setPresenter(ChapterPresenter chapterPresenter){
         ListSpeechesActivity.chapterPresenter=chapterPresenter;
@@ -47,6 +55,8 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_speeches);
 
+        chapterPresenter.setSpeechSelected(-1);
+
         if(chapterPresenter==null)
             chapterPresenter=new ChapterPresenterImpl(this);
         else
@@ -58,17 +68,22 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        addSpeech = (FloatingActionButton) findViewById(R.id.fab);
+        addSpeech.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(view.getContext(),NewSpeechActivity.class);
-                startActivity(intent);
+                chapterPresenter.goToNewSpeechActivity(view.getContext());
             }
         });
 
         speechListView=(ListView) findViewById(R.id.speechesListView);
         speechListAdapter=chapterPresenter.getSpeeches(this);
+        moveButtons=(LinearLayout)findViewById(R.id.moveButtons);
+        upButton=(FloatingActionButton)findViewById(R.id.upButton);
+        downButton=(FloatingActionButton)findViewById(R.id.downButton);
+        doneButton=(FloatingActionButton)findViewById(R.id.doneButton);
+        deleteButton=(FloatingActionButton)findViewById(R.id.deleteButton);
+
         speechListView.setAdapter(speechListAdapter);
         if(speechListAdapter.getCount()==0)
             Toast.makeText(this,"Il capitolo è vuoto",Toast.LENGTH_LONG).show();
@@ -85,12 +100,64 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
             }
         });
 
+        speechListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Speech selected=(Speech) parent.getItemAtPosition(position);
+                chapterPresenter.goToEditSpeechActivity(view.getContext(),selected);
+            }
+        });
+
         speechListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Speech selected=(Speech) parent.getItemAtPosition(position);
-                chapterPresenter.goToEditSpeechActivity(view.getContext(),selected);
-                return false;
+                chapterPresenter.setSpeechSelected(position);
+                speechListView.setAdapter(chapterPresenter.getSpeeches(view.getContext()));
+                speechListView.setSelection(position);
+                moveButtons.setVisibility(View.VISIBLE);
+                addSpeech.setVisibility(View.GONE);
+                deleteButton.setVisibility(View.VISIBLE);
+                return true;
+            }
+        });
+
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chapterPresenter.setSpeechSelected(-1);
+                speechListView.setAdapter(chapterPresenter.getSpeeches(v.getContext()));
+                speechListView.setSelection(speechListView.getCount()-1);
+                moveButtons.setVisibility(View.GONE);
+                deleteButton.setVisibility(View.GONE);
+                addSpeech.setVisibility(View.VISIBLE);
+            }
+        });
+
+        upButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(),"MoveUP",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        downButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(),"MoveDOWN",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Speech speechToDelete=(Speech) speechListView.getItemAtPosition(chapterPresenter.getSpeechSelected());
+                chapterPresenter.deleteSpeech(speechToDelete);
+                chapterPresenter.setSpeechSelected(-1);
+                speechListView.setAdapter(chapterPresenter.getSpeeches(v.getContext()));
+                speechListView.setSelection(speechListView.getCount()-1);
+                moveButtons.setVisibility(View.GONE);
+                deleteButton.setVisibility(View.GONE);
+                addSpeech.setVisibility(View.VISIBLE);
             }
         });
 
@@ -120,8 +187,7 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
                 chapterPresenter.goToListCharactersActivity(this);
                 break;
             case R.id.newCharacterMenu:
-                Intent newCharacterIntent=new Intent(this,NewCharacterActivity.class);
-                startActivity(newCharacterIntent);
+                chapterPresenter.goToNewCharacterActivity(this);
                 break;
         }
         return false;

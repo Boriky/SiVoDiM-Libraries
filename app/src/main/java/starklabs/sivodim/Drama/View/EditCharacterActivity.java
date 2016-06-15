@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
+import starklabs.sivodim.Drama.Model.Chapter.SpeechImpl;
 import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Model.Utilities.Avatar;
 import starklabs.sivodim.Drama.Presenter.CharacterPresenter;
@@ -33,8 +34,9 @@ import starklabs.sivodim.R;
 
 public class EditCharacterActivity extends AppCompatActivity implements EditCharacterInterface{
     private static CharacterPresenter characterPresenter;
-    private static final int RESULT_LOAD_IMAGE = 1;
-    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS=2;
+    private static final int resultLoadImage = 1;
+    private static final int myPermissionsRequestReadMemory=2;
+    private String avatarPath=null;
     private ImageView editAvatar;
     private Spinner editVoice;
     private EditText editName;
@@ -63,18 +65,50 @@ public class EditCharacterActivity extends AppCompatActivity implements EditChar
         character=characterPresenter.getCharacter();
 
         Avatar avatar=character.getAvatar();
+        if(avatar!=null)
+            avatarPath=avatar.getPath();
         if(avatar!=null && avatar.getImage()!=null)
            editAvatar.setImageBitmap(avatar.getImage());
 
         editName.setText(character.getName());
-        //add voices....
+
+        editVoice.setAdapter(SpeechImpl.getVoices(this));
+        int position=0;
+        String voiceTag=character.getVoiceID();
+        for (int i=0;i<editVoice.getCount();i++){
+            if (editVoice.getItemAtPosition(i).equals(voiceTag))
+                position = i;
+        }
+        editVoice.setSelection(position);
 
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name=editName.getText().toString();
                 character.setName(name);
-                //set voice and avatar..
+                character.setVoice((String) editVoice.getSelectedItem());
+
+                Avatar avatar=character.getAvatar();
+
+                if(avatarPath!=null && (character.getAvatar()==null ||
+                        avatarPath!=character.getAvatar().getPath())){
+                // check if avatar is changed
+
+                    File avatarChoice=new File(avatarPath);
+                    File dir=new File(getFilesDir(),
+                            characterPresenter.getProjectName());
+                    if(!dir.exists()){
+                        dir.mkdir();
+                    }
+                    File destination=new File(dir,name+".png");
+                    try {
+                        copyFile(avatarChoice,destination);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    avatar=new Avatar(destination.getAbsolutePath());
+                }
+                characterPresenter.getCharacter().setAvatar(avatar);
                 Intent intent=new Intent(v.getContext(),ListCharacterActivity.class);
                 startActivity(intent);
             }
@@ -109,7 +143,7 @@ public class EditCharacterActivity extends AppCompatActivity implements EditChar
 
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+                        myPermissionsRequestReadMemory);
 
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the
@@ -125,7 +159,7 @@ public class EditCharacterActivity extends AppCompatActivity implements EditChar
                 Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-        startActivityForResult(i, RESULT_LOAD_IMAGE);
+        startActivityForResult(i, resultLoadImage);
 
 
     }
@@ -134,7 +168,7 @@ public class EditCharacterActivity extends AppCompatActivity implements EditChar
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_READ_CONTACTS: {
+            case myPermissionsRequestReadMemory: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -176,7 +210,7 @@ public class EditCharacterActivity extends AppCompatActivity implements EditChar
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+        if (requestCode == resultLoadImage && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
 //            grantUriPermission(null, selectedImage, Intent.FLAG_GRANT_READ_URI_PERMISSION);
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -190,16 +224,7 @@ public class EditCharacterActivity extends AppCompatActivity implements EditChar
             cursor.close();
 
             editAvatar.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-            File avatar=new File(picturePath);
-            File destination=new File(getFilesDir(),character.getName()+".png");
-            try {
-                copyFile(avatar,destination);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            characterPresenter.getCharacter()
-                    .setAvatar(new Avatar(destination.getAbsolutePath()));
+            avatarPath=picturePath;
 
 
         }

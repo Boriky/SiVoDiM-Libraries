@@ -14,20 +14,27 @@ import starklabs.sivodim.R;
 
 
 /**
- * Created by io on 25/05/2016.
+ * Created by Francesco Bizzaro on 25/05/2016.
  */
 public class HomePresenterImpl implements HomePresenter {
+    /**
+     * {@link HomeInterface} that uses this presenter
+     */
     HomeInterface homeInterface;
-    ScreenplayPresenter screenplayPresenter;
     // content of the view
     ArrayAdapter<String> titlesAdapter;
+
+    // ------------------------ CONSTRUCTORS ------------------------------------
 
     public HomePresenterImpl(HomeInterface homeInterface){
         this.homeInterface=homeInterface;
     }
 
+
+    // ------------------------ GETTER ------------------------------------------
+
     @Override
-    public Vector<String> loadScreenplayTitles(Context context){
+    public Vector<String> getScreenplayTitles(Context context){
         File dir = context.getFilesDir();
         File[] directoryListing = dir.listFiles();
         Vector<String> screenplayTitles = new Vector<String>();
@@ -48,6 +55,15 @@ public class HomePresenterImpl implements HomePresenter {
     }
 
     @Override
+    public ArrayAdapter<String> getTitlesAdapter(Context context){
+        titlesAdapter=new ArrayAdapter<String>(context, R.layout.screenplay_item,getScreenplayTitles(context));
+        return titlesAdapter;
+    }
+
+
+    // ------------------------ MOVE ----------------------------------------------------
+
+    @Override
     public void goToListChapter(Context context,String selected){
         Intent intent=new Intent(context,ListChapterActivity.class);
         ScreenplayPresenter screenplayPresenter=new ScreenplayPresenterImpl(
@@ -56,21 +72,4 @@ public class HomePresenterImpl implements HomePresenter {
         context.startActivity(intent);
     }
 
-    @Override
-    public ArrayAdapter<String> getTitlesAdapter(Context context){
-        //if(titlesAdapter==null){
-            titlesAdapter=new ArrayAdapter<String>(context, R.layout.screenplay_item,loadScreenplayTitles(context));
-        //}
-        return titlesAdapter;
-    }
-
-    @Override
-    public Vector<String> getScreenplayNames() {
-        return null;
-    }
-
-    @Override
-    public void createScreenplayList() {
-
-    }
 }

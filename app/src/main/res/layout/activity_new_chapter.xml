@@ -26,6 +26,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textCapSentences"
             android:id="@+id/newChapterName" />
 
         <TextView
@@ -61,7 +62,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Conferma modifiche"
+            android:text="Crea capitolo"
             android:id="@+id/createNewChapter"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="100dp" />

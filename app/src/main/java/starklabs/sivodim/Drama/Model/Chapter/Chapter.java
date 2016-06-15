@@ -11,18 +11,61 @@ import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
  * Created by Riccardo Rizzo on 25/05/2016.
  */
 public interface Chapter {
-    // test
+
+    // ----------------------------- GETTER ----------------------------------------------
+
+    /**
+     * Gives an Iterator to iterate among the speeches of the chapter
+     * @return
+     */
     ListIterator<Speech> getSpeechIterator();
-    void addSpeech(Speech speech);//push_back
-    void deleteSpeech(ListIterator<Speech> iterator);
-    void moveSpeech(ListIterator<Speech> iterator);
-    void setTitle(String title);
-    void setBackground(Background background);
+
+    /**
+     * Gives the title of the chapter
+     * @return
+     */
+    String getTitle();
+
+
+    // ----------------------------- SETTER ----------------------------------------------
+
+    /**
+     * Sets the soundtrack of the chapter
+     * @param soundtrack The soundtrack to set
+     */
     void setSoundtrack(Soundtrack soundtrack);
+
+    /**
+     * Sets the title of the chapter
+     * @param title The title to set
+     */
+    void setTitle(String title);
+
+    /**
+     * Sets the image background of the chapter
+     * @param background
+     */
+    void setBackground(Background background);
+
+
+    // ----------------------------- UTILITIES ----------------------------------------------
+
+    /**
+     * Adds a speech in the end of the chapter
+     * @param speech The speech to add
+     */
+    void addSpeech(Speech speech);//push_back
+
+    /**
+     * delete a Speech from the chapter
+     * @param speech a reference of the speech to delete
+     */
+    void deleteSpeech(Speech speech);
+
+    // >>>>>>>>>>>>>>>> NOT YET IMPLEMENTED <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
     void deleteBackground();
     void deleteSoundtrack();
-    String getTitle();
-    int getSpeechId(Speech speech);
-    Speech getSpeechById(int id);
-    void moveSpeech();
+    void moveUpSpeech(ListIterator<Speech> iterator);
+    void moveDownSpeech(ListIterator<Speech> iterator);
 }

@@ -1,22 +1,18 @@
 package starklabs.sivodim.Drama.Model.Screenplay;
 
 import android.content.Context;
-import android.os.Environment;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Vector;
 
 import starklabs.sivodim.Drama.Model.Chapter.Chapter;
 import starklabs.sivodim.Drama.Model.Character.Character;
+import starklabs.sivodim.Drama.Model.Character.CharacterContainer;
 import starklabs.sivodim.Drama.Model.Utilities.XMLParser;
 
 /**
- * Created by io on 25/05/2016.
+ * Created by Francesco Bizzaro on 25/05/2016.
  */
 public class ScreenplayImpl implements Screenplay {
     private String title;
@@ -59,8 +55,13 @@ public class ScreenplayImpl implements Screenplay {
     }
 
     @Override
-    public void export() {
-
+    public void export(String type,Context context) {
+        if(type.equals("Video"))
+            exportAlgorithm=new VideoExport();
+        else
+            exportAlgorithm=new AudioExport();
+        exportAlgorithm.setScreenplay(this);
+        exportAlgorithm.export(context);
     }
 
     @Override
@@ -69,7 +70,13 @@ public class ScreenplayImpl implements Screenplay {
     }
 
     @Override
-    public void share() {
+    public String getPath(Context context) {
+        File file=new File(context.getFilesDir(),getTitle().replace(" ","_"));
+        return file.getAbsolutePath();
+    }
+
+    @Override
+    public void share(String where) {
 
     }
 
@@ -91,12 +98,15 @@ public class ScreenplayImpl implements Screenplay {
 
     @Override
     public void addCharacter(Character character) {
+        if(characterContainer==null)
+            characterContainer=new CharacterContainer();
         characterContainer.addCharacter(character);
     }
 
     @Override
     public void removeCharacter(Character character){
-        characterContainer.removeCharacter(character);
+        if(characterContainer!=null)
+            characterContainer.removeCharacter(character);
     }
 
     @Override
@@ -115,7 +125,7 @@ public class ScreenplayImpl implements Screenplay {
         Iterator<Character> iterator = characterContainer.iterator();
         while(iterator.hasNext()) {
             Character character = iterator.next();
-            if(character.getName() == name)
+            if(character.getName().equals(name))
                 return character;
         }
         return null;

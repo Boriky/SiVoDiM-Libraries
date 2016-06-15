@@ -20,24 +20,27 @@ import starklabs.sivodim.Drama.View.ListCharacterActivity;
 import starklabs.sivodim.Drama.View.ListSpeechesActivity;
 import starklabs.sivodim.Drama.View.NewChapterActivity;
 import starklabs.sivodim.Drama.View.NewChapterInterface;
+import starklabs.sivodim.Drama.View.NewCharacterActivity;
 import starklabs.sivodim.Drama.View.NewScreenplayInterface;
 import starklabs.sivodim.R;
 
 import static starklabs.sivodim.Drama.Model.Screenplay.ScreenplayImpl.saveScreenplay;
 
 /**
- * Created by io on 25/05/2016.
+ * Created by Francesco Bizzaro on 25/05/2016.
  */
 public class ScreenplayPresenterImpl implements ScreenplayPresenter {
-    NewScreenplayInterface newScreenplayInterface;
-    NewChapterInterface newChapterInterface;
-    Screenplay screenplay;
+    private NewScreenplayInterface newScreenplayInterface;
+    private NewChapterInterface newChapterInterface;
+    private Screenplay screenplay;
     // to share and export algorithms
-    ListChapterInterface listChapterInterface;
+    private ListChapterInterface listChapterInterface;
     // to keep track of the last screenplay when on home (after back operation)
     //HomeInterface homeInterface;
-    ArrayAdapter<String> titlesAdapter;
+    private ArrayAdapter<String> titlesAdapter;
 
+
+    // ----------------------------- CONSTRUCTORS -------------------------------------------
 
     public ScreenplayPresenterImpl(Screenplay screenplay){
         this.screenplay=screenplay;
@@ -55,14 +58,47 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
         this.listChapterInterface=listChapterActivity;
     }
 
+
+    // ----------------------------- ACTIVITY ----------------------------------------------
+
+    @Override
+    public void setActivity(ListChapterInterface listChapterInterface){
+        this.listChapterInterface=listChapterInterface;
+    }
+
+    @Override
+    public void setActivity(NewChapterInterface newChapterInterface){
+        this.newChapterInterface=newChapterInterface;
+    }
+
+
+    // ----------------------------- GETTER ----------------------------------------------
+
     @Override
     public Screenplay getScreenplay() { return this.screenplay; }
+
+    @Override
+    public String getScreenplayTitle(){
+        return screenplay.getTitle();
+    }
+
+    @Override
+    public ArrayAdapter<String> getTitlesAdapter(Context context,String screenplay){
+        titlesAdapter=new ArrayAdapter<String>(context, R.layout.screenplay_item,
+                loadChapterTitles(screenplay, context));
+        return titlesAdapter;
+    }
+
+
+    // ----------------------------- MOVE ----------------------------------------------
 
     @Override
     public void goToListSpeechesActivity(Context context,String selected){
         Intent intent=new Intent(context,ListSpeechesActivity.class);
         ChapterPresenter chapterPresenter=
-                new ChapterPresenterImpl(screenplay.getChapter(selected),screenplay.getCharacters());
+                new ChapterPresenterImpl(screenplay.getChapter(selected),
+                        screenplay.getCharacters(),
+                        screenplay.getTitle());
         ListSpeechesActivity.setPresenter(chapterPresenter);
         context.startActivity(intent);
     }
@@ -70,7 +106,8 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
     @Override
     public void goToListCharactersActivity(Context context){
         Intent listCharacterIntent=new Intent(context,ListCharacterActivity.class);
-        CharacterPresenter characterPresenter=new CharacterPresenterImpl(screenplay.getCharacters());
+        CharacterPresenter characterPresenter=
+                new CharacterPresenterImpl(screenplay.getCharacters(),getScreenplayTitle());
         ListCharacterActivity.setPresenter(characterPresenter);
         context.startActivity(listCharacterIntent);
     }
@@ -79,7 +116,9 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
     public void goToEditChapterActivity(Context context,String selected){
         Intent editChapterIntent=new Intent(context,EditChapterActivity.class);
         ChapterPresenter chapterPresenter=
-                new ChapterPresenterImpl(screenplay.getChapter(selected),screenplay.getCharacters());
+                new ChapterPresenterImpl(screenplay.getChapter(selected),
+                        screenplay.getCharacters(),
+                        screenplay.getTitle());
         EditChapterActivity.setPresenter(chapterPresenter);
         context.startActivity(editChapterIntent);
     }
@@ -92,14 +131,16 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
     }
 
     @Override
-    public void setActivity(ListChapterInterface listChapterInterface){
-        this.listChapterInterface=listChapterInterface;
+    public void goToNewCharacterActivity(Context context){
+        Intent intent=new Intent(context, NewCharacterActivity.class);
+        CharacterPresenter characterPresenter=
+                new CharacterPresenterImpl(screenplay.getCharacters(),getScreenplayTitle());
+        NewCharacterActivity.setPresenter(characterPresenter);
+        context.startActivity(intent);
     }
 
-    @Override
-    public void setActivity(NewChapterInterface newChapterInterface){
-        this.newChapterInterface=newChapterInterface;
-    }
+
+    // ----------------------------- UTILITIES ----------------------------------------------
 
     @Override
     public void export() {
@@ -114,8 +155,17 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
     @Override
     public void newScreenplay(String title,Context context) {
         this.screenplay=new ScreenplayImpl(title);
-        // manca il save
         save(screenplay,context);
+    }
+
+    @Override
+    public void moveUpChapter(String chapterTitle) {
+
+    }
+
+    @Override
+    public void moveDownChapter(String chapterTitle) {
+
     }
 
     @Override
@@ -135,10 +185,6 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
         screenplay.addChapter(chapter);
     }
 
-    @Override
-    public void orderChapter() {
-
-    }
 
     private Vector<String> loadChapterTitles(String screenplayTitle, Context context){
         if(this.screenplay==null){
@@ -159,15 +205,4 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
         return false;
     }
 
-    @Override
-    public String getScreenplayTitle(){
-        return screenplay.getTitle();
-    }
-
-    @Override
-    public ArrayAdapter<String> getTitlesAdapter(Context context,String screenplay){
-       // if(titlesAdapter==null)
-            titlesAdapter=new ArrayAdapter<String>(context, R.layout.screenplay_item,loadChapterTitles(screenplay, context));
-        return titlesAdapter;
-    }
 }

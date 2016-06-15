@@ -26,6 +26,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textCapSentences"
             android:id="@+id/editName" />
 
         <TextView
@@ -50,7 +51,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
-            android:src="@mipmap/undefined_user"
+            android:src="@drawable/noavatar"
             android:layout_marginTop="5dp"
             android:id="@+id/editAvatar"
             android:clickable="true" />

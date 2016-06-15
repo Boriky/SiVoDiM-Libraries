@@ -27,7 +27,8 @@
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editText4"
+            android:id="@+id/newSpeechText"
+            android:inputType="textCapSentences"
             android:layout_weight="0.52" />
 
         <TextView
@@ -40,7 +41,7 @@
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner3" />
+            android:id="@+id/newSpeechCharacter" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -56,13 +57,13 @@
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner4" />
+            android:id="@+id/newSpeechEmotion" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Crea battuta"
-            android:id="@+id/button4"
+            android:id="@+id/newSpeechApply"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>
 </RelativeLayout>

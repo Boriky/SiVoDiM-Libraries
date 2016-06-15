@@ -1,27 +1,34 @@
 package starklabs.sivodim.Drama.View;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import starklabs.libraries.Model.Voice.Emotion;
-import starklabs.libraries.Model.Voice.MivoqVoice;
+import starklabs.libraries.Model.EngineManager.EngineImpl;
+import starklabs.sivodim.Drama.Model.Chapter.Speech;
+import starklabs.sivodim.Drama.Model.Chapter.SpeechImpl;
 import starklabs.sivodim.Drama.Model.Character.Character;
+import starklabs.sivodim.Drama.Model.Utilities.SpeechSound;
+import starklabs.sivodim.Drama.Presenter.ChapterPresenterImpl;
 import starklabs.sivodim.Drama.Presenter.SpeechPresenter;
+import starklabs.sivodim.Drama.Presenter.SpeechPresenterImpl;
 import starklabs.sivodim.R;
 
 import starklabs.libraries.Model.EngineManager.Engine;
-import starklabs.libraries.Model.EngineManager.EngineImpl;
 
 public class EditSpeechActivity extends AppCompatActivity implements EditSpeechInterface{
     private static SpeechPresenter speechPresenter;
@@ -54,15 +61,7 @@ public class EditSpeechActivity extends AppCompatActivity implements EditSpeechI
 
         speechText.setText(speechPresenter.getSpeechText());
         //set emotion Spinner
-        List<String> em = new ArrayList<String>();
-        em.add("HAPPINESS");
-        em.add("SADESS");
-        em.add("ANGER");
-        em.add("SURPRISE");
-        em.add("DISGUST");
-        em.add("FEAR");
-        ArrayAdapter<String> emotionArrayAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,em);
-        emotion.setAdapter(emotionArrayAdapter);
+        emotion.setAdapter(SpeechImpl.getEmotions(this));
         String emotionTag=speechPresenter.getSpeechEmotion();
         int position=0;
         for (int i=0;i<emotion.getCount();i++){
@@ -110,15 +109,30 @@ public class EditSpeechActivity extends AppCompatActivity implements EditSpeechI
                 startActivity(intent);
             }
         });
+
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Engine myEngine=new EngineImpl(getApplicationContext());
-                MivoqVoice Fede = myEngine.createVoice("Fede", "female", "it");
-
-                Fede.setEmotion(Emotion.Disgust);
-                //Emotion
-                myEngine.speak("Fede", speechText.getText().toString());
+                Engine engine=new EngineImpl(getApplicationContext());
+                final File path=new File(getFilesDir(),"preview.wav");
+                final String effect=(String)emotion.getSelectedItem();
+                if(!path.exists()){
+                    try {
+                        path.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                String nameVoice=engine.getVoices().get(0).getVoiceName();
+                engine.synthesizeToFile(path.getAbsolutePath(), nameVoice, effect,
+                        speechText.getText().toString(), new Engine.Listener() {
+                            @Override
+                            public void onCompleteSynthesis() {
+                                System.out.println("Ho salvato il File");
+                                SpeechSound speechSound=new SpeechSound(path.getAbsolutePath());
+                                speechSound.play();
+                            }
+                        });
             }
         });
 

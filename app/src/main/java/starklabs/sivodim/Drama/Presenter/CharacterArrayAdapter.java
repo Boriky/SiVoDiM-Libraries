@@ -19,32 +19,67 @@ import starklabs.sivodim.Drama.Model.Utilities.Avatar;
 import starklabs.sivodim.R;
 
 /**
- * Created by io on 02/06/2016.
+ * Created by Francesco Bizzaro on 02/06/2016.
  */
 public class CharacterArrayAdapter extends ArrayAdapter {
+    /**
+     * The list of characters to show
+     */
     private List<Character> characterList = new ArrayList<Character>();
-    private Context context;
+
+    /**
+     *The TextView that will show the character's name
+     */
     private TextView characterName;
+
+    /**
+     * The ImageView that will show the character's avatar
+     */
     private ImageView characterAvatar;
 
+    /**
+     * Main constructor that initialize the list and the layout
+     * @param context
+     * @param resource The id of layout resource utilized
+     */
     public CharacterArrayAdapter(Context context, int resource) {
         super(context, resource);
-        this.context=context;
     }
 
+    /**
+     * To add a character in the list
+     * @param object
+     */
     public void add(Character object) {
         characterList.add(object);
         super.add(object);
     }
 
+    /**
+     * To get the nimber of characters in the list
+     * @return
+     */
     public int getCount() {
         return this.characterList.size();
     }
 
+    /**
+     * To get the character in a specific position
+     * @param index
+     * @return
+     */
     public Character getItem(int index) {
         return this.characterList.get(index);
     }
 
+    /**
+     * Create the view filling informations in the related fields. This method is automatically called
+     * during the graphics construction
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Character characterObj = getItem(position);
@@ -58,7 +93,7 @@ public class CharacterArrayAdapter extends ArrayAdapter {
         if(avatar!=null && avatar.getImage()!=null)
             characterAvatar.setImageBitmap(avatar.getImage());
         else
-            characterAvatar.setImageResource(R.mipmap.undefined_user);
+            characterAvatar.setImageResource(R.drawable.noavatar);
         return row;
     }
 }

@@ -11,7 +11,6 @@ import org.xml.sax.SAXException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.ListIterator;
 
@@ -31,7 +30,6 @@ import starklabs.sivodim.Drama.Model.Chapter.Speech;
 import starklabs.sivodim.Drama.Model.Chapter.SpeechImpl;
 import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Model.Character.CharacterImpl;
-import starklabs.sivodim.Drama.Model.Screenplay.CharacterContainer;
 import starklabs.sivodim.Drama.Model.Screenplay.Screenplay;
 import starklabs.sivodim.Drama.Model.Screenplay.ScreenplayImpl;
 
@@ -114,6 +112,7 @@ public class XMLParser {
                         String emotion = speechElem.getAttribute("emotion");
                         String soundFxPath = speechElem.getAttribute("soundFx");
                         SoundFx soundFx = new SoundFx(soundFxPath);
+                        String audioPath = speechElem.getAttribute("audioPath");
 
                         Character character = parsedData.getCharacterByName(characterName);
 
@@ -121,9 +120,11 @@ public class XMLParser {
                                 .setText(text)
                                 .setEmotion(emotion)
                                 .setSoundFX(soundFx)
+                                .setAudioPath(audioPath)
                                 .build();
 
                         if (character != null) speech.setCharacter(character);
+                        if (audioPath != null) speech.setAudioStatus(true);
 
                         vDebug("SPEECH: "+speech.getText());
                         chapter.addSpeech(speech);
@@ -220,7 +221,9 @@ public class XMLParser {
                     Element characterElem = doc.createElement("character");
                     characterElem.setAttribute("name", character.getName());
                     characterElem.setAttribute("voice", character.getVoiceID());
-                    characterElem.setAttribute("avatar", character.getAvatar().getPath());
+                    Avatar avatar=character.getAvatar();
+                    if(avatar!=null)
+                        characterElem.setAttribute("avatar", avatar.getPath());
 
                     // append "character" to "characters"
                     charactersElem.appendChild(characterElem);
@@ -245,6 +248,7 @@ public class XMLParser {
                         Element speechElem = doc.createElement("speech");
                         speechElem.setAttribute("character", speech.getCharacter().getName());
                         speechElem.setAttribute("emotion", speech.getEmotion());
+                            speechElem.setAttribute("audioPath", speech.getAudioPath());
                         speechElem.setTextContent(speech.getText());
 
                         // debug

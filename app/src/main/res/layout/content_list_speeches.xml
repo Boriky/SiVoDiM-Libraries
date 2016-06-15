@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#ffffff"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="starklabs.sivodim.Drama.View.ListSpeechesActivity"
     tools:showIn="@layout/activity_list_speeches">
@@ -16,6 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:dividerHeight="15dp"
+        android:background="#ffffff"
         android:divider="#ffffff"
         android:id="@+id/speechesListView"
         android:layout_alignParentTop="true"

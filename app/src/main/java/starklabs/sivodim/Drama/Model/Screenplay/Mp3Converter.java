@@ -5,7 +5,7 @@ import android.content.Context;
 import java.io.File;
 
 /**
- * Created by io on 28/05/2016.
+ * Created by Francesco Bizzaro on 28/05/2016.
  */
 public class Mp3Converter extends FfmpegConnector{
     File file;

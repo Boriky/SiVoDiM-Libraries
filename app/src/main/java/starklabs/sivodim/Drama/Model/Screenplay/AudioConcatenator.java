@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Vector;
 
 /**
- * Created by io on 28/05/2016.
+ * Created by Francesco Bizzaro on 28/05/2016.
  */
 public class AudioConcatenator extends FfmpegConnector {
 

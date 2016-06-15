@@ -9,6 +9,7 @@ import android.speech.tts.TextToSpeech;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
@@ -44,7 +45,7 @@ public class EngineImpl implements Engine{
             return null;
         }
 
-        protected void onPostExecute( ) {
+        protected void onPostExecute(Void v) {
             if(myListener != null)
                 myListener.onCompleteSynthesis();
         }
@@ -94,12 +95,12 @@ public class EngineImpl implements Engine{
         ArrayList<MivoqVoice> VoiceList= myEngine.getVoices();
         MivoqVoice VID= VoiceList.get(0); boolean found=false;
 
-        for(int i=0; !found && i<VoiceList.size(); i++)
+        /*for(int i=0; !found && i<VoiceList.size(); i++)
             if(VoiceList.get(i).getName().equals(voiceID))
             {
                 VID= VoiceList.get(i);
                 found=true;
-            }
+            }*/
 
         Emotion myEmot= null;
 
@@ -135,9 +136,8 @@ public class EngineImpl implements Engine{
 
             if(backupEngine.isLanguageAvailable(lang)==TextToSpeech.LANG_AVAILABLE)
                 backupEngine.setLanguage(lang);
-            File f= new File(path);
 
-            backupEngine.synthesizeToFile(text,null,path);
+            backupEngine.synthesizeToFile(text,new HashMap<String, String>(),path);
         }
     }
 

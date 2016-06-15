@@ -1,8 +1,15 @@
 package starklabs.sivodim.Drama.Model.Chapter;
 
+import android.content.Context;
+import android.widget.ArrayAdapter;
+
+import java.util.Iterator;
+import java.util.Vector;
+
 import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Model.Utilities.SoundFx;
 import starklabs.sivodim.Drama.Model.Utilities.SpeechSound;
+import starklabs.sivodim.R;
 
 /**
  * Created by Riccardo Rizzo on 25/05/2016.
@@ -12,7 +19,8 @@ public class SpeechImpl implements Speech {
     private String emotionID;
     private Character character;
     private SoundFx soundFx;
-    private static String synthesistPath;
+    private String audioPath;
+    private boolean audioStatus;
 
     public static class SpeechBuilder {
         // required parameters
@@ -22,6 +30,8 @@ public class SpeechImpl implements Speech {
         private String emotionIDB;
         private Character characterB;
         private SoundFx soundFxB;
+        private String audioPathB;
+        private boolean audioStatusB;
 
         // setter
         public SpeechBuilder setText(String text) {
@@ -44,6 +54,16 @@ public class SpeechImpl implements Speech {
             return this;
         }
 
+        public SpeechBuilder setAudioPath(String audioPath) {
+            this.audioPathB = audioPath;
+            return this;
+        }
+
+        public SpeechBuilder setAudioStatus(boolean audioStatus) {
+            this.audioStatusB = audioStatus;
+            return this;
+        }
+
         // return speech built by builder
         public SpeechImpl build() {
             if(textB!=null) {
@@ -61,6 +81,7 @@ public class SpeechImpl implements Speech {
         emotionID = builder.emotionIDB;
         character = builder.characterB;
         soundFx = builder.soundFxB;
+        audioPath =builder.audioPathB;
     }
 
     // setter methods: edit existing parameters or set new values (text, emotionID, character, soundFx)
@@ -80,8 +101,16 @@ public class SpeechImpl implements Speech {
     }
 
     @Override
-    public void setSoundFx(SoundFx soundFx) {
-        this.soundFx = soundFx;
+    public void setSoundFx(SoundFx soundFx) { this.soundFx = soundFx; }
+
+    @Override
+    public void setAudioPath(String audioPath) {
+        this.audioPath = audioPath;
+    }
+
+    @Override
+    public void setAudioStatus(boolean audioStatus) {
+        this.audioStatus = audioStatus;
     }
 
 
@@ -99,17 +128,52 @@ public class SpeechImpl implements Speech {
     @Override
     public Character getCharacter() { return this.character; }
 
-    // send request to MIVOQ to retrieve audio preview
     @Override
-    public String toRequest() {
-        return null;
+    public void getAudio() {
+        //call Libraries
     }
+
+    @Override
+    public String getAudioPath() {
+        return audioPath;
+    }
+
+    @Override
+    public boolean getAudioStatus() {
+        return audioStatus;
+    }
+
 
     //Class for speech audio preview
     public class PlaySpeech{
 
         private SpeechSound synthesis;
 
+    }
+
+    public static ArrayAdapter<String> getEmotions(Context context){
+        Vector<String> emotions = new Vector<String>();
+        //callback to retrieve emotions
+        emotions.add("NONE");
+        emotions.add("HAPPINESS");
+        emotions.add("SADNESS");
+        emotions.add("ANGER");
+        emotions.add("FEAR");
+        emotions.add("DISGUST");
+        emotions.add("SURPRISE");
+        return new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,emotions);
+    }
+
+    public static ArrayAdapter<String> getVoices(Context context){
+        Vector<String> emotions = new Vector<String>();
+        //callback to retrieve emotions
+        emotions.add("Voice1");
+        emotions.add("Voice2");
+        emotions.add("Voice3");
+        emotions.add("Voice4");
+        emotions.add("voice5");
+        emotions.add("Voice6");
+        return new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,emotions);
     }
 
 

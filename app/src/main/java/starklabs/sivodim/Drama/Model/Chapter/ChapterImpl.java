@@ -49,11 +49,6 @@ public class ChapterImpl implements Chapter{
             return this;
         }
 
-        // load speeches from sdcard
-        public ChapterBuilder loadSpeeches() {
-            // ...
-            return this;
-        }
 
         // return chapter built by builder
         public ChapterImpl build() {
@@ -82,18 +77,22 @@ public class ChapterImpl implements Chapter{
     }
 
     @Override
-    public void moveSpeech(ListIterator<Speech> iterator) {
+    public void moveUpSpeech(ListIterator<Speech> iterator) {
+        int position=iterator.previousIndex();
+        Speech speech=speeches.remove(position+1);
+        speeches.set(position,speech);
+    }
 
+    @Override
+    public void moveDownSpeech(ListIterator<Speech> iterator) {
+        int position=iterator.nextIndex();
+        Speech speech=speeches.remove(position+1);
+        speeches.set(position,speech);
     }
 
     @Override
     public String getTitle(){
         return title;
-    }
-
-    @Override
-    public void moveSpeech(){
-
     }
 
     // add new speech: push back new speech to ArrayList containing existing speeches
@@ -120,27 +119,17 @@ public class ChapterImpl implements Chapter{
 
     // delete methods: delete existing parameters (speech, background, soundtrack)
     @Override
-    public void deleteSpeech(ListIterator<Speech> iterator) {
-
-    }
-
-    @Override
-    public int getSpeechId(Speech speech){
-        return speeches.indexOf(speech);
-    }
-
-    @Override
-    public Speech getSpeechById(int id){
-        return speeches.get(id);
+    public void deleteSpeech(Speech speech) {
+        speeches.remove(speech);
     }
 
     @Override
     public void deleteBackground() {
-
+        background=null;
     }
 
     @Override
     public void deleteSoundtrack() {
-
+        soundtrack=null;
     }
 }

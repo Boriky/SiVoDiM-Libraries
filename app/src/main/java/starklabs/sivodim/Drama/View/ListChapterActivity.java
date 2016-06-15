@@ -2,6 +2,7 @@ package starklabs.sivodim.Drama.View;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -124,7 +125,13 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
                 Toast.makeText(this,"Salvato",Toast.LENGTH_LONG).show();
                 break;
             case R.id.exportMenu:
-                //---- test FFmpeg -----------------------------------------------------------
+                screenplayPresenter.getScreenplay().export("Audio",this);
+                String name=screenplayPresenter.getScreenplayTitle().replace(" ","_");
+                File destination=new File(getFilesDir(),name+".mp3");
+                SpeechSound speechSound=new SpeechSound(destination.getAbsolutePath());
+                speechSound.play();
+                Toast.makeText(this,"Esportazione riuscita",Toast.LENGTH_LONG).show();
+                /*/---- test FFmpeg -----------------------------------------------------------
                 File f=new File(getExternalStorageDirectory(),"pic004.png");
                 System.out.println(f.getAbsolutePath());
                 File file=new File(getFilesDir(),"track.mp3");
@@ -148,17 +155,17 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
                 SpeechSound soundtrack=new SpeechSound(dest3.getAbsolutePath());
                 soundtrack.play();
                 Toast.makeText(this,"Esportazione riuscita",Toast.LENGTH_LONG).show();
-                //---- end of test FFmpeg -----------------------------------------------------
+                //---- end of test FFmpeg -----------------------------------------------------*/
                 break;
             case R.id.shareMenu:
+                //onShare();
                 Toast.makeText(this,"Condividi",Toast.LENGTH_LONG).show();
                 break;
             case R.id.editMenu:
                 Toast.makeText(this,"Modifica",Toast.LENGTH_LONG).show();
                 break;
             case R.id.newCharacterMenu:
-                Intent newCharacterIntent=new Intent(this,NewCharacterActivity.class);
-                startActivity(newCharacterIntent);
+                screenplayPresenter.goToNewCharacterActivity(this);
                 break;
             case R.id.importCharactersMenu:
                 Toast.makeText(this,"Importa personaggio",Toast.LENGTH_LONG).show();
@@ -168,5 +175,14 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
                 break;
         }
         return false;
+    }
+
+    public void onShare() {
+        final Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        String audioClipFileName="export.mp3";
+        shareIntent.setType("audio/mp3");
+        shareIntent.putExtra(android.content.Intent.EXTRA_STREAM, Uri.parse("file://"+"/sdcard/Uni/Swe/"+audioClipFileName));
+        shareIntent.setPackage("com.whatsapp");
+        startActivity(Intent.createChooser(shareIntent, "Share Audio Clip"));
     }
 }

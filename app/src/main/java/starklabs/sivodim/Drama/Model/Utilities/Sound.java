@@ -52,6 +52,7 @@ public abstract class Sound {
     protected abstract long maxSize();
 
     public boolean isDefined(){
+        if(audio==null)return false;
         return audio.exists();
     }
 }

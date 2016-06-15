@@ -48,15 +48,14 @@ public class ListCharacterActivity extends AppCompatActivity implements ListChar
         characterArrayAdapter=characterPresenter.getCharacterArrayAdapter(this);
         characterListView.setAdapter(characterArrayAdapter);
         if(characterArrayAdapter.getCount()==0)
-            Toast.makeText(this,"Non ci sono personaggi",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Clicca sul + per creare personaggi",Toast.LENGTH_LONG).show();
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent newCharacterIntent=new Intent(view.getContext(),NewCharacterActivity.class);
-                startActivity(newCharacterIntent);
+                characterPresenter.goToNewCharacterActivity(view.getContext());
             }
         });
 

@@ -83,7 +83,7 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-    public File getAlbumStorageDir(String albumName) {
+    /*public File getAlbumStorageDir(String albumName) {
         // Get the directory for the user's public pictures directory.
         File file = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), albumName);
@@ -91,7 +91,7 @@ public class HomeActivity extends AppCompatActivity
         return file;
     }
 
-    /* Checks if external storage is available to at least read */
+    //Checks if external storage is available to at least read
     public boolean isExternalStorageReadable() {
         String state = Environment.getExternalStorageState();
         if (Environment.MEDIA_MOUNTED.equals(state) ||
@@ -99,7 +99,7 @@ public class HomeActivity extends AppCompatActivity
             return true;
         }
         return false;
-    }
+    }*/
 
     @Override
     public void onBackPressed() {
@@ -129,8 +129,8 @@ public class HomeActivity extends AppCompatActivity
             toast = Toast.makeText(getApplicationContext(), "Apre l'applicazione di configurazione", Toast.LENGTH_SHORT);
             toast.show();
         } else if (id == R.id.nav_guide) {
-            toast = Toast.makeText(getApplicationContext(), "Apre il manuale utente", Toast.LENGTH_SHORT);
-            toast.show();
+            Intent intent=new Intent(this,UserManualActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_info) {
             toast = Toast.makeText(getApplicationContext(), "Apre info su app e autori", Toast.LENGTH_SHORT);
             toast.show();

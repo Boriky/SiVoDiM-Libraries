@@ -1,8 +1,16 @@
 package starklabs.sivodim.Drama.Model.Screenplay;
 
+import android.content.Context;
+
 /**
- * Created by io on 25/05/2016.
+ * Created by Francesco Bizzaro on 25/05/2016.
  */
 public abstract class ExportAlgorithm {
-    public abstract void export();
+    protected Screenplay screenplay;
+
+    public void setScreenplay(Screenplay screenplay){
+        this.screenplay=screenplay;
+    }
+
+    public abstract void export(Context context);
 }
