@@ -3,6 +3,7 @@ package starklabs.libraries.Presenter;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
+import starklabs.libraries.Model.EngineManager.Engine;
 import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.View.EditVoiceActivityInterface;
 import starklabs.libraries.View.NewVoiceActivityInterface;
@@ -53,4 +54,12 @@ public interface VoicePresenter {
     String getVoiceName();
 
     MivoqVoice getVoice();
+
+    Engine getEngine();
+
+    void setGender(int pos);
+
+    void setLanguage(int pos);
+
+    String getLanguage();
 }

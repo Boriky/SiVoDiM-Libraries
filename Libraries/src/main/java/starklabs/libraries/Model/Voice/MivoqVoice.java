@@ -42,7 +42,7 @@ import java.util.ArrayList;
 
             femaleDeAddingEffects=false;
 
-            if(gen.equals("female") && lang.equals("de"))
+            if(gen.equals("female") && myLang.equals("de"))
                 femaleDeAddingEffects=true;
 
             lang= new Language(myLang);
@@ -71,8 +71,8 @@ import java.util.ArrayList;
             switch (myLang)
             {
                 case "it":
-                    if(gen.equals("female")) myVoiceName="istc-lucia-hsmm";
-                    else myVoiceName="istc-speaker_internazionale-hsmm";
+                    if(gen.equals("female")) myVoiceName="patrizia-hsmm";
+                    else myVoiceName="roberto-hsmm";
 
                     break;
                 case "fr":

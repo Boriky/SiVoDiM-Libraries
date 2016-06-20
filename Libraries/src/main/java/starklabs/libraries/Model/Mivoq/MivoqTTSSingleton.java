@@ -28,6 +28,7 @@ public class MivoqTTSSingleton {
 
     private static MivoqTTSSingleton ourInstance = new MivoqTTSSingleton();
     private static AbstractFactory myFactory= new MivoqConnectionFactory();
+    private static AbstractFactory myNewFactory= new MivoqNewConnectionFactory();
     public static MivoqTTSSingleton getInstance() {
         return ourInstance;
     }
@@ -51,6 +52,9 @@ public class MivoqTTSSingleton {
             queue = Volley.newRequestQueue(myContext, new HurlStack());
 
         MivoqConnection request= myFactory.createConnection();
+
+        if(v.getLanguage().equals("it"))
+            request= myNewFactory.createConnection();
 
         synchronized(request)
         {
@@ -123,13 +127,13 @@ public class MivoqTTSSingleton {
 
         } catch (Throwable t) {
             String ab=t.getMessage();
-            System.out.println(ab);
+            System.out.println(ab+"lunghezza" +audio.length);
             // Log.d("Audio", "Playback Failed");
         }
     }
 
     public MivoqVoice createVoice(String name, String gender, String myLanguage) {
-        String VoiceName="istc-speaker_internazionale-hsmm";
+        String VoiceName="roberto-hsmm";
 
         Language L= new Language(myLanguage); // Using Locale or Language?
         MivoqVoice V=  new MivoqVoice(name,VoiceName,L);

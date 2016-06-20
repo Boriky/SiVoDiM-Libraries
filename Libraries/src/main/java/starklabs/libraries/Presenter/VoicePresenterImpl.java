@@ -12,11 +12,11 @@ import starklabs.libraries.View.NewVoiceActivityInterface;
 /**
  * Created by AlbertoAndriolo on 26/05/2016.
  */
-public class
-VoicePresenterImpl implements VoicePresenter{
+public class VoicePresenterImpl implements VoicePresenter{
 
     private MivoqVoice mivoqVoice;
     private Engine engine;
+    private String gender, language;
     ArrayAdapter<String> genderAdapter;
     ArrayAdapter<String> languageAdapter;
     private EditVoiceActivityInterface editVoiceActivityInterface;
@@ -28,6 +28,9 @@ VoicePresenterImpl implements VoicePresenter{
      */
     public VoicePresenterImpl(Engine engine) {
         this.engine = engine;
+        gender="male";
+        language="it";
+        mivoqVoice=engine.createVoice("Giulio","male","it");
     }
 
     /** Second constructor of the VoicePresenterImpl
@@ -91,6 +94,40 @@ VoicePresenterImpl implements VoicePresenter{
 
     @Override
     public MivoqVoice getVoice() {
-        return null;
+        return mivoqVoice;
     }
+
+    @Override
+    public Engine getEngine() {
+        return engine;
+    }
+
+    @Override
+    public void setGender(int pos) {
+        switch (pos){
+            case 0: gender="male"; break;
+            case 1: gender="female"; break;
+            case 2: gender="neutral"; break;
+            case 3: gender="unknown"; break;
+        }
+        mivoqVoice.setGenderLanguage(gender,language);
+    }
+
+    @Override
+    public void setLanguage(int pos) {
+        switch (pos){
+            case 0: language="it"; break;
+            case 1: language="en"; break;
+            case 2: language="de"; break;
+            case 3: language="fr"; break;
+        }
+        mivoqVoice.setGenderLanguage(gender,language);
+
+    }
+
+    @Override
+    public String getLanguage() {
+        return language;
+    }
+
 }

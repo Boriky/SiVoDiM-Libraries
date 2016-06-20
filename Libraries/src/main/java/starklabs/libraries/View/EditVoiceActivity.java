@@ -32,7 +32,6 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String voiceName = voicePresenter.getVoiceName();
-        System.out.println("voiceName = " + voiceName);
 
         EditText textViewNameVoice= (EditText) findViewById(R.id.editText2);
         textViewNameVoice.setText(voiceName);
