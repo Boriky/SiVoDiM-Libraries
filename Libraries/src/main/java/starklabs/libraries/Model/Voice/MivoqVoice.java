@@ -25,7 +25,7 @@ import java.util.ArrayList;
         public MivoqVoice(String name, String myVoiceName, Language locale)
         {
             voiceName=myVoiceName;
-            name=name;
+            this.name=name;
             lang=locale;
             effects= new ArrayList<Effect>();
             femaleDeAddingEffects=false;

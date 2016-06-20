@@ -4,6 +4,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,8 +15,10 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".View.HomeActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:enabled="true"
+            android:label="@string/mivoq_manager"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="standard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,6 +31,61 @@
             android:label="@string/title_activity_voice_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".View.EditVoiceActivity"></activity>
+
+        <!--integration-->
+        <activity
+            android:name=".Model.Integration.DownloadVoiceData"
+            android:label="@string/mivoq_voice_manager"
+            android:theme="@android:style/Theme.Holo"
+            android:configChanges="orientation">
+            <intent-filter>
+                <action android:name="android.speech.tts.engine.INSTALL_TTS_DATA" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".Model.Integration.CheckVoiceData"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.speech.tts.engine.CHECK_TTS_DATA" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Model.Integration.GetSampleText"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.speech.tts.engine.GET_SAMPLE_TEXT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity-alias
+            android:name=".Model.Integration.TtsSettingsActivity"
+            android:targetActivity=".View.HomeActivity" />
+        <activity-alias
+            android:name=".EngineSettings"
+            android:targetActivity=".View.HomeActivity" />
+
+        <service
+            android:name=".Model.Mivoq.MivoqTTSService"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.TTS_SERVICE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.speech.tts"
+                android:resource="@xml/tts_engine" />
+        </service>
     </application>
 
 </manifest>

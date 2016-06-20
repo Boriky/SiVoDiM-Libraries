@@ -6,9 +6,9 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.speech.tts.TextToSpeech;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
@@ -44,7 +44,7 @@ public class EngineImpl implements Engine{
             return null;
         }
 
-        protected void onPostExecute( ) {
+        protected void onPostExecute(Void Result) {
             if(myListener != null)
                 myListener.onCompleteSynthesis();
         }
@@ -82,7 +82,7 @@ public class EngineImpl implements Engine{
         return myEngine.getVoices();
     }
 
-    public void synthesizeToFile (String path, String voiceID, String myEmotion, String text, Listener myListener){
+    public void synthesizeToFile (String path, String voiceID, String myEmotion, String text, final Listener myListener){
         ConnectivityManager cm =
                 (ConnectivityManager)myContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -135,9 +135,19 @@ public class EngineImpl implements Engine{
 
             if(backupEngine.isLanguageAvailable(lang)==TextToSpeech.LANG_AVAILABLE)
                 backupEngine.setLanguage(lang);
-            File f= new File(path);
 
-            backupEngine.synthesizeToFile(text,null,path);
+            backupEngine.setOnUtteranceCompletedListener(new TextToSpeech.OnUtteranceCompletedListener() {
+                @Override
+                public void onUtteranceCompleted(String utteranceId) {
+                    System.out.println("Utterance ReacheD");
+                    myListener.onCompleteSynthesis();
+                }
+            });
+
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, "myUtteranceID");
+
+            backupEngine.synthesizeToFile(text,params,path);
         }
     }
 

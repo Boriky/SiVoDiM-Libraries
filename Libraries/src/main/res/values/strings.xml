@@ -4,6 +4,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="mivoq_voice_manager">Mivoq TTS Voice Management</string>
+    <string name="mivoq_manager">Mivoq</string>
+
     <string name="action_settings">Settings</string>
     <string name="title_activity_voice_list">VoiceListActivity</string>
 </resources>
