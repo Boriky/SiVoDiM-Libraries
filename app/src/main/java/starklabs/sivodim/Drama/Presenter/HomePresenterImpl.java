@@ -46,6 +46,7 @@ public class HomePresenterImpl implements HomePresenter {
         if (directoryListing != null) {
             for (int i=0; i < directoryListing.length; ++i) {
                 String name=directoryListing[i].getName();
+                //System.out.println(name);
                 String extension=name.substring(name.lastIndexOf(".")+1);
                 if(extension.equals("scrpl"))
                 screenplayTitles.add(name.substring(0,name.lastIndexOf(".")));

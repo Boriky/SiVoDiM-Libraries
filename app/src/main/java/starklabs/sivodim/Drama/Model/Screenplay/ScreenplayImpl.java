@@ -40,6 +40,8 @@ public class ScreenplayImpl implements Screenplay {
 
     public static void saveScreenplay(Screenplay screenplay, Context context) {
         File dir = context.getFilesDir();
+        System.out.println("PATH="+dir.getAbsolutePath());
+
         File screenplayFile = new File(dir,screenplay.getTitle()+".scrpl");
 
         //debug
