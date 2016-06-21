@@ -7,6 +7,7 @@ package starklabs.sivodim;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Button;
 
 import org.junit.Test;
 import org.mockito.Mock;
@@ -34,8 +35,9 @@ import static org.mockito.Mockito.when;
  */
 public class TU2 {
     @Test
-    public void testGotoListChapter(){
-        Screenplay screenplay= Mockito.mock(ScreenplayImpl.class);
+    public void testGotoListChapter() {
+
+     /*   Screenplay screenplay= Mockito.mock(ScreenplayImpl.class);
         when(screenplay.getTitle()).thenReturn("titolo");
         Context context= Mockito.mock(Context.class);
         File dir=Mockito.mock(File.class);
@@ -62,6 +64,8 @@ public class TU2 {
         //ListChapterInterface listChapterInterface=Mockito.mock(ListChapterInterface.class);
         //ScreenplayPresenter screenplayPresenter=new ScreenplayPresenterImpl(listChapterInterface);
 
-
+*/
+// register next activity that need to be monitored.
+//
     }
 }
