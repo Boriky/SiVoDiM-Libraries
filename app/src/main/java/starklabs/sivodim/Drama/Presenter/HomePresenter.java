@@ -18,7 +18,7 @@ public interface HomePresenter {
      * @param context
      * @return
      */
-    ArrayAdapter<String> getTitlesAdapter(Context context);
+    StringArrayAdapter getTitlesAdapter(Context context);
 
     /**
      * To obtain a Vector of String with the name of the screenplays find in the memory.
@@ -27,6 +27,12 @@ public interface HomePresenter {
      * @return
      */
     Vector<String> getScreenplayTitles(Context context);
+
+    int getScreenplaySelected();
+
+    // ------------------------- SETTER ---------------------------------------
+
+    void setScreenplaySelected(int index,String title);
 
     // ------------------------ MOVE ----------------------------------------------------
 
@@ -37,4 +43,8 @@ public interface HomePresenter {
      * @param selected
      */
     void goToListChapter(Context context,String selected);
+
+    // -------------------------- UTILITIES -----------------------------
+
+    void deleteScreenplaySelected(Context context);
 }

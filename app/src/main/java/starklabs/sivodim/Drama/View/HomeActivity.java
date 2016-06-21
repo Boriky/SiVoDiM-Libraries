@@ -1,6 +1,7 @@
 package starklabs.sivodim.Drama.View;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Button;
@@ -34,6 +36,7 @@ import starklabs.sivodim.Drama.Model.Utilities.SpeechSound;
 import starklabs.sivodim.Drama.Presenter.HomePresenter;
 import starklabs.sivodim.Drama.Presenter.HomePresenterImpl;
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenterImpl;
+import starklabs.sivodim.Drama.Presenter.StringArrayAdapter;
 import starklabs.sivodim.R;
 
 import static android.os.Environment.getExternalStorageDirectory;
@@ -42,7 +45,10 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,HomeInterface, AdapterView.OnItemClickListener {
     private static HomePresenter homePresenter;
     private ListView screenplayListView;
-    private ListAdapter screenplayListAdapter;
+    private StringArrayAdapter screenplayListAdapter;
+    private LinearLayout removeLayout;
+    private FloatingActionButton doneButton;
+    private FloatingActionButton deleteButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +59,7 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,10 +82,52 @@ public class HomeActivity extends AppCompatActivity
         screenplayListView= (ListView) findViewById(R.id.screenplayListView);
         screenplayListAdapter=homePresenter.getTitlesAdapter(this);
         screenplayListView.setAdapter(screenplayListAdapter);
+        removeLayout=(LinearLayout)findViewById(R.id.removeLayout);
+        doneButton=(FloatingActionButton)findViewById(R.id.doneButton);
+        deleteButton=(FloatingActionButton)findViewById(R.id.deleteButton);
+
         if(screenplayListAdapter.getCount()==0)
             Toast.makeText(this,"Clicca sul + per creare un nuovo progetto",Toast.LENGTH_LONG).show();
 
         screenplayListView.setOnItemClickListener(this);
+        screenplayListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedTitle=(String)parent.getItemAtPosition(position);
+                homePresenter.setScreenplaySelected(position,selectedTitle);
+                screenplayListView.setAdapter(homePresenter.getTitlesAdapter(view.getContext()));
+                screenplayListView.setSelection(position);
+                removeLayout.setVisibility(View.VISIBLE);
+                fab.setVisibility(View.GONE);
+                deleteButton.setVisibility(View.VISIBLE);
+                return true;
+            }
+        });
+
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                homePresenter.setScreenplaySelected(-1,null);
+                screenplayListView.setAdapter(homePresenter.getTitlesAdapter(v.getContext()));
+                screenplayListView.setSelection(screenplayListView.getCount()-1);
+                removeLayout.setVisibility(View.GONE);
+                deleteButton.setVisibility(View.GONE);
+                fab.setVisibility(View.VISIBLE);
+            }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                homePresenter.deleteScreenplaySelected(v.getContext());
+                homePresenter.setScreenplaySelected(-1,null);
+                screenplayListView.setAdapter(homePresenter.getTitlesAdapter(v.getContext()));
+                screenplayListView.setSelection(screenplayListView.getCount()-1);
+                removeLayout.setVisibility(View.GONE);
+                deleteButton.setVisibility(View.GONE);
+                fab.setVisibility(View.VISIBLE);
+            }
+        });
 
     }
 

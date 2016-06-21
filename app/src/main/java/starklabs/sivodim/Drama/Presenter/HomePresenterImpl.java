@@ -3,6 +3,7 @@ package starklabs.sivodim.Drama.Presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.Vector;
@@ -22,7 +23,11 @@ public class HomePresenterImpl implements HomePresenter {
      */
     HomeInterface homeInterface;
     // content of the view
-    ArrayAdapter<String> titlesAdapter;
+    StringArrayAdapter titlesAdapter;
+
+    //For selection of screenplay in ListSpeechesActivity
+    int screenplaySelected=-1;
+    String screenplayTitleSelected=null;
 
     // ------------------------ CONSTRUCTORS ------------------------------------
 
@@ -55,11 +60,41 @@ public class HomePresenterImpl implements HomePresenter {
     }
 
     @Override
-    public ArrayAdapter<String> getTitlesAdapter(Context context){
-        titlesAdapter=new ArrayAdapter<String>(context, R.layout.screenplay_item,getScreenplayTitles(context));
+    public int getScreenplaySelected() {
+        return this.screenplaySelected;
+    }
+
+    @Override
+    public StringArrayAdapter getTitlesAdapter(Context context){
+        titlesAdapter=new StringArrayAdapter(context,R.layout.screenplay_item);
+        File dir = context.getFilesDir();
+        File[] directoryListing = dir.listFiles();
+        if (directoryListing != null) {
+            for (int i=0; i < directoryListing.length; ++i) {
+                String name=directoryListing[i].getName();
+                String extension=name.substring(name.lastIndexOf(".")+1);
+                if(extension.equals("scrpl")){
+                    titlesAdapter.add(name.substring(0,name.lastIndexOf(".")));
+                }
+            }
+        } else {
+            // Handle the case where dir is not really a directory.
+            // Checking dir.isDirectory() above would not be sufficient
+            // to avoid race conditions with another process that deletes
+            // directories.
+        }
+                //new ArrayAdapter<String>(context, R.layout.screenplay_item,getScreenplayTitles(context));
+        titlesAdapter.setStringSelected(screenplaySelected);
         return titlesAdapter;
     }
 
+    // ----------------------- SETTER ------------------------------------------------
+
+    @Override
+    public void setScreenplaySelected(int index,String title) {
+        this.screenplaySelected=index;
+        this.screenplayTitleSelected=title;
+    }
 
     // ------------------------ MOVE ----------------------------------------------------
 
@@ -70,6 +105,58 @@ public class HomePresenterImpl implements HomePresenter {
                 ScreenplayImpl.loadScreenplay(selected,context));
         ListChapterActivity.setPresenter(screenplayPresenter);
         context.startActivity(intent);
+    }
+
+    public static boolean removeDirectory(File directory) {
+
+        // System.out.println("removeDirectory " + directory);
+
+        if (directory == null)
+            return false;
+        if (!directory.exists())
+            return true;
+        if (!directory.isDirectory())
+            return false;
+
+        String[] list = directory.list();
+
+        // Some JVMs return null for File.list() when the
+        // directory is empty.
+        if (list != null) {
+            for (int i = 0; i < list.length; i++) {
+                File entry = new File(directory, list[i]);
+
+                //        System.out.println("\tremoving entry " + entry);
+
+                if (entry.isDirectory())
+                {
+                    if (!removeDirectory(entry))
+                        return false;
+                }
+                else
+                {
+                    if (!entry.delete())
+                        return false;
+                }
+            }
+        }
+
+        return directory.delete();
+    }
+
+
+
+    @Override
+    public void deleteScreenplaySelected(Context context) {
+        File projectFile=new File(context.getFilesDir(),screenplayTitleSelected+".scrpl");
+        File exportedFile=new File(context.getFilesDir(),screenplayTitleSelected.replace(" ","_")+".mp3");
+        File projectDir=new File(context.getFilesDir(),screenplayTitleSelected.replace(" ","_"));
+        if(projectFile.exists())
+            projectFile.delete();
+        if(exportedFile.exists())
+            exportedFile.delete();
+        if(projectDir.exists())
+            removeDirectory(projectDir);
     }
 
 }
