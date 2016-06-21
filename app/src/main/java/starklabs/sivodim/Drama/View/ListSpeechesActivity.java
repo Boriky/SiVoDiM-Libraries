@@ -1,11 +1,9 @@
 package starklabs.sivodim.Drama.View;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -18,12 +16,12 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import starklabs.sivodim.Drama.Model.Chapter.Speech;
 import starklabs.sivodim.Drama.Model.Chapter.SpeechImpl;
+import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenter;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenterImpl;
 import starklabs.sivodim.Drama.Presenter.SpeechArrayAdapter;
@@ -92,7 +90,7 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
         newSpeechCharactersList=(ListView)findViewById(R.id.newSpeechCharactersList);
         newSpeechEmotionsList=(ListView)findViewById(R.id.newSpeechEmotionsList);
 
-        newSpeechCharactersList.setAdapter(chapterPresenter.getCharactersAdapter(this));
+        newSpeechCharactersList.setAdapter(chapterPresenter.getCharacterArrayAdapter(this));
         newSpeechEmotionsList.setAdapter(SpeechImpl.getEmotions(this));
 
         speechListView.setAdapter(speechListAdapter);
@@ -197,20 +195,49 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
             }
         });
 
+        newSpeechCharactersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Character character=(Character) parent.getItemAtPosition(position);
+                chapterPresenter.setCharacterSelected(character);
+            }
+        });
+
+        newSpeechEmotionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String emotion=(String) parent.getItemAtPosition(position);
+                chapterPresenter.setEmotionSelected(emotion);
+            }
+        });
+
         newSpeechButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text=speechEditText.getText().toString();
-                String character=(String)newSpeechCharactersList.getSelectedItem();
-                String emotion=(String)newSpeechEmotionsList.getSelectedItem();
-                chapterPresenter.newSpeech(text,character,emotion,v.getContext());
-                Intent intent=new Intent(v.getContext(),ListSpeechesActivity.class);
-                startActivity(intent);
+                Character characterSelected = chapterPresenter.getCharacterSelected();
+                String emotionSelected = chapterPresenter.getEmotionSelected();
+
+                if(emotionSelected==null) {
+                    emotionSelected = "NONE";
+                }
+
+                if(characterSelected==null) {
+                    Toast.makeText(v.getContext(),"Selezionare un personaggio per confermare la creazione della battuta",Toast.LENGTH_LONG).show();
+                }
+                else {
+                    chapterPresenter.newSpeech(text,
+                            characterSelected,
+                            emotionSelected,
+                            v.getContext());
+
+                    speechListAdapter=chapterPresenter.getSpeeches(v.getContext());
+                    speechListView.setAdapter(speechListAdapter);
+                }
             }
         });
 
         toolbar.setOnMenuItemClickListener(this);
-
     }
 
     @Override
