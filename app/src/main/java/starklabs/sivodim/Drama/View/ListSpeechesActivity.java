@@ -4,21 +4,24 @@ import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import starklabs.sivodim.Drama.Model.Chapter.Speech;
+import starklabs.sivodim.Drama.Model.Chapter.SpeechImpl;
+import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenter;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenterImpl;
 import starklabs.sivodim.Drama.Presenter.SpeechArrayAdapter;
@@ -34,7 +37,12 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
     private FloatingActionButton downButton;
     private FloatingActionButton doneButton;
     private FloatingActionButton deleteButton;
-    private FloatingActionButton addSpeech;
+    private ImageButton newSpeechButton;
+    private ImageButton selectCharacterButton;
+    private ImageButton selectEmotionButton;
+    private EditText speechEditText;
+    private ListView newSpeechCharactersList;
+    private ListView newSpeechEmotionsList;
 
 
     public static void setPresenter(ChapterPresenter chapterPresenter){
@@ -68,14 +76,6 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        addSpeech = (FloatingActionButton) findViewById(R.id.fab);
-        addSpeech.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                chapterPresenter.goToNewSpeechActivity(view.getContext());
-            }
-        });
-
         speechListView=(ListView) findViewById(R.id.speechesListView);
         speechListAdapter=chapterPresenter.getSpeeches(this);
         moveButtons=(LinearLayout)findViewById(R.id.moveButtons);
@@ -83,6 +83,15 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
         downButton=(FloatingActionButton)findViewById(R.id.downButton);
         doneButton=(FloatingActionButton)findViewById(R.id.doneButton);
         deleteButton=(FloatingActionButton)findViewById(R.id.deleteButton);
+        newSpeechButton=(ImageButton)findViewById(R.id.newSpeechButton);
+        selectCharacterButton=(ImageButton)findViewById(R.id.setSpeechCharacterButton);
+        selectEmotionButton=(ImageButton)findViewById(R.id.setSpeechEmotionButton);
+        speechEditText=(EditText)findViewById(R.id.speechEditText);
+        newSpeechCharactersList=(ListView)findViewById(R.id.newSpeechCharactersList);
+        newSpeechEmotionsList=(ListView)findViewById(R.id.newSpeechEmotionsList);
+
+        newSpeechCharactersList.setAdapter(chapterPresenter.getCharacterArrayAdapter(this));
+        newSpeechEmotionsList.setAdapter(SpeechImpl.getEmotions(this));
 
         speechListView.setAdapter(speechListAdapter);
         if(speechListAdapter.getCount()==0)
@@ -115,7 +124,6 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
                 speechListView.setAdapter(chapterPresenter.getSpeeches(view.getContext()));
                 speechListView.setSelection(position);
                 moveButtons.setVisibility(View.VISIBLE);
-                addSpeech.setVisibility(View.GONE);
                 deleteButton.setVisibility(View.VISIBLE);
                 return true;
             }
@@ -129,7 +137,6 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
                 speechListView.setSelection(speechListView.getCount()-1);
                 moveButtons.setVisibility(View.GONE);
                 deleteButton.setVisibility(View.GONE);
-                addSpeech.setVisibility(View.VISIBLE);
             }
         });
 
@@ -157,12 +164,80 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
                 speechListView.setSelection(speechListView.getCount()-1);
                 moveButtons.setVisibility(View.GONE);
                 deleteButton.setVisibility(View.GONE);
-                addSpeech.setVisibility(View.VISIBLE);
+            }
+        });
+
+        speechEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newSpeechCharactersList.setVisibility(View.GONE);
+                newSpeechEmotionsList.setVisibility(View.GONE);
+            }
+        });
+
+        selectEmotionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(v.getContext().INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                newSpeechCharactersList.setVisibility(View.GONE);
+                newSpeechEmotionsList.setVisibility(View.VISIBLE);
+            }
+        });
+
+        selectCharacterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(v.getContext().INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                newSpeechEmotionsList.setVisibility(View.GONE);
+                newSpeechCharactersList.setVisibility(View.VISIBLE);
+            }
+        });
+
+        newSpeechCharactersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Character character=(Character) parent.getItemAtPosition(position);
+                chapterPresenter.setCharacterSelected(character);
+            }
+        });
+
+        newSpeechEmotionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String emotion=(String) parent.getItemAtPosition(position);
+                chapterPresenter.setEmotionSelected(emotion);
+            }
+        });
+
+        newSpeechButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text=speechEditText.getText().toString();
+                Character characterSelected = chapterPresenter.getCharacterSelected();
+                String emotionSelected = chapterPresenter.getEmotionSelected();
+
+                if(emotionSelected==null) {
+                    emotionSelected = "NONE";
+                }
+
+                if(characterSelected==null) {
+                    Toast.makeText(v.getContext(),"Selezionare un personaggio per confermare la creazione della battuta",Toast.LENGTH_LONG).show();
+                }
+                else {
+                    chapterPresenter.newSpeech(text,
+                            characterSelected,
+                            emotionSelected,
+                            v.getContext());
+
+                    speechListAdapter=chapterPresenter.getSpeeches(v.getContext());
+                    speechListView.setAdapter(speechListAdapter);
+                }
             }
         });
 
         toolbar.setOnMenuItemClickListener(this);
-
     }
 
     @Override
