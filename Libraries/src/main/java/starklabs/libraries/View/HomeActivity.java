@@ -13,12 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.io.File;
-
 import starklabs.libraries.Model.EngineManager.Engine;
 import starklabs.libraries.Model.EngineManager.EngineImpl;
-import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
-import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.Presenter.HomePresenter;
 import starklabs.libraries.Presenter.HomePresenterImpl;
 import starklabs.libraries.R;
@@ -135,17 +131,14 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.nav_guide) {
 
             Engine myEngine=new EngineImpl(getApplicationContext());
-            MivoqVoice Patrizia=myEngine.createVoice("Patrizia", "female", "it");
-            MivoqVoice Roberto=myEngine.createVoice("Roberto", "male", "it");
+            //MivoqVoice Patrizia=myEngine.createVoice("Patrizia", "female", "it");
+           // MivoqVoice Roberto=myEngine.createVoice("Roberto", "male", "it");
 
-            myEngine.speak("Patrizia", "Ciao, sono Patrizia, la nuova voce di Mivoq");
+            myEngine.speak("Patrizia", "Ciao, sono la nuova voce di Mivoq");
 
-            File path=getFilesDir();
-            File myFile=new File(path,"patrizia.wav");
-
-            MivoqTTSSingleton engine = MivoqTTSSingleton.getInstance();
-            engine.setContext(getApplicationContext());
-/*
+            //File path=getFilesDir();
+            //File myFile=new File(path,"patrizia.wav");
+            /*
             try {
                 engine.synthesizeToFile(myFile.toString(), Patrizia ,"Ciao, sono Patrizia, la nuova voce femminile di Mivoq" );
             } catch (FileNotFoundException e) {

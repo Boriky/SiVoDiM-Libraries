@@ -9,6 +9,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.Volley;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -34,7 +35,9 @@ public class MivoqTTSSingleton {
     }
 
     private MivoqTTSSingleton() {
-        voiceList= new ArrayList<MivoqVoice>();
+
+        voiceList = new ArrayList<MivoqVoice>();
+        //load();
     }
 
     public boolean hasContext() {
@@ -42,7 +45,10 @@ public class MivoqTTSSingleton {
     }
 
     public void setContext(Context T) {
-        myContext=T;
+        if(!hasContext()) {
+            myContext = T;
+            load();
+        }
     }
 
     public byte[] synthesizeText(MivoqVoice v, String text) {
@@ -135,7 +141,7 @@ public class MivoqTTSSingleton {
     public MivoqVoice createVoice(String name, String gender, String myLanguage) {
         String VoiceName="roberto-hsmm";
 
-        Language L= new Language(myLanguage); // Using Locale or Language?
+        Language L= new Language(myLanguage);
         MivoqVoice V=  new MivoqVoice(name,VoiceName,L);
         V.setGenderLanguage(gender,myLanguage);
 
@@ -153,5 +159,28 @@ public class MivoqTTSSingleton {
 
     public void removeVoice(int index) {
         voiceList.remove(index);
+    }
+
+    public void save(){
+        File dir = myContext.getFilesDir();
+        File voicesFile = new File(dir, "voices.xml");
+
+        XMLParser xmlParser = new XMLParser();
+        if(voicesFile!=null)
+            xmlParser.saveXML(voicesFile, voiceList);
+    }
+
+    public void load(){
+        File dir = myContext.getFilesDir();
+        File voicesFile = new File(dir, "voices.xml");
+
+        XMLParser xmlParser = new XMLParser();
+        xmlParser.parseXML(voicesFile);
+        voiceList = xmlParser.getParsedVoice();
+        if(voiceList==null){
+            voiceList=new ArrayList<MivoqVoice>();
+            System.out.println("errore nel caricamento");
+        }
+
     }
 }

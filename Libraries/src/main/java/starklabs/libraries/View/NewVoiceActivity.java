@@ -1,11 +1,13 @@
 package starklabs.libraries.View;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -110,14 +112,14 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
 
         //set pitch(altezza) effect
         Effect pitch=new EffectImpl("F0Add");
-        pitch.setValue("100");
+        pitch.setValue("0");
         voicePresenter.getVoice().setEffect(pitch);
         SeekBar seekPitch = (SeekBar) findViewById(R.id.seekBar4);
         if (seekPitch != null) {
             seekPitch.setOnSeekBarChangeListener(new seekListener(pitch) {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    double value=progress*2 -50;
+                    double value=(3*(progress/51)+1)*(progress-50);
                     effect.setValue(Double.toString(value));
                     System.out.println(effect.toString());
                 }
@@ -126,14 +128,14 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
 
         //set depth(profondita) effect
         Effect depth=new EffectImpl("HMMTractScaler");
-        depth.setValue("1.15");
+        depth.setValue("1.0");
         voicePresenter.getVoice().setEffect(depth);
         SeekBar seekDepth = (SeekBar) findViewById(R.id.seekBar5);
         if (seekDepth != null) {
             seekDepth.setOnSeekBarChangeListener(new seekListener(depth) {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    double value=1+ (3*progress/51 +1)*(progress-50)/100.0;
+                    double value=1+ (3*(progress/51) +1)*(progress-50)/100.0;
                     effect.setValue(Double.toString(value));
                     System.out.println(effect.toString());
                 }
@@ -146,7 +148,7 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
         voicePresenter.getVoice().setEffect(vitality);
         SeekBar seekVitality = (SeekBar) findViewById(R.id.seekBar);
         if (seekRate != null) {
-            seekRate.setOnSeekBarChangeListener(new seekListener(rate) {
+            seekRate.setOnSeekBarChangeListener(new seekListener(vitality) {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     double value=1.5 - progress/100.0;
@@ -158,7 +160,7 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
 */
         //set accent(accento) effect
         Effect accent=new EffectImpl("F0Scale");
-        accent.setValue("1.25");
+        accent.setValue("1");
         voicePresenter.getVoice().setEffect(accent);
         SeekBar seekAccent = (SeekBar) findViewById(R.id.seekBar2);
         if (seekAccent != null) {
@@ -184,6 +186,20 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
 
             }
         });
+
+        Button button1 = (Button) findViewById(R.id.AddVoiceButton);
+        assert button1 != null;
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                voicePresenter.getEngine().save();
+                voicePresenter = null;
+                Intent homeIntent = new Intent(NewVoiceActivity.this, HomeActivity.class);
+                startActivity(homeIntent);
+
+            }
+        });
+
     }
 
     @Override

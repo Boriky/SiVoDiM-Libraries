@@ -66,8 +66,7 @@ public class EngineImpl implements Engine{
 
     public EngineImpl(Context c) {
         myContext=c;
-        if(!myEngine.hasContext())
-            myEngine.setContext(c);
+        myEngine.setContext(c);
         if(backupEngine==null)
             backupEngine= new TextToSpeech(c,
                     new TextToSpeech.OnInitListener() {
@@ -198,5 +197,20 @@ public class EngineImpl implements Engine{
     public void removeVoice(int index) {
         if(index!= 0)
             myEngine.removeVoice(index);
+    }
+
+    @Override
+    public void save() {
+        myEngine.save();
+    }
+
+    @Override
+    public MivoqVoice getVoiceByName(String s) {
+        ArrayList<MivoqVoice> voiceList=myEngine.getVoices();
+        for(int i=0; i<voiceList.size(); i++){
+            if (voiceList.get(i).getName().equals(s))
+                return voiceList.get(i);
+        }
+        return null;
     }
 }

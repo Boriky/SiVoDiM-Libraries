@@ -37,7 +37,8 @@ public class VoicePresenterImpl implements VoicePresenter{
      *
      * @param mivoqVoice from the VoiceListActivity
      */
-    public VoicePresenterImpl(MivoqVoice mivoqVoice) {
+    public VoicePresenterImpl(MivoqVoice mivoqVoice, Engine engine) {
+        this.engine = engine;
         this.mivoqVoice=mivoqVoice;
     }
 

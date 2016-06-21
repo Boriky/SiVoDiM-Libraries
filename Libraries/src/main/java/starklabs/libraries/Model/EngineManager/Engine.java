@@ -31,6 +31,8 @@ public interface Engine {
     interface Listener {
         void onCompleteSynthesis();
     }
+    void save();
+    MivoqVoice getVoiceByName(String s);
 }
 
 
