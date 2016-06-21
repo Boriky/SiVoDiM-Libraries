@@ -26,8 +26,13 @@ import static org.mockito.Mockito.when;
 public class TU5 {
     @Test
             public void testExport(){
-        File test = Mockito.mock(File.class);
+        Context context = Mockito.mock(Context.class);
+        when(context.getFilesDir()).thenReturn(new File("C:/Desktop"));
         ScreenplayImpl s=new ScreenplayImpl("titolo");
+        s.export("Audio",context);
+
+        File file=new File(context.getFilesDir(),"titolo.mp3");
+        assertEquals(true,file.exists());
     }
 
 

@@ -4,15 +4,20 @@ package starklabs.sivodim;
  * Created by GINO on 21/06/2016.
  */
 
+import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.util.Log;
 
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.io.File;
+import java.util.HashSet;
+
 import static org.junit.Assert.*;
 
 import starklabs.sivodim.Drama.Model.Chapter.Chapter;
@@ -23,6 +28,7 @@ import starklabs.sivodim.Drama.Presenter.HomePresenter;
 import starklabs.sivodim.Drama.Presenter.HomePresenterImpl;
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenter;
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenterImpl;
+import starklabs.sivodim.Drama.View.HomeActivity;
 import starklabs.sivodim.Drama.View.HomeInterface;
 import starklabs.sivodim.Drama.View.ListChapterActivity;
 import starklabs.sivodim.Drama.View.ListChapterInterface;
@@ -33,9 +39,16 @@ import static org.mockito.Mockito.when;
  * test TU2 that tests the correct display of the names of the chapters in a screenplay
  */
 public class TU2 {
+
+    public static final HashSet<Class<? extends Activity>> TARGET_ACTIVITIES = new HashSet<Class<? extends Activity>>();
+    static {
+        TARGET_ACTIVITIES.add(ListChapterActivity.class);
+    }
+
+
     @Test
     public void testGotoListChapter(){
-        Screenplay screenplay= Mockito.mock(ScreenplayImpl.class);
+        /*Screenplay screenplay= Mockito.mock(ScreenplayImpl.class);
         when(screenplay.getTitle()).thenReturn("titolo");
         Context context= Mockito.mock(Context.class);
         File dir=Mockito.mock(File.class);
@@ -61,6 +74,18 @@ public class TU2 {
         homePresenter.goToListChapter(context,screenplay.getTitle());
         //ListChapterInterface listChapterInterface=Mockito.mock(ListChapterInterface.class);
         //ScreenplayPresenter screenplayPresenter=new ScreenplayPresenterImpl(listChapterInterface);
+*/
+        final Instrumentation inst = new Instrumentation();
+        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_MAIN);
+//        intentFilter.addCategory("MY_CATEGORY");
+        Instrumentation.ActivityMonitor monitor = inst.addMonitor(intentFilter, null, false);
+        // Wait, before the Activity started
+        Activity randomActivity = monitor.getLastActivity();
+        // Unfortunately, it seems randomActivity is always null even after a match
+        if ( randomActivity != null ) {
+            assertTrue(TARGET_ACTIVITIES.contains(randomActivity.getClass()));
+        }
+        inst.removeMonitor(monitor);
 
 
     }
