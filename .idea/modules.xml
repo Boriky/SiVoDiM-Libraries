@@ -3,10 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Libraries/Libraries.iml" filepath="$PROJECT_DIR$/Libraries/Libraries.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Libraries/Libraries.iml" filepath="$PROJECT_DIR$/Libraries/Libraries.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SiVoDiM-Complete.iml" filepath="$PROJECT_DIR$/SiVoDiM-Complete.iml" />
       <module fileurl="file://$PROJECT_DIR$/SiVoDiM-Libraries.iml" filepath="$PROJECT_DIR$/SiVoDiM-Libraries.iml" />
       <module fileurl="file://$PROJECT_DIR$/SiVoDiM-Libraries-UNITE.iml" filepath="$PROJECT_DIR$/SiVoDiM-Libraries-UNITE.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SiVoDiM-Complete.iml" filepath="$PROJECT_DIR$/SiVoDiM-Complete.iml" />
       <module fileurl="file://$PROJECT_DIR$/SiVoDiM_Merge.iml" filepath="$PROJECT_DIR$/SiVoDiM_Merge.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
