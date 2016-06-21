@@ -21,6 +21,11 @@ import static org.mockito.Mockito.when;
 /**
  * Created by Enrico on 20/06/16.
  */
+
+/**
+ * test TU1 that tests the correct display of the screenplays saved in phone memory
+ */
+
 public class TU1{
     @Test
     public void testGetTitlesAdapter(){
@@ -48,10 +53,10 @@ public class TU1{
         expected.add("nome");
         expected.add("Questo è un titolo");
         //assert (expected.equals(stringArrayAdapter));
-        assertAdaperEquals(expected,stringArrayAdapter);
+        assertAdapterEquals(expected,stringArrayAdapter);
     }
 
-    private void assertAdaperEquals(StringArrayAdapter expected, StringArrayAdapter stringArrayAdapter) {
+    private void assertAdapterEquals(StringArrayAdapter expected, StringArrayAdapter stringArrayAdapter) {
         assertEquals(expected.getCount(),stringArrayAdapter.getCount());
         for(int i=0;i<expected.getCount() && i<stringArrayAdapter.getCount();i++){
             assertEquals(expected.getItem(i),stringArrayAdapter.getItem(i));
