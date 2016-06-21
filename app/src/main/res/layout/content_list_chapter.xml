@@ -20,14 +20,27 @@
         android:visibility="gone"
         android:id="@+id/player"
         android:orientation="horizontal">
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Play"/>
+            android:text="Play"
+            android:id="@+id/playButton" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pausa"
+            android:visibility="gone"
+            android:id="@+id/pauseButton" />
 
         <SeekBar
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:indeterminate="false"
+            android:id="@+id/seekbarMusic" />
+
     </LinearLayout>
 
     <TextView

@@ -2,9 +2,10 @@ package starklabs.sivodim.Drama.View;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.VisibleForTesting;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ShareCompat;
@@ -16,8 +17,11 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
@@ -37,10 +41,27 @@ import static android.os.Environment.getExternalStorageDirectory;
 
 public class ListChapterActivity extends AppCompatActivity implements ListChapterInterface,
         Toolbar.OnMenuItemClickListener{
-    private static ScreenplayPresenter screenplayPresenter;
 
+    private static ScreenplayPresenter screenplayPresenter;
     private ListView chapterListView;
     private ListAdapter chapterListAdapter;
+    private LinearLayout player;
+    private File screenplayMp3;
+    private SeekBar seekBar;
+    private Button playButton;
+    private Button pauseButton;
+    private MediaPlayer mediaPlayer=null;
+    private Handler handler = new Handler();
+    private double startTime = 0;
+
+    private Runnable updateBar = new Runnable() {
+        public void run()
+        {
+            startTime = mediaPlayer.getCurrentPosition();
+            seekBar.setProgress((int)startTime);
+            handler.postDelayed(this, 100);
+        }
+    };
 
     public static void setPresenter(ScreenplayPresenter screenplayPresenter){
         ListChapterActivity.screenplayPresenter=screenplayPresenter;
@@ -81,10 +102,31 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
         });
 
         chapterListView=(ListView) findViewById(R.id.listChapterView);
+        player=(LinearLayout)findViewById(R.id.player);
+        playButton=(Button)findViewById(R.id.playButton);
+        seekBar=(SeekBar)findViewById(R.id.seekbarMusic);
+        pauseButton=(Button)findViewById(R.id.pauseButton);
+
+        //seekBar.setEnabled(false);
         chapterListAdapter=screenplayPresenter.getTitlesAdapter(this,title+".scrpl");
         chapterListView.setAdapter(chapterListAdapter);
         if(chapterListView.getCount()==0)
             Toast.makeText(this,"Premi sul + per aggiungere capitoli",Toast.LENGTH_LONG).show();
+
+        String name=screenplayPresenter.getScreenplayTitle().replace(" ","_");
+        screenplayMp3=new File(getFilesDir(),name+".mp3");
+        if(screenplayMp3.exists()){
+            if (mediaPlayer==null){
+                mediaPlayer = new MediaPlayer();
+            }
+            try {
+                    mediaPlayer.setDataSource(screenplayMp3.getAbsolutePath());
+                    mediaPlayer.prepare();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            player.setVisibility(View.VISIBLE);
+        }
 
         chapterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -104,6 +146,26 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
         });
 
         toolbar.setOnMenuItemClickListener(this);
+
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mediaPlayer.start();
+                playButton.setVisibility(View.GONE);
+                pauseButton.setVisibility(View.VISIBLE);
+                seekBar.setMax((int) mediaPlayer.getDuration());
+                handler.postDelayed(updateBar,100);
+            }
+        });
+
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mediaPlayer.pause();
+                pauseButton.setVisibility(View.GONE);
+                playButton.setVisibility(View.VISIBLE);
+            }
+        });
 
     }
 

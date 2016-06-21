@@ -10,6 +10,7 @@ import java.io.File;
 public abstract class Sound {
     private String path;
     private File audio;
+    private boolean onPause=false;
     MediaPlayer mediaPlayer=null;
 
     public Sound(String path){
@@ -23,6 +24,13 @@ public abstract class Sound {
     }
 
     public void pause(){
+        if(mediaPlayer!=null){
+            mediaPlayer.pause();
+            onPause=true;
+        }
+    }
+
+    public void pauseSound(){
         if(mediaPlayer!=null){
             mediaPlayer.pause();
         }
@@ -40,9 +48,12 @@ public abstract class Sound {
             mediaPlayer = new MediaPlayer();
             }
             try {
+                if(!onPause){
                 mediaPlayer.setDataSource(path);
                 mediaPlayer.prepare();
+                }
                 mediaPlayer.start();
+                onPause=false;
             } catch (Exception e) {
                 e.printStackTrace();
             }
