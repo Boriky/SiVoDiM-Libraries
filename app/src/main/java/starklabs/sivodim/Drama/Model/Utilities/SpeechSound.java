@@ -7,7 +7,7 @@ import java.io.File;
 /**
  * Created by Francesco Bizzaro on 25/05/2016.
  */
-public class SpeechSound extends Sound implements MediaController.MediaPlayerControl {
+public class SpeechSound extends Sound {
     private static final long maxSize=15728640L;
 
     public SpeechSound(String path){
@@ -19,7 +19,7 @@ public class SpeechSound extends Sound implements MediaController.MediaPlayerCon
         return maxSize;
     }
 
-    @Override
+   /* @Override
     public void start() {
         play();
     }
@@ -67,5 +67,5 @@ public class SpeechSound extends Sound implements MediaController.MediaPlayerCon
     @Override
     public int getAudioSessionId() {
         return 0;
-    }
+    }*/
 }
