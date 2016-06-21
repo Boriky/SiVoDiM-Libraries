@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter;
 
 import starklabs.sivodim.Drama.Model.Chapter.Chapter;
 import starklabs.sivodim.Drama.Model.Chapter.Speech;
+import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.View.EditChapterActivity;
 import starklabs.sivodim.Drama.View.EditChapterInterface;
 import starklabs.sivodim.Drama.View.ListSpeechesInterface;
@@ -69,6 +70,12 @@ public interface ChapterPresenter {
      */
     int getSpeechSelected();
 
+    CharacterArrayAdapter getCharacterArrayAdapter(Context context);
+
+    Character getCharacterSelected();
+
+    String getEmotionSelected();
+
     // ----------------------------- SETTER ------------------------------------------------
 
     /**
@@ -83,16 +90,19 @@ public interface ChapterPresenter {
      */
     void setSpeechSelected(int index);
 
+    void setCharacterSelected(Character character);
+
+    void setEmotionSelected(String emotion);
 
     // ----------------------------- UTILITIES ------------------------------------------------
 
     /**
      * Add a speech in the chapter
      * @param text The text of the speech
-     * @param chatacterName The name of the character who says the speech
+     * @param character The name of the character who says the speech
      * @param emotion the emotion that determine the synthesis parameters
      */
-    void newSpeech(String text,String chatacterName,String emotion,Context context);
+    void newSpeech(String text,Character character,String emotion,Context context);
 
     /**
      * Delete a speech from the chapter if it is inside

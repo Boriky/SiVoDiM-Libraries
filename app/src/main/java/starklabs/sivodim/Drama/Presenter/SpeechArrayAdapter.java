@@ -104,7 +104,7 @@ public class SpeechArrayAdapter extends ArrayAdapter {
         LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         row = inflater.inflate(R.layout.speech_layout, parent, false);
         if(position==speechSelected)
-            row.setBackgroundColor(Color.argb(150,200,200,220));
+            row.setBackgroundColor(Color.rgb(255,255,255));
         speechText = (TextView) row.findViewById(R.id.speechText);
         speechAvatar=(ImageView)row.findViewById(R.id.speechAvatar);
         characterName=(TextView)row.findViewById(R.id.characterName);

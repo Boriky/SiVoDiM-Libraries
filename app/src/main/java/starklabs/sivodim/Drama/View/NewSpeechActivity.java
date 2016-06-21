@@ -52,7 +52,7 @@ public class NewSpeechActivity extends AppCompatActivity implements NewSpeechInt
                 String text=newSpeechText.getText().toString();
                 String character=(String)newSpeechCharacter.getSelectedItem();
                 String emotion=(String)newSpeechEmotion.getSelectedItem();
-                chapterPresenter.newSpeech(text,character,emotion,v.getContext());
+                //chapterPresenter.newSpeech(text,character,emotion,v.getContext());
                 Intent intent=new Intent(v.getContext(),ListSpeechesActivity.class);
                 startActivity(intent);
             }

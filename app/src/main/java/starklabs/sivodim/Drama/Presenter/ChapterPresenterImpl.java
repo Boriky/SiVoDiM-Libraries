@@ -35,6 +35,8 @@ public class ChapterPresenterImpl implements ChapterPresenter {
     //The Chapter and CharacterContainer of the presenter
     Chapter chapter;
     CharacterContainer characterContainer;
+    Character characterSelected;
+    String emotionSelected;
 
     // name of the speech.. to pick up the project directory
     String projectName;
@@ -109,6 +111,16 @@ public class ChapterPresenterImpl implements ChapterPresenter {
         this.newSpeechInterface=newSpeechInterface;
     }
 
+    @Override
+    public void setCharacterSelected(Character character) {
+        this.characterSelected=character;
+    }
+
+    @Override
+    public void setEmotionSelected(String emotion) {
+        this.emotionSelected=emotion;
+    }
+
 
     // ----------------------------- GETTER ----------------------------------------------
 
@@ -150,6 +162,20 @@ public class ChapterPresenterImpl implements ChapterPresenter {
         return new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,charactersName);
     }
 
+    @Override
+    public CharacterArrayAdapter getCharacterArrayAdapter(Context context){
+        CharacterArrayAdapter characterArrayAdapter=
+                new CharacterArrayAdapter(context, R.layout.show_character_layout);
+        Iterator<Character>characterIterator=characterContainer.iterator();
+        while (characterIterator.hasNext()){
+            characterArrayAdapter.add(characterIterator.next());
+        }
+        return characterArrayAdapter;
+    }
+
+    @Override
+    public Character getCharacterSelected() { return characterSelected; }
+
     /**
      * Gives the last selected speech in ListSpeechesActvity
      * @return
@@ -158,6 +184,9 @@ public class ChapterPresenterImpl implements ChapterPresenter {
     public int getSpeechSelected(){
         return speechSelected;
     }
+
+    @Override
+    public String getEmotionSelected() { return emotionSelected; }
 
 
     // ----------------------------- SETTER ----------------------------------------------
@@ -186,17 +215,17 @@ public class ChapterPresenterImpl implements ChapterPresenter {
     /**
      * Add a speech in the chapter
      * @param text The text of the speech
-     * @param chatacterName The name of the character who says the speech
+     * @param character The name of the character who says the speech
      * @param emotion the emotion that determine the synthesis parameters
      */
     @Override
-    public void newSpeech(String text,String chatacterName,String emotion,Context context) {
+    public void newSpeech(String text,Character character,String emotion,Context context) {
         Speech speech=new SpeechImpl.SpeechBuilder()
                 .setText(text)
-                //get character by name
-                .setCharacter(characterContainer.getCharacterByName(chatacterName))
+                .setCharacter(character)
                 .setEmotion(emotion)
                 .build();
+
         //add SoundFx
         Date date=new Date();
         String name=projectName.replace(" ","_")+"/speech"+date.getTime()+".wav";
