@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ShareCompat;
@@ -36,8 +37,8 @@ import static android.os.Environment.getExternalStorageDirectory;
 
 public class ListChapterActivity extends AppCompatActivity implements ListChapterInterface,
         Toolbar.OnMenuItemClickListener{
-
     private static ScreenplayPresenter screenplayPresenter;
+
     private ListView chapterListView;
     private ListAdapter chapterListAdapter;
 
