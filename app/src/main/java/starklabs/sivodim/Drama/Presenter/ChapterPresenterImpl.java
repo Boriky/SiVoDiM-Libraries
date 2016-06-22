@@ -260,6 +260,15 @@ public class ChapterPresenterImpl implements ChapterPresenter {
         chapter.deleteSpeech(speech);
     }
 
+    @Override
+    public void moveUpSpeech(int position) {
+        chapter.moveUpSpeech(position);
+    }
+
+    @Override
+    public void moveDownSpeech(int position) {
+        chapter.moveDownSpeech(position);
+    }
 
 
     // ----------------------------- MOVE ----------------------------------------------
@@ -325,10 +334,4 @@ public class ChapterPresenterImpl implements ChapterPresenter {
 
 
 
-
-
-    @Override
-    public void orderSpeech() {
-
-    }
 }

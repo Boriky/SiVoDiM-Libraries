@@ -112,7 +112,7 @@ public class NewCharacterActivity extends AppCompatActivity implements NewCharac
         });
     }
 
-    public void loadPicture(){
+    private void loadPicture(){
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)

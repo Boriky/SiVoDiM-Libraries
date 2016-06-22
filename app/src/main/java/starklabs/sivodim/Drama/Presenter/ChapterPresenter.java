@@ -18,8 +18,6 @@ import starklabs.sivodim.Drama.View.NewSpeechInterface;
  */
 public interface ChapterPresenter {
 
-    void orderSpeech();//>>>>>>>>>>>>>>>>>>>>NOT YET IMPLEMENTED <<<<<<<<<<<<<<
-
     // ----------------------------- ACTIVITY ----------------------------------------------
 
     /**
@@ -109,6 +107,18 @@ public interface ChapterPresenter {
      * @param speech
      */
     void deleteSpeech(Speech speech);
+
+    /**
+     * Move up a the speech indicated by position in the order inside the chapter
+     * @param position
+     */
+    void moveUpSpeech(int position);
+
+    /**
+     * Move down a speech indicated by position in the order inside the chapter
+     * @param position
+     */
+    void moveDownSpeech(int position);
 
     // ----------------------------- MOVE ------------------------------------------------
 

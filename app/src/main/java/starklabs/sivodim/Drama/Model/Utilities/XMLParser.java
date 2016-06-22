@@ -191,7 +191,6 @@ public class XMLParser {
     }
 
     public void saveXML(File file, Screenplay screenplay) {
-        System.out.println("FUNZIONE SAVE");
         if (screenplay != null) {
             if(!file.exists())
                 try {
@@ -239,6 +238,10 @@ public class XMLParser {
                     // create element "chapter" in a loop
                     Element chapterElem = doc.createElement("chapter");
                     chapterElem.setAttribute("title", chapter.getTitle());
+                    if(chapter.getSoundtrack()!=null && chapter.getSoundtrack().getAudio()!=null)
+                        chapterElem.setAttribute("soundtrack", chapter.getSoundtrack().getAudio().getAbsolutePath());
+                    if(chapter.getBackground()!=null && chapter.getBackground().getPath()!=null)
+                        chapterElem.setAttribute("background", chapter.getBackground().getPath());
 
                     Iterator<Speech> speechIterator = chapter.getSpeechIterator();
                     while(speechIterator.hasNext()) {

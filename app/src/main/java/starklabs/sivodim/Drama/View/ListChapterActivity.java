@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
@@ -48,17 +49,19 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
     private LinearLayout player;
     private File screenplayMp3;
     private SeekBar seekBar;
+    private TextView timingInfo;
     private Button playButton;
     private Button pauseButton;
     private MediaPlayer mediaPlayer=null;
     private Handler handler = new Handler();
-    private double startTime = 0;
 
     private Runnable updateBar = new Runnable() {
         public void run()
         {
-            startTime = mediaPlayer.getCurrentPosition();
-            seekBar.setProgress((int)startTime);
+            int startTime = mediaPlayer.getCurrentPosition();
+            String timing=formatTime(startTime)+" - "+formatTime(mediaPlayer.getDuration());
+            if(timingInfo!=null)timingInfo.setText(timing);
+            seekBar.setProgress(startTime);
             handler.postDelayed(this, 100);
         }
     };
@@ -106,6 +109,7 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
         playButton=(Button)findViewById(R.id.playButton);
         seekBar=(SeekBar)findViewById(R.id.seekbarMusic);
         pauseButton=(Button)findViewById(R.id.pauseButton);
+        timingInfo=(TextView)findViewById(R.id.timingInfo);
 
         //seekBar.setEnabled(false);
         chapterListAdapter=screenplayPresenter.getTitlesAdapter(this,title+".scrpl");
@@ -113,20 +117,7 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
         if(chapterListView.getCount()==0)
             Toast.makeText(this,"Premi sul + per aggiungere capitoli",Toast.LENGTH_LONG).show();
 
-        String name=screenplayPresenter.getScreenplayTitle().replace(" ","_");
-        screenplayMp3=new File(getFilesDir(),name+".mp3");
-        if(screenplayMp3.exists()){
-            if (mediaPlayer==null){
-                mediaPlayer = new MediaPlayer();
-            }
-            try {
-                    mediaPlayer.setDataSource(screenplayMp3.getAbsolutePath());
-                    mediaPlayer.prepare();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            player.setVisibility(View.VISIBLE);
-        }
+        loadSound();
 
         chapterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -150,23 +141,90 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaPlayer.start();
-                playButton.setVisibility(View.GONE);
-                pauseButton.setVisibility(View.VISIBLE);
-                seekBar.setMax((int) mediaPlayer.getDuration());
-                handler.postDelayed(updateBar,100);
+                playSound();
             }
         });
 
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaPlayer.pause();
-                pauseButton.setVisibility(View.GONE);
-                playButton.setVisibility(View.VISIBLE);
+                pauseSound();
             }
         });
 
+        if(mediaPlayer!=null){
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                handler.removeCallbacks(updateBar);
+                pauseSound();
+                seekBar.setProgress(0);
+                loadSound();
+            }
+        });
+        }
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                String timing=formatTime(seekBar.getProgress())+" - "+formatTime(mediaPlayer.getDuration());
+                if(timingInfo!=null)timingInfo.setText(timing);
+            }
+        });
+
+    }
+
+    private void loadSound(){
+        String name=screenplayPresenter.getScreenplayTitle().replace(" ","_");
+        screenplayMp3=new File(getFilesDir(),name+".mp3");
+        if(screenplayMp3.exists()){
+            if (mediaPlayer==null){
+                mediaPlayer = new MediaPlayer();
+            }
+            try {
+                mediaPlayer.setDataSource(screenplayMp3.getAbsolutePath());
+                mediaPlayer.prepare();
+                seekBar.setMax((int) mediaPlayer.getDuration());
+                seekBar.setProgress(0);
+                String timing=formatTime(0)+" - "+formatTime(mediaPlayer.getDuration());
+                if(timingInfo!=null)timingInfo.setText(timing);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            player.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void playSound(){
+        mediaPlayer.seekTo(seekBar.getProgress());
+        playButton.setVisibility(View.GONE);
+        pauseButton.setVisibility(View.VISIBLE);
+        handler.postDelayed(updateBar,100);
+        mediaPlayer.start();
+    }
+
+    private void pauseSound(){
+        mediaPlayer.pause();
+        pauseButton.setVisibility(View.GONE);
+        playButton.setVisibility(View.VISIBLE);
+        handler.removeCallbacks(updateBar);
+    }
+
+    private String formatTime(Integer time){
+        Integer absSec=time/1000;
+        Integer min=absSec/60;
+        Integer sec=absSec%60;
+        return min.toString()+":"+sec.toString();
     }
 
     @Override
@@ -191,10 +249,10 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
                 break;
             case R.id.exportMenu:
                 screenplayPresenter.getScreenplay().export("Audio",this);
-                String name=screenplayPresenter.getScreenplayTitle().replace(" ","_");
+                /*String name=screenplayPresenter.getScreenplayTitle().replace(" ","_");
                 File destination=new File(getFilesDir(),name+".mp3");
                 SpeechSound speechSound=new SpeechSound(destination.getAbsolutePath());
-                speechSound.play();
+                speechSound.play();*/
                 Toast.makeText(this,"Esportazione riuscita",Toast.LENGTH_LONG).show();
                 /*/---- test FFmpeg -----------------------------------------------------------
                 File f=new File(getExternalStorageDirectory(),"pic004.png");
@@ -273,5 +331,32 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
         startActivity(intent);
 
         System.out.println("Share file: "+file.getAbsolutePath()+" <----");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(mediaPlayer!=null){
+            mediaPlayer.stop();
+            handler.removeCallbacks(updateBar);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mediaPlayer!=null){
+            mediaPlayer.stop();
+            handler.removeCallbacks(updateBar);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mediaPlayer!=null){
+            mediaPlayer.stop();
+            handler.removeCallbacks(updateBar);
+        }
     }
 }

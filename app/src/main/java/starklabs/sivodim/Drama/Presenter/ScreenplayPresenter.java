@@ -5,6 +5,8 @@ import android.widget.ArrayAdapter;
 
 import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Model.Screenplay.Screenplay;
+import starklabs.sivodim.Drama.Model.Utilities.Background;
+import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
 import starklabs.sivodim.Drama.View.ListChapterInterface;
 import starklabs.sivodim.Drama.View.NewChapterInterface;
 
@@ -69,7 +71,7 @@ public interface ScreenplayPresenter {
      * Add a chapter in the end of the screenplay
      * @param title The title of the chapter
      */
-    void newChapter(String title);
+    void newChapter(String title, Soundtrack soundtrack, Background background);
 
     /**
      * Create a new screenplay and save it to memory

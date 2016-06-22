@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:id="@+id/player"
+        android:paddingBottom="10dp"
         android:orientation="horizontal">
 
         <Button
@@ -34,12 +35,25 @@
             android:visibility="gone"
             android:id="@+id/pauseButton" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/seekbarMusic"
+                android:text="mm:ss - mm:ss"
+                android:id="@+id/timingInfo" />
+
         <SeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:indeterminate="false"
+            android:layout_marginTop="20dp"
             android:id="@+id/seekbarMusic" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

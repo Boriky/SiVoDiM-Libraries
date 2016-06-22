@@ -26,6 +26,7 @@
         <activity
             android:name=".Drama.View.ListChapterActivity"
             android:label="@string/title_activity_list_chapter"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Drama.View.NewScreenplayActivity" />
         <activity

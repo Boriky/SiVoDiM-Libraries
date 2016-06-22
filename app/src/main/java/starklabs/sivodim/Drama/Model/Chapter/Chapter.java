@@ -26,6 +26,18 @@ public interface Chapter {
      */
     String getTitle();
 
+    /**
+     * Gives the soundtrack of the chapter
+     * @return
+     */
+    Soundtrack getSoundtrack();
+
+    /**
+     * Gives the image background of the chapter
+     * @return
+     */
+    Background getBackground();
+
 
     // ----------------------------- SETTER ----------------------------------------------
 
@@ -66,6 +78,6 @@ public interface Chapter {
 
     void deleteBackground();
     void deleteSoundtrack();
-    void moveUpSpeech(ListIterator<Speech> iterator);
-    void moveDownSpeech(ListIterator<Speech> iterator);
+    void moveUpSpeech(int position);
+    void moveDownSpeech(int position);
 }
