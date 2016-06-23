@@ -15,6 +15,8 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
     private static VoicePresenter voicePresenter;
     private ArrayAdapter<String> genderAdapter;
     private ArrayAdapter<String> languageAdapter;
+    private EditText voiceNameEdit;
+
 
     public static void setPresenter(VoicePresenter voicePresenter){
         EditVoiceActivity.voicePresenter=voicePresenter;
@@ -33,7 +35,9 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
 
         String voiceName = voicePresenter.getVoiceName();
 
-        EditText textViewNameVoice= (EditText) findViewById(R.id.editText2);
+        voiceNameEdit=(EditText)findViewById(R.id.voiceName);
+
+        EditText textViewNameVoice= (EditText) findViewById(R.id.voiceName);
         textViewNameVoice.setText(voiceName);
 
         Spinner gender=(Spinner)findViewById(R.id.character);

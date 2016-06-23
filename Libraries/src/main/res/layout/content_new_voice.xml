@@ -33,7 +33,7 @@
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText2"
+                android:id="@+id/voiceName"
                 android:layout_below="@+id/textView4"
                 android:layout_marginTop="2dp"
                 android:layout_alignParentLeft="true"
@@ -45,7 +45,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Sesso"
                 android:id="@+id/textView"
-                android:layout_below="@+id/editText2"
+                android:layout_below="@+id/voiceName"
                 android:layout_marginTop="5dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />

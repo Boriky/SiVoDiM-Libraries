@@ -30,7 +30,15 @@ public class VoicePresenterImpl implements VoicePresenter{
         this.engine = engine;
         gender="male";
         language="it";
-        mivoqVoice=engine.createVoice("Giulio","male","it");
+        mivoqVoice=engine.getVoiceByName("");
+        if(mivoqVoice==null)
+            mivoqVoice=engine.createVoice("","male","it");
+        int i=mivoqVoice.getEffects().size();
+        while (i>0){
+            mivoqVoice.removeEffect(0);
+            i--;
+        }
+        mivoqVoice.setGenderLanguage("male","it");
     }
 
     /** Second constructor of the VoicePresenterImpl

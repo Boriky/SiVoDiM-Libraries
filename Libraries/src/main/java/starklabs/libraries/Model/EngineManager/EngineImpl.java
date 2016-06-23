@@ -191,7 +191,13 @@ public class EngineImpl implements Engine{
     }
 
     public MivoqVoice createVoice(String name, String gender, String myLanguage) {
-        return myEngine.createVoice(name,gender,myLanguage);
+        int i=1;
+        String voiceName=name;
+        while (getVoiceByName(voiceName)!=null){
+            voiceName=name+i;
+            i++;
+        }
+        return myEngine.createVoice(voiceName,gender,myLanguage);
     }
 
     public void removeVoice(int index) {

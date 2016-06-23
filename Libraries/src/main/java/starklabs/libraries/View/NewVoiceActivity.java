@@ -8,10 +8,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import starklabs.libraries.Model.EngineManager.Engine;
 import starklabs.libraries.Model.Voice.Effect;
 import starklabs.libraries.Model.Voice.EffectImpl;
 import starklabs.libraries.Model.Voice.MivoqVoice;
@@ -41,6 +44,7 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
     private static VoicePresenter voicePresenter;
     private ArrayAdapter<String> genderAdapter;
     private ArrayAdapter<String> languageAdapter;
+    private EditText voiceName;
 
     //------------------------SET PRESENTER--------------------
     public static void setPresenter(VoicePresenter voicePresenter){
@@ -61,7 +65,8 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //set gender spinner
-        Spinner gender=(Spinner)findViewById(R.id.character);
+        final Spinner gender=(Spinner)findViewById(R.id.character);
+        voiceName=(EditText)findViewById(R.id.voiceName);
         genderAdapter=voicePresenter.getGenderAdapter(this);
         gender.setAdapter(genderAdapter);
 
@@ -78,7 +83,7 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
         });
 
         //set language spinner
-        Spinner language=(Spinner)findViewById(R.id.Emotion);
+        final Spinner language=(Spinner)findViewById(R.id.Emotion);
         languageAdapter=voicePresenter.getLanguageAdapter(this);
         language.setAdapter(languageAdapter);
 
@@ -181,22 +186,29 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
             public void onClick(View v) {
                 System.out.println(voicePresenter.getVoice().getLanguage());
                 System.out.println(voicePresenter.getVoice().getGender());
-
                 voicePresenter.getEngine().speak(voicePresenter.getVoice().getName(), MivoqVoice.getSampleText(voicePresenter.getLanguage()));
 
             }
         });
 
+        // create new voice
         Button button1 = (Button) findViewById(R.id.AddVoiceButton);
         assert button1 != null;
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                voicePresenter.getEngine().save();
-                voicePresenter = null;
-                Intent homeIntent = new Intent(NewVoiceActivity.this, HomeActivity.class);
-                startActivity(homeIntent);
-
+                if(voiceName.getText().toString().equals("")){
+                    Toast.makeText(v.getContext(),"Inserisci un nome",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    voicePresenter.setGender(gender.getSelectedItemPosition());
+                    voicePresenter.setLanguage(language.getSelectedItemPosition());
+                    voicePresenter.getEngine().getVoiceByName("").setName(voiceName.getText().toString());
+                    voicePresenter.getEngine().save();
+                    voicePresenter = null;
+                    Intent homeIntent = new Intent(NewVoiceActivity.this, HomeActivity.class);
+                    startActivity(homeIntent);
+                }
             }
         });
 
