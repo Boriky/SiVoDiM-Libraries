@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 /**
  * test TU3 that test the creation of a ScreenPlay with the correct title
  */
-public class T3 {
+public class TU3 {
     @Test
     public void testNewScreenplay(){
         Context context= Mockito.mock(Context.class);
