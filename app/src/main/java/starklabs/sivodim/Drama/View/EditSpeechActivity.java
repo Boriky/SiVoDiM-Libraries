@@ -61,7 +61,7 @@ public class EditSpeechActivity extends AppCompatActivity implements EditSpeechI
 
         speechText.setText(speechPresenter.getSpeechText());
         //set emotion Spinner
-        emotion.setAdapter(SpeechImpl.getEmotions(this));
+        //emotion.setAdapter(SpeechImpl.getEmotions(this));
         String emotionTag=speechPresenter.getSpeechEmotion();
         int position=0;
         for (int i=0;i<emotion.getCount();i++){

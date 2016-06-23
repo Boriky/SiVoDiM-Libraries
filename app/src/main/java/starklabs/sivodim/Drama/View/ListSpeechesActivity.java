@@ -14,16 +14,18 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import starklabs.sivodim.Drama.Model.Chapter.Speech;
-import starklabs.sivodim.Drama.Model.Chapter.SpeechImpl;
 import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenter;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenterImpl;
+import starklabs.sivodim.Drama.Presenter.EmotionArrayAdapter;
 import starklabs.sivodim.Drama.Presenter.SpeechArrayAdapter;
 import starklabs.sivodim.R;
 
@@ -32,6 +34,7 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
     private static ChapterPresenter chapterPresenter;
     private ListView speechListView;
     private SpeechArrayAdapter speechListAdapter;
+    private EmotionArrayAdapter emotionAdapter;
     private LinearLayout moveButtons;
     private FloatingActionButton upButton;
     private FloatingActionButton downButton;
@@ -42,8 +45,7 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
     private ImageButton selectEmotionButton;
     private EditText speechEditText;
     private ListView newSpeechCharactersList;
-    private ListView newSpeechEmotionsList;
-
+    private GridView emotionsList;
 
     public static void setPresenter(ChapterPresenter chapterPresenter){
         ListSpeechesActivity.chapterPresenter=chapterPresenter;
@@ -77,7 +79,9 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         speechListView=(ListView) findViewById(R.id.speechesListView);
-        speechListAdapter=chapterPresenter.getSpeeches(this);
+        newSpeechCharactersList=(ListView)findViewById(R.id.newSpeechCharactersList);
+        emotionsList=(GridView)findViewById(R.id.emotionsListView);
+
         moveButtons=(LinearLayout)findViewById(R.id.moveButtons);
         upButton=(FloatingActionButton)findViewById(R.id.upButton);
         downButton=(FloatingActionButton)findViewById(R.id.downButton);
@@ -87,11 +91,12 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
         selectCharacterButton=(ImageButton)findViewById(R.id.setSpeechCharacterButton);
         selectEmotionButton=(ImageButton)findViewById(R.id.setSpeechEmotionButton);
         speechEditText=(EditText)findViewById(R.id.speechEditText);
-        newSpeechCharactersList=(ListView)findViewById(R.id.newSpeechCharactersList);
-        newSpeechEmotionsList=(ListView)findViewById(R.id.newSpeechEmotionsList);
+
+        speechListAdapter=chapterPresenter.getSpeeches(this);
+        emotionAdapter=new EmotionArrayAdapter(this);
 
         newSpeechCharactersList.setAdapter(chapterPresenter.getCharacterArrayAdapter(this));
-        newSpeechEmotionsList.setAdapter(SpeechImpl.getEmotions(this));
+        emotionsList.setAdapter(emotionAdapter);
 
         speechListView.setAdapter(speechListAdapter);
         if(speechListAdapter.getCount()==0)
@@ -185,7 +190,7 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
             @Override
             public void onClick(View v) {
                 newSpeechCharactersList.setVisibility(View.GONE);
-                newSpeechEmotionsList.setVisibility(View.GONE);
+                emotionsList.setVisibility(View.GONE);
             }
         });
 
@@ -195,33 +200,40 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
                 InputMethodManager imm = (InputMethodManager)getSystemService(v.getContext().INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 newSpeechCharactersList.setVisibility(View.GONE);
-                newSpeechEmotionsList.setVisibility(View.VISIBLE);
+                emotionsList.setVisibility(View.VISIBLE);
             }
         });
 
         selectCharacterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager)getSystemService(v.getContext().INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                newSpeechEmotionsList.setVisibility(View.GONE);
-                newSpeechCharactersList.setVisibility(View.VISIBLE);
+                if(newSpeechCharactersList.getAdapter().isEmpty()) {
+                    Toast.makeText(v.getContext(),"Nessun personaggio disponibile. Per inserire una nuova battuta è prima necessario creare dei personaggi.\n",Toast.LENGTH_SHORT).show();
+                } else {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(v.getContext().INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    emotionsList.setVisibility(View.GONE);
+                    newSpeechCharactersList.setVisibility(View.VISIBLE);
+                }
             }
         });
 
         newSpeechCharactersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Character character=(Character) parent.getItemAtPosition(position);
                 chapterPresenter.setCharacterSelected(character);
+                Toast.makeText(v.getContext(),"Personaggio selezionato: " + character.getName(),Toast.LENGTH_SHORT).show();
             }
         });
 
-        newSpeechEmotionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        emotionsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 String emotion=(String) parent.getItemAtPosition(position);
                 chapterPresenter.setEmotionSelected(emotion);
+                Toast.makeText(v.getContext(),"Emozione selezionata: " + emotion,Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -248,6 +260,11 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
                     speechListAdapter=chapterPresenter.getSpeeches(v.getContext());
                     speechListView.setAdapter(speechListAdapter);
                     speechListView.setSelection(speechListView.getCount()-1);
+                    speechEditText.setText("");
+                    emotionsList.setVisibility(View.GONE);
+                    newSpeechCharactersList.setVisibility(View.GONE);
+                    InputMethodManager imm = (InputMethodManager)getSystemService(v.getContext().INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         });
