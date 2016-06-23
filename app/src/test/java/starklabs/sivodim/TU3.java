@@ -1,20 +1,16 @@
 package starklabs.sivodim;
 
 import android.content.Context;
-import android.widget.ArrayAdapter;
 
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.io.File;
-import java.io.StringReader;
-import java.util.Vector;
-
-import static org.junit.Assert.*;
 
 import starklabs.sivodim.Drama.Model.Screenplay.Screenplay;
-import starklabs.sivodim.Drama.Presenter.ScreenplayPresenter;
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenterImpl;
+
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 /**
  * Created by Enrico on 21/06/16.
@@ -23,6 +19,7 @@ import static org.mockito.Mockito.when;
  * test TU3 that test the creation of a ScreenPlay with the correct title
  */
 public class TU3 {
+    //changed name of test
     @Test
     public void testNewScreenplay(){
         Context context= Mockito.mock(Context.class);
