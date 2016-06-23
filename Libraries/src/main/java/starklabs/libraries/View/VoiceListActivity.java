@@ -9,6 +9,9 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import starklabs.libraries.Model.EngineManager.Engine;
+import starklabs.libraries.Model.EngineManager.EngineImpl;
+import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
 import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.Presenter.VoiceListPresenter;
 import starklabs.libraries.R;
@@ -47,7 +50,8 @@ public class VoiceListActivity extends AppCompatActivity implements VoiceListAct
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selected=(String) parent.getItemAtPosition(position);
-                MivoqVoice mV = voiceListPresenter.createMivoqVoice(selected);
+                Engine engine=new EngineImpl(view.getContext());
+                MivoqVoice mV=engine.getVoiceByName(selected);
                 voiceListPresenter.goToEditVoiceActivity(view.getContext(), mV);
             }
         });
