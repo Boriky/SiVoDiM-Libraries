@@ -44,6 +44,8 @@ public interface HomePresenter {
      */
     void goToListChapter(Context context,String selected);
 
+    void goToNewScreenplayActivity(Context context);
+
     // -------------------------- UTILITIES -----------------------------
 
     void deleteScreenplaySelected(Context context);

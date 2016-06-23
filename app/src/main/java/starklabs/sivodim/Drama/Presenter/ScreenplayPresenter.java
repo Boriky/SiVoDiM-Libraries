@@ -3,12 +3,15 @@ package starklabs.sivodim.Drama.Presenter;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
+import java.util.Vector;
+
 import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Model.Screenplay.Screenplay;
 import starklabs.sivodim.Drama.Model.Utilities.Background;
 import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
 import starklabs.sivodim.Drama.View.ListChapterInterface;
 import starklabs.sivodim.Drama.View.NewChapterInterface;
+import starklabs.sivodim.Drama.View.NewScreenplayInterface;
 
 /**
  * Created by Francesco Bizzaro on 25/05/2016.
@@ -29,6 +32,7 @@ public interface ScreenplayPresenter {
      */
     void setActivity(NewChapterInterface newChapterInterface);
 
+    void setActivity(NewScreenplayInterface newChapterInterface);
 
 
     // ----------------------------- GETTER ----------------------------------------------
@@ -52,6 +56,8 @@ public interface ScreenplayPresenter {
      * @return
      */
     Screenplay getScreenplay();
+
+    Vector<String> getStringArray();
 
 
 

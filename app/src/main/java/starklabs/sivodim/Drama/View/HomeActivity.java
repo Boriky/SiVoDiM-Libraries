@@ -63,8 +63,7 @@ public class HomeActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(HomeActivity.this,NewScreenplayActivity.class);
-                startActivity(intent);
+               homePresenter.goToNewScreenplayActivity(view.getContext());
             }
         });
 

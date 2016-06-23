@@ -9,8 +9,10 @@ import java.io.File;
 import java.util.Vector;
 
 import starklabs.sivodim.Drama.Model.Screenplay.ScreenplayImpl;
+import starklabs.sivodim.Drama.View.HomeActivity;
 import starklabs.sivodim.Drama.View.HomeInterface;
 import starklabs.sivodim.Drama.View.ListChapterActivity;
+import starklabs.sivodim.Drama.View.NewScreenplayActivity;
 import starklabs.sivodim.R;
 
 
@@ -100,6 +102,14 @@ public class HomePresenterImpl implements HomePresenter {
     // ------------------------ MOVE ----------------------------------------------------
 
     @Override
+    public void goToNewScreenplayActivity(Context context){
+        ScreenplayPresenter screenplayPresenter=new ScreenplayPresenterImpl(getScreenplayTitles(context));
+        NewScreenplayActivity.setScreenplayPresenter(screenplayPresenter);
+        Intent intent=new Intent(context,NewScreenplayActivity.class);
+        context.startActivity(intent);
+    }
+
+    @Override
     public void goToListChapter(Context context,String selected){
         Intent intent=new Intent(context,ListChapterActivity.class);
         ScreenplayPresenter screenplayPresenter=new ScreenplayPresenterImpl(
@@ -159,5 +169,4 @@ public class HomePresenterImpl implements HomePresenter {
         if(projectDir.exists())
             removeDirectory(projectDir);
     }
-
 }

@@ -40,6 +40,7 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
     // to keep track of the last screenplay when on home (after back operation)
     //HomeInterface homeInterface;
     private ArrayAdapter<String> titlesAdapter;
+    private Vector<String> stringArray;
 
 
     // ----------------------------- CONSTRUCTORS -------------------------------------------
@@ -60,6 +61,10 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
         this.listChapterInterface=listChapterActivity;
     }
 
+    public ScreenplayPresenterImpl(Vector<String> stringArray){
+        this.stringArray=stringArray;
+    }
+
 
     // ----------------------------- ACTIVITY ----------------------------------------------
 
@@ -71,6 +76,11 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
     @Override
     public void setActivity(NewChapterInterface newChapterInterface){
         this.newChapterInterface=newChapterInterface;
+    }
+
+    @Override
+    public void setActivity(NewScreenplayInterface newChapterInterface){
+        this.newScreenplayInterface=newChapterInterface;
     }
 
 
@@ -91,6 +101,8 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
         return titlesAdapter;
     }
 
+    @Override
+    public Vector<String> getStringArray() { return stringArray; }
 
     // ----------------------------- MOVE ----------------------------------------------
 
