@@ -37,6 +37,7 @@ public class AudioExport extends ExportAlgorithm {
         int i=0;
         while (chapterIterator.hasNext()){
             Chapter chapter=chapterIterator.next();
+            System.out.println(chapter.getTitle().toUpperCase());
             File chapterConcat=new File(context.getFilesDir(),"concat"+i+name+".wav");
             AudioConcatenator chapterConcatenator=new AudioConcatenator(context,chapterConcat);
             chapterConcatenator.setDestination(chapterConcat);
@@ -52,7 +53,6 @@ public class AudioExport extends ExportAlgorithm {
                 e.printStackTrace();
             }
             Toast.makeText(context,"Esportato "+chapter.getTitle(),Toast.LENGTH_SHORT).show();
-            System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+chapter.getSoundtrack().getAudio().getAbsolutePath().toUpperCase());
             if(chapter.getSoundtrack()!=null &&
                     chapter.getSoundtrack().getAudio()!=null &&
                     chapter.getSoundtrack().getAudio().exists())

@@ -8,7 +8,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import starklabs.sivodim.Drama.Model.Utilities.Background;
+import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenter;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenterImpl;
 import starklabs.sivodim.R;
@@ -17,8 +21,11 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
     private static ChapterPresenter chapterPresenter;
     private EditText chapterName;
     private Button editSoundtrack;
-    private Button editWallpaper;
+    private ImageView editWallpaper;
+    private TextView trackView;
     private Button apply;
+    private String backgroundPath;
+    private String soundtrackPath;
 
     public static void setPresenter(ChapterPresenter chapterPresenter){
         EditChapterActivity.chapterPresenter=chapterPresenter;
@@ -39,11 +46,19 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         chapterName=(EditText)findViewById(R.id.chapterName);
-        editSoundtrack=(Button)findViewById(R.id.editSoundtrack);
-        editWallpaper=(Button)findViewById(R.id.editWallpaper);
+        editSoundtrack=(Button)findViewById(R.id.newTrack);
+        editWallpaper=(ImageView) findViewById(R.id.newWallpaper);
+        trackView=(TextView)findViewById(R.id.trackView);
         apply=(Button)findViewById(R.id.editChapterApplyButton);
 
         chapterName.setText(chapterPresenter.getChapterTitle());
+        Background background=chapterPresenter.getChapterBackground();
+        if(background!=null && background.getImage()!=null)
+            editWallpaper.setImageBitmap(background.getImage());
+        Soundtrack soundtrack=chapterPresenter.getSoundtrack();
+        if(soundtrack!=null && soundtrack.getAudio()!=null && !soundtrack.getAudio().getName().equals(""))
+            trackView.setText(soundtrack.getAudio().getName());
+
 
         apply.setOnClickListener(new View.OnClickListener() {
             @Override

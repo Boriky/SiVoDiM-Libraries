@@ -78,6 +78,7 @@ public abstract class FfmpegConnector {
         while (!ffmpeg.isFFmpegCommandRunning()){
             try {
                 Thread.sleep(10);
+                System.out.println("Waiting FFMPEG");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -85,6 +86,7 @@ public abstract class FfmpegConnector {
         while (ffmpeg.isFFmpegCommandRunning()){
             try {
                 Thread.sleep(10);
+                System.out.println("Executing FFMPEG");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
