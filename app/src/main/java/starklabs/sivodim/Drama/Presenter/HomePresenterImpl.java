@@ -104,7 +104,7 @@ public class HomePresenterImpl implements HomePresenter {
         Intent intent=new Intent(context,ListChapterActivity.class);
         ScreenplayPresenter screenplayPresenter=new ScreenplayPresenterImpl(
                 ScreenplayImpl.loadScreenplay(selected,context));
-        ListChapterActivity.setPresenter(screenplayPresenter);
+       ListChapterActivity.setPresenter(screenplayPresenter);
         context.startActivity(intent);
     }
 

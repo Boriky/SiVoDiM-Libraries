@@ -143,14 +143,28 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
         upButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(),"MoveUP",Toast.LENGTH_SHORT).show();
+                int position=chapterPresenter.getSpeechSelected()-1;
+                if(position<0)position=0;
+                chapterPresenter.moveUpSpeech(chapterPresenter.getSpeechSelected());
+                chapterPresenter.setSpeechSelected(position);
+                speechListView.setAdapter(chapterPresenter.getSpeeches(v.getContext()));
+                speechListView.setSelection(position);
+                moveButtons.setVisibility(View.VISIBLE);
+                deleteButton.setVisibility(View.VISIBLE);
             }
         });
 
         downButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(),"MoveDOWN",Toast.LENGTH_SHORT).show();
+                int position=chapterPresenter.getSpeechSelected()+1;
+                if(position>=speechListView.getCount())position=speechListView.getCount()-1;
+                chapterPresenter.moveDownSpeech(chapterPresenter.getSpeechSelected());
+                chapterPresenter.setSpeechSelected(position);
+                speechListView.setAdapter(chapterPresenter.getSpeeches(v.getContext()));
+                speechListView.setSelection(position);
+                moveButtons.setVisibility(View.VISIBLE);
+                deleteButton.setVisibility(View.VISIBLE);
             }
         });
 
@@ -233,6 +247,7 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
 
                     speechListAdapter=chapterPresenter.getSpeeches(v.getContext());
                     speechListView.setAdapter(speechListAdapter);
+                    speechListView.setSelection(speechListView.getCount()-1);
                 }
             }
         });

@@ -16,6 +16,8 @@ import starklabs.sivodim.Drama.Model.Chapter.Speech;
 import starklabs.sivodim.Drama.Model.Chapter.SpeechImpl;
 import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Model.Character.CharacterContainer;
+import starklabs.sivodim.Drama.Model.Utilities.Background;
+import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
 import starklabs.sivodim.Drama.View.EditChapterActivity;
 import starklabs.sivodim.Drama.View.EditChapterInterface;
 import starklabs.sivodim.Drama.View.EditSpeechActivity;
@@ -188,6 +190,16 @@ public class ChapterPresenterImpl implements ChapterPresenter {
     @Override
     public String getEmotionSelected() { return emotionSelected; }
 
+    @Override
+    public Background getChapterBackground() {
+        return this.chapter.getBackground();
+    }
+
+    @Override
+    public Soundtrack getSoundtrack() {
+        return this.chapter.getSoundtrack();
+    }
+
 
     // ----------------------------- SETTER ----------------------------------------------
 
@@ -260,6 +272,15 @@ public class ChapterPresenterImpl implements ChapterPresenter {
         chapter.deleteSpeech(speech);
     }
 
+    @Override
+    public void moveUpSpeech(int position) {
+        chapter.moveUpSpeech(position);
+    }
+
+    @Override
+    public void moveDownSpeech(int position) {
+        chapter.moveDownSpeech(position);
+    }
 
 
     // ----------------------------- MOVE ----------------------------------------------
@@ -325,10 +346,4 @@ public class ChapterPresenterImpl implements ChapterPresenter {
 
 
 
-
-
-    @Override
-    public void orderSpeech() {
-
-    }
 }

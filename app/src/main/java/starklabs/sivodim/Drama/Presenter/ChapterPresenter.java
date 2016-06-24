@@ -6,6 +6,8 @@ import android.widget.ArrayAdapter;
 import starklabs.sivodim.Drama.Model.Chapter.Chapter;
 import starklabs.sivodim.Drama.Model.Chapter.Speech;
 import starklabs.sivodim.Drama.Model.Character.Character;
+import starklabs.sivodim.Drama.Model.Utilities.Background;
+import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
 import starklabs.sivodim.Drama.View.EditChapterActivity;
 import starklabs.sivodim.Drama.View.EditChapterInterface;
 import starklabs.sivodim.Drama.View.ListSpeechesInterface;
@@ -17,8 +19,6 @@ import starklabs.sivodim.Drama.View.NewSpeechInterface;
  * Created by Francesco Bizzaro on 25/05/2016.
  */
 public interface ChapterPresenter {
-
-    void orderSpeech();//>>>>>>>>>>>>>>>>>>>>NOT YET IMPLEMENTED <<<<<<<<<<<<<<
 
     // ----------------------------- ACTIVITY ----------------------------------------------
 
@@ -76,6 +76,10 @@ public interface ChapterPresenter {
 
     String getEmotionSelected();
 
+    Background getChapterBackground();
+
+    Soundtrack getSoundtrack();
+
     // ----------------------------- SETTER ------------------------------------------------
 
     /**
@@ -109,6 +113,18 @@ public interface ChapterPresenter {
      * @param speech
      */
     void deleteSpeech(Speech speech);
+
+    /**
+     * Move up a the speech indicated by position in the order inside the chapter
+     * @param position
+     */
+    void moveUpSpeech(int position);
+
+    /**
+     * Move down a speech indicated by position in the order inside the chapter
+     * @param position
+     */
+    void moveDownSpeech(int position);
 
     // ----------------------------- MOVE ------------------------------------------------
 

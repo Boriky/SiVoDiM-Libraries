@@ -105,6 +105,17 @@ public class EditSpeechActivity extends AppCompatActivity implements EditSpeechI
                 }
                 speechPresenter.setSpeechCharacter(selectedCharacter);
                 speechPresenter.setSpeechEmotion(emotion.getSelectedItem().toString());
+                final File path=new File(speechPresenter.getAudioPath());
+                Engine engine=new EngineImpl(getApplicationContext());
+                engine.synthesizeToFile(path.getAbsolutePath(),
+                        speechPresenter.getSpeechCharacter().getVoiceID()
+                        , speechPresenter.getSpeechEmotion(),
+                        speechText.getText().toString(), new Engine.Listener() {
+                            @Override
+                            public void onCompleteSynthesis() {
+                                System.out.println("Ho salvato il File");
+                            }
+                        });
                 Intent intent=new Intent(v.getContext(),ListSpeechesActivity.class);
                 startActivity(intent);
             }

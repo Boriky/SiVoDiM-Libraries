@@ -123,6 +123,28 @@ public class ScreenplayImpl implements Screenplay {
     }
 
     @Override
+    public void moveUpChapter(int index){
+        if(index>0){
+            Chapter chapter=chapters.remove(index);
+            chapters.add(index-1,chapter);
+        }
+    }
+
+    @Override
+    public void moveDownChapter(int index) {
+        Chapter chapter=chapters.remove(index);
+        if(index<chapters.size())
+            chapters.add(index+1,chapter);
+        else
+            chapters.add(chapter);
+    }
+
+    @Override
+    public void removeChapter(int index) {
+        chapters.remove(index);
+    }
+
+    @Override
     public Character getCharacterByName(String name) {
         Iterator<Character> iterator = characterContainer.iterator();
         while(iterator.hasNext()) {

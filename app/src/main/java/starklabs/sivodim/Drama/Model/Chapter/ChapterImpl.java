@@ -77,22 +77,35 @@ public class ChapterImpl implements Chapter{
     }
 
     @Override
-    public void moveUpSpeech(ListIterator<Speech> iterator) {
-        int position=iterator.previousIndex();
-        Speech speech=speeches.remove(position+1);
-        speeches.set(position,speech);
+    public void moveUpSpeech(int position) {
+        if(position>0){
+            Speech speech=speeches.remove(position);
+            speeches.add(position-1,speech);
+        }
     }
 
     @Override
-    public void moveDownSpeech(ListIterator<Speech> iterator) {
-        int position=iterator.nextIndex();
-        Speech speech=speeches.remove(position+1);
-        speeches.set(position,speech);
+    public void moveDownSpeech(int position) {
+        Speech speech=speeches.remove(position);
+        if(position<speeches.size())
+            speeches.add(position+1,speech);
+        else
+            speeches.add(speech);
     }
 
     @Override
     public String getTitle(){
         return title;
+    }
+
+    @Override
+    public Soundtrack getSoundtrack(){
+        return soundtrack;
+    }
+
+    @Override
+    public Background getBackground(){
+        return this.background;
     }
 
     // add new speech: push back new speech to ArrayList containing existing speeches

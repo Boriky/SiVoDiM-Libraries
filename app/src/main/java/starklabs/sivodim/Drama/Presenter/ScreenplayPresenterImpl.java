@@ -12,6 +12,8 @@ import starklabs.sivodim.Drama.Model.Chapter.ChapterImpl;
 import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Model.Screenplay.Screenplay;
 import starklabs.sivodim.Drama.Model.Screenplay.ScreenplayImpl;
+import starklabs.sivodim.Drama.Model.Utilities.Background;
+import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
 import starklabs.sivodim.Drama.View.EditChapterActivity;
 import starklabs.sivodim.Drama.View.HomeInterface;
 import starklabs.sivodim.Drama.View.ListChapterActivity;
@@ -37,7 +39,9 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
     private ListChapterInterface listChapterInterface;
     // to keep track of the last screenplay when on home (after back operation)
     //HomeInterface homeInterface;
-    private ArrayAdapter<String> titlesAdapter;
+    private StringArrayAdapter titlesAdapter;
+    private int selected=-1;
+    private String selectedName=null;
 
 
     // ----------------------------- CONSTRUCTORS -------------------------------------------
@@ -78,17 +82,40 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
     public Screenplay getScreenplay() { return this.screenplay; }
 
     @Override
+    public int getChapterSelected() {
+        return selected;
+    }
+
+
+    @Override
     public String getScreenplayTitle(){
         return screenplay.getTitle();
     }
 
     @Override
-    public ArrayAdapter<String> getTitlesAdapter(Context context,String screenplay){
-        titlesAdapter=new ArrayAdapter<String>(context, R.layout.screenplay_item,
-                loadChapterTitles(screenplay, context));
+    public StringArrayAdapter getTitlesAdapter(Context context,String screenplay){
+        titlesAdapter=new StringArrayAdapter(context,R.layout.screenplay_item);
+        //new ArrayAdapter<String>(context, R.layout.screenplay_item,
+        Vector<String> titles=loadChapterTitles(screenplay,context);
+        for(int i=0;i<titles.size();i++){
+            titlesAdapter.add(titles.get(i));
+        }
+        titlesAdapter.setStringSelected(getChapterSelected());
         return titlesAdapter;
     }
 
+    @Override
+    public String getChapterSelectedName(){
+        return this.selectedName;
+    }
+
+    // ---------------------------- SETTER ------------------------------------
+
+    @Override
+    public void setChapterSelected(int index,String name) {
+        this.selected=index;
+        this.selectedName=name;
+    }
 
     // ----------------------------- MOVE ----------------------------------------------
 
@@ -159,13 +186,18 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
     }
 
     @Override
-    public void moveUpChapter(String chapterTitle) {
-
+    public void moveUpChapter(int index) {
+        this.screenplay.moveUpChapter(index);
     }
 
     @Override
-    public void moveDownChapter(String chapterTitle) {
+    public void moveDownChapter(int index) {
+        this.screenplay.moveDownChapter(index);
+    }
 
+    @Override
+    public void removeChapter(int index) {
+        screenplay.removeChapter(index);
     }
 
     @Override
@@ -179,9 +211,11 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
     }
 
     @Override
-    public void newChapter(String title) {
+    public void newChapter(String title, Soundtrack soundtrack, Background background) {
         Chapter chapter=new ChapterImpl.ChapterBuilder()
                 .setTitle(title).build();
+        if(soundtrack!=null)chapter.setSoundtrack(soundtrack);
+        if(background!=null)chapter.setBackground(background);
         screenplay.addChapter(chapter);
     }
 

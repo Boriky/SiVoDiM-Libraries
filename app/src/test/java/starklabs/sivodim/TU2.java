@@ -7,7 +7,6 @@ package starklabs.sivodim;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Button;
 
 import org.junit.Test;
 import org.mockito.Mock;
@@ -64,8 +63,6 @@ public class TU2 {
         //ListChapterInterface listChapterInterface=Mockito.mock(ListChapterInterface.class);
         //ScreenplayPresenter screenplayPresenter=new ScreenplayPresenterImpl(listChapterInterface);
 
-*/
-// register next activity that need to be monitored.
-//
+
     }
 }

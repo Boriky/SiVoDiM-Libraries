@@ -5,6 +5,8 @@ import android.widget.ArrayAdapter;
 
 import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Model.Screenplay.Screenplay;
+import starklabs.sivodim.Drama.Model.Utilities.Background;
+import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
 import starklabs.sivodim.Drama.View.ListChapterInterface;
 import starklabs.sivodim.Drama.View.NewChapterInterface;
 
@@ -37,7 +39,7 @@ public interface ScreenplayPresenter {
      * @param sceenplay The screenplay to consider
      * @return
      */
-    ArrayAdapter<String> getTitlesAdapter(Context context, String sceenplay);
+    StringArrayAdapter getTitlesAdapter(Context context, String sceenplay);
 
     /**
      * Returns the title of the screenplay
@@ -51,7 +53,17 @@ public interface ScreenplayPresenter {
      */
     Screenplay getScreenplay();
 
+    /**
+     * Gives the position of the current chapter selected
+     * @return
+     */
+    int getChapterSelected();
 
+    String getChapterSelectedName();
+
+    // --------------------------- SETTER -------------------------------------
+
+    void setChapterSelected(int index,String name);
 
     // ----------------------------- UTILITIES --------------------------------------------
 
@@ -69,7 +81,7 @@ public interface ScreenplayPresenter {
      * Add a chapter in the end of the screenplay
      * @param title The title of the chapter
      */
-    void newChapter(String title);
+    void newChapter(String title, Soundtrack soundtrack, Background background);
 
     /**
      * Create a new screenplay and save it to memory
@@ -79,9 +91,11 @@ public interface ScreenplayPresenter {
     void newScreenplay(String title,Context context);
 
     // check how drag and drop works for orderChapter implementation
-    void moveUpChapter(String chapterTitle);
+    void moveUpChapter(int index);
 
-    void moveDownChapter(String chapterTitle);
+    void moveDownChapter(int index);
+
+    void removeChapter(int index);
 
     /**
      * Save a screenplay to memory in the default directory, with the title as name and ".scrpl" as extension
