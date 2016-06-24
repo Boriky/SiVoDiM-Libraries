@@ -32,9 +32,9 @@ import static org.mockito.Mockito.when;
 /**
  * test TU2 that tests the correct display of the names of the chapters in a screenplay
  */
-public class TU2 {
-    @Test
-    public void testGotoListChapter() {
+//public class TU2 {
+    //Test
+  //  public void testGotoListChapter() {
 
      /*   Screenplay screenplay= Mockito.mock(ScreenplayImpl.class);
         when(screenplay.getTitle()).thenReturn("titolo");
@@ -63,6 +63,6 @@ public class TU2 {
         //ListChapterInterface listChapterInterface=Mockito.mock(ListChapterInterface.class);
         //ScreenplayPresenter screenplayPresenter=new ScreenplayPresenterImpl(listChapterInterface);
 
-
-    }
-}
+*/
+ //   }
+//}
