@@ -100,7 +100,7 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
 
         speechListView.setAdapter(speechListAdapter);
         if(speechListAdapter.getCount()==0)
-            Toast.makeText(this,"Il capitolo è vuoto",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Il capitolo è vuoto",Toast.LENGTH_SHORT).show();
 
         speechListView.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         speechListView.setAdapter(speechListAdapter);
@@ -207,11 +207,11 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
         selectCharacterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(v.getContext().INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 if(newSpeechCharactersList.getAdapter().isEmpty()) {
-                    Toast.makeText(v.getContext(),"Nessun personaggio disponibile. Per inserire una nuova battuta è prima necessario creare dei personaggi.\n",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(),"Nessun personaggio disponibile. Per inserire una battuta è necessario creare almeno un personaggio.\n",Toast.LENGTH_SHORT).show();
                 } else {
-                    InputMethodManager imm = (InputMethodManager) getSystemService(v.getContext().INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     emotionsList.setVisibility(View.GONE);
                     newSpeechCharactersList.setVisibility(View.VISIBLE);
                 }
@@ -240,6 +240,9 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
         newSpeechButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(v.getContext().INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
                 String text=speechEditText.getText().toString();
                 Character characterSelected = chapterPresenter.getCharacterSelected();
                 String emotionSelected = chapterPresenter.getEmotionSelected();
@@ -249,7 +252,10 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
                 }
 
                 if(characterSelected==null) {
-                    Toast.makeText(v.getContext(),"Selezionare un personaggio per confermare la creazione della battuta",Toast.LENGTH_LONG).show();
+                    Toast.makeText(v.getContext(),"Selezionare un personaggio per confermare la creazione della battuta",Toast.LENGTH_SHORT).show();
+                }
+                else if(text==null) {
+                    Toast.makeText(v.getContext(),"Inserire del testo per confermare la creazione della battuta",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     chapterPresenter.newSpeech(text,
@@ -263,8 +269,6 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
                     speechEditText.setText("");
                     emotionsList.setVisibility(View.GONE);
                     newSpeechCharactersList.setVisibility(View.GONE);
-                    InputMethodManager imm = (InputMethodManager)getSystemService(v.getContext().INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
         });

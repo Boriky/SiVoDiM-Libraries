@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenter;
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenterImpl;
 import starklabs.sivodim.R;
@@ -51,15 +53,20 @@ public class NewScreenplayActivity extends AppCompatActivity implements NewScree
 
     public void onClick(View v) {
         String title = editTextProjectName.getText().toString();
-        screenplayPresenter.newScreenplay(title,this);
-        String selected=(String) spinnerImportCharacters.getSelectedItem();
-        // the first position of the spinner is a "not import any character" option
-        if(spinnerImportCharacters.getSelectedItemPosition()!=0) {
-            screenplayPresenter.importCharacter(selected+".scrpl", this);
-        }
+        if(!title.isEmpty()) {
+            screenplayPresenter.newScreenplay(title, this);
+            String selected = (String) spinnerImportCharacters.getSelectedItem();
+            // the first position of the spinner is a "not import any character" option
+            if (spinnerImportCharacters.getSelectedItemPosition() != 0) {
+                screenplayPresenter.importCharacter(selected + ".scrpl", this);
+            }
 
-        Intent homeActivityIntent=new Intent(this,HomeActivity.class);
-        startActivity(homeActivityIntent);
+            Intent homeActivityIntent = new Intent(this, HomeActivity.class);
+            startActivity(homeActivityIntent);
+        }
+        else {
+            Toast.makeText(v.getContext(),"Il titolo dello sceneggiato non può essere vuoto",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

@@ -85,32 +85,42 @@ public class EditCharacterActivity extends AppCompatActivity implements EditChar
             @Override
             public void onClick(View v) {
                 String name=editName.getText().toString();
-                character.setName(name);
-                character.setVoice((String) editVoice.getSelectedItem());
+                if(!name.isEmpty()) {
+                    character.setName(name);
+                    character.setVoice((String) editVoice.getSelectedItem());
 
-                Avatar avatar=character.getAvatar();
+                    Avatar avatar = character.getAvatar();
 
-                if(avatarPath!=null && (character.getAvatar()==null ||
-                        avatarPath!=character.getAvatar().getPath())){
-                // check if avatar is changed
+                        if (avatarPath != null && (character.getAvatar() == null ||
+                                avatarPath != character.getAvatar().getPath())) {
+                            // check if avatar has changed
 
-                    File avatarChoice=new File(avatarPath);
-                    File dir=new File(getFilesDir(),
-                            characterPresenter.getProjectName());
-                    if(!dir.exists()){
-                        dir.mkdir();
-                    }
-                    File destination=new File(dir,name+".png");
-                    try {
-                        copyFile(avatarChoice,destination);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    avatar=new Avatar(destination.getAbsolutePath());
+                            File avatarChoice = new File(avatarPath);
+                            File dir = new File(getFilesDir(),
+                                    characterPresenter.getProjectName());
+                            if (!dir.exists()) {
+                                dir.mkdir();
+                            }
+                            File destination = new File(dir, name + ".png");
+                            try {
+                                copyFile(avatarChoice, destination);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            avatar = new Avatar(destination.getAbsolutePath());
+                        }
+                        characterPresenter.getCharacter().setAvatar(avatar);
+                        if(characterPresenter.getCharacter().getAvatar()!=null) {
+                            Intent intent = new Intent(v.getContext(), ListCharacterActivity.class);
+                            startActivity(intent);
+                        }
+                        else {
+                            Toast.makeText(v.getContext(),"Dimensione dell'avatar troppo grande",Toast.LENGTH_SHORT).show();
+                        }
                 }
-                characterPresenter.getCharacter().setAvatar(avatar);
-                Intent intent=new Intent(v.getContext(),ListCharacterActivity.class);
-                startActivity(intent);
+                else {
+                    Toast.makeText(v.getContext(),"Il nome del personaggio non può essere vuoto",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

@@ -335,6 +335,8 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
             mediaPlayer.stop();
             handler.removeCallbacks(updateBar);
         }
+        // save current screenplay and show message
+        screenplayPresenter.save(screenplayPresenter.getScreenplay(), getApplicationContext());
     }
 
     @Override
@@ -344,5 +346,7 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
             mediaPlayer.stop();
             handler.removeCallbacks(updateBar);
         }
+        // save current screenplay and show message
+        screenplayPresenter.save(screenplayPresenter.getScreenplay(), getApplicationContext());
     }
 }

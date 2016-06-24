@@ -87,27 +87,31 @@ public class NewCharacterActivity extends AppCompatActivity implements NewCharac
             @Override
             public void onClick(View v) {
                 //insert check for not same names
-                String name=newCharacterName.getText().toString();
-                String voice=(String)newCharacterVoice.getSelectedItem();
-                Avatar avatar=null;
-                if(avatarPath!=null){
-                    File avatarChoice=new File(avatarPath);
-                    File dir=new File(getFilesDir(),
-                            characterPresenter.getProjectName());
-                    if(!dir.exists()){
-                        dir.mkdir();
+                String name = newCharacterName.getText().toString();
+                if (!name.isEmpty()) {
+                    String voice = (String) newCharacterVoice.getSelectedItem();
+                    Avatar avatar = null;
+                    if (avatarPath != null) {
+                        File avatarChoice = new File(avatarPath);
+                        File dir = new File(getFilesDir(),
+                                characterPresenter.getProjectName());
+                        if (!dir.exists()) {
+                            dir.mkdir();
+                        }
+                        File destination = new File(dir, name + ".png");
+                        try {
+                            copyFile(avatarChoice, destination);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        avatar = new Avatar(destination.getAbsolutePath());
+                        System.out.println("SAVE in: " + destination.getAbsolutePath());
                     }
-                    File destination=new File(dir,name+".png");
-                    try {
-                        copyFile(avatarChoice,destination);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    avatar=new Avatar(destination.getAbsolutePath());
-                    System.out.println("SAVE in: "+destination.getAbsolutePath());
+                    characterPresenter.newCharacter(name, voice, avatar);
+                    characterPresenter.goToListCharacterActivity(v.getContext());
+                } else {
+                    Toast.makeText(v.getContext(), "Il nome del personaggio non può essere vuoto", Toast.LENGTH_SHORT).show();
                 }
-                characterPresenter.newCharacter(name,voice,avatar);
-                characterPresenter.goToListCharacterActivity(v.getContext());
             }
         });
     }

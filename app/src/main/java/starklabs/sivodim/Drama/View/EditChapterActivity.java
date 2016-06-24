@@ -3,11 +3,11 @@ package starklabs.sivodim.Drama.View;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import starklabs.sivodim.Drama.Presenter.ChapterPresenter;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenterImpl;
@@ -48,10 +48,15 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                chapterPresenter.setChapterTitle(chapterName.getText().toString());
-                //set other properties..
-                Intent intent=new Intent(v.getContext(),ListChapterActivity.class);
-                startActivity(intent);
+                if(!chapterName.getText().toString().isEmpty()) {
+                    chapterPresenter.setChapterTitle(chapterName.getText().toString());
+                    //set other properties..
+                    Intent intent=new Intent(v.getContext(),ListChapterActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(v.getContext(),"Il titolo non può essere vuoto",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

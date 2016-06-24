@@ -57,7 +57,6 @@ public class EmotionArrayAdapter extends BaseAdapter {
                 case "NONE":
                     emotionIcon.setImageResource(R.mipmap.emotionless_icon);
                     emotionName.setText("Neutro");
-
                     break;
                 case "FEAR":
                     emotionIcon.setImageResource(R.mipmap.fear_icon);

@@ -92,32 +92,36 @@ public class EditSpeechActivity extends AppCompatActivity implements EditSpeechI
             @Override
             public void onClick(View v) {
                 String text=speechText.getText().toString();
-                speechPresenter.setSpeechText(text);
-                Iterator<Character>characterIterator=speechPresenter.getScreenplayCharacters();
-                Character selectedCharacter=null;
-                boolean stop=false;
-                while (characterIterator.hasNext() && !stop){
-                    Character c=characterIterator.next();
-                    if(character.getSelectedItem().equals(c.getName())){
-                        selectedCharacter=c;
-                        stop=true;
+                if(!text.isEmpty()) {
+                    speechPresenter.setSpeechText(text);
+                    Iterator<Character> characterIterator = speechPresenter.getScreenplayCharacters();
+                    Character selectedCharacter = null;
+                    boolean stop = false;
+                    while (characterIterator.hasNext() && !stop) {
+                        Character c = characterIterator.next();
+                        if (character.getSelectedItem().equals(c.getName())) {
+                            selectedCharacter = c;
+                            stop = true;
+                        }
                     }
+                    speechPresenter.setSpeechCharacter(selectedCharacter);
+                    speechPresenter.setSpeechEmotion(emotion.getSelectedItem().toString());
+                    final File path = new File(speechPresenter.getAudioPath());
+                    Engine engine = new EngineImpl(getApplicationContext());
+                    engine.synthesizeToFile(path.getAbsolutePath(),
+                            speechPresenter.getSpeechCharacter().getVoiceID()
+                            , speechPresenter.getSpeechEmotion(),
+                            speechText.getText().toString(), new Engine.Listener() {
+                                @Override
+                                public void onCompleteSynthesis() {
+                                    System.out.println("Ho salvato il File");
+                                }
+                            });
+                    Intent intent = new Intent(v.getContext(), ListSpeechesActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(v.getContext(),"La battuta non può essere vuota",Toast.LENGTH_SHORT).show();
                 }
-                speechPresenter.setSpeechCharacter(selectedCharacter);
-                speechPresenter.setSpeechEmotion(emotion.getSelectedItem().toString());
-                final File path=new File(speechPresenter.getAudioPath());
-                Engine engine=new EngineImpl(getApplicationContext());
-                engine.synthesizeToFile(path.getAbsolutePath(),
-                        speechPresenter.getSpeechCharacter().getVoiceID()
-                        , speechPresenter.getSpeechEmotion(),
-                        speechText.getText().toString(), new Engine.Listener() {
-                            @Override
-                            public void onCompleteSynthesis() {
-                                System.out.println("Ho salvato il File");
-                            }
-                        });
-                Intent intent=new Intent(v.getContext(),ListSpeechesActivity.class);
-                startActivity(intent);
             }
         });
 
