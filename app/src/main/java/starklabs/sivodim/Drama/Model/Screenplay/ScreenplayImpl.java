@@ -5,6 +5,7 @@ import android.content.Context;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 import starklabs.sivodim.Drama.Model.Chapter.Chapter;
 import starklabs.sivodim.Drama.Model.Character.Character;
@@ -90,7 +91,10 @@ public class ScreenplayImpl implements Screenplay {
     @Override
     public void importCharacters(Screenplay screenplay){
         CharacterContainer characters=screenplay.getCharacters();
-        this.characterContainer=characters.clone();
+        ListIterator<Character> iterator = characters.iterator();
+        while(iterator.hasNext()) {
+            this.characterContainer.addCharacter(iterator.next());
+        }
     }
 
     @Override

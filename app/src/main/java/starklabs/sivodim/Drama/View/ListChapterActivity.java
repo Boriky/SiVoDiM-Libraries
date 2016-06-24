@@ -1,13 +1,11 @@
 package starklabs.sivodim.Drama.View;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
@@ -25,20 +23,11 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
-
 import java.io.File;
-import java.io.Serializable;
 
-import starklabs.sivodim.Drama.Model.Screenplay.AudioConcatenator;
-import starklabs.sivodim.Drama.Model.Screenplay.AudioMixer;
-import starklabs.sivodim.Drama.Model.Screenplay.Mp3Converter;
-import starklabs.sivodim.Drama.Model.Utilities.SpeechSound;
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenter;
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenterImpl;
 import starklabs.sivodim.R;
-
-import static android.os.Environment.getExternalStorageDirectory;
 
 public class ListChapterActivity extends AppCompatActivity implements ListChapterInterface,
         Toolbar.OnMenuItemClickListener{
@@ -289,9 +278,6 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
                 break;
             case R.id.newCharacterMenu:
                 screenplayPresenter.goToNewCharacterActivity(this);
-                break;
-            case R.id.importCharactersMenu:
-                Toast.makeText(this,"Importa personaggio",Toast.LENGTH_LONG).show();
                 break;
             case R.id.charactersListMenu:
                 screenplayPresenter.goToListCharactersActivity(this);

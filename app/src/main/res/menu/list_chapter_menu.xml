@@ -16,9 +16,6 @@
         android:id="@+id/newCharacterMenu"
         android:title="Crea personaggio"/>
     <item
-        android:id="@+id/importCharactersMenu"
-        android:title="Importa personaggi"/>
-    <item
         android:id="@+id/charactersListMenu"
         android:title="Lista personaggi"/>
 </menu>

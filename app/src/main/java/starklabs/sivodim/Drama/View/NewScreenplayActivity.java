@@ -1,6 +1,5 @@
 package starklabs.sivodim.Drama.View;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,10 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
-
-import starklabs.sivodim.Drama.Presenter.HomePresenter;
-import starklabs.sivodim.Drama.Presenter.HomePresenterImpl;
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenter;
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenterImpl;
 import starklabs.sivodim.R;
@@ -58,7 +53,10 @@ public class NewScreenplayActivity extends AppCompatActivity implements NewScree
         String title = editTextProjectName.getText().toString();
         screenplayPresenter.newScreenplay(title,this);
         String selected=(String) spinnerImportCharacters.getSelectedItem();
-        screenplayPresenter.importCharacter(selected, this);
+        // the first position of the spinner is a "not import any character" option
+        if(spinnerImportCharacters.getSelectedItemPosition()!=0) {
+            screenplayPresenter.importCharacter(selected+".scrpl", this);
+        }
 
         Intent homeActivityIntent=new Intent(this,HomeActivity.class);
         startActivity(homeActivityIntent);
