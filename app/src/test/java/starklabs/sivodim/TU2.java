@@ -4,9 +4,12 @@ package starklabs.sivodim;
  * Created by GINO on 21/06/2016.
  */
 
+import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.test.InstrumentationTestCase;
 
 import org.junit.Test;
 import org.mockito.Mock;
@@ -32,9 +35,11 @@ import static org.mockito.Mockito.when;
 /**
  * test TU2 that tests the correct display of the names of the chapters in a screenplay
  */
-public class TU2 {
+public class TU2 extends InstrumentationTestCase {
     @Test
     public void testGotoListChapter(){
+
+        /**
         Screenplay screenplay= Mockito.mock(ScreenplayImpl.class);
         when(screenplay.getTitle()).thenReturn("titolo");
         Context context= Mockito.mock(Context.class);
@@ -61,7 +66,8 @@ public class TU2 {
         homePresenter.goToListChapter(context,screenplay.getTitle());
         //ListChapterInterface listChapterInterface=Mockito.mock(ListChapterInterface.class);
         //ScreenplayPresenter screenplayPresenter=new ScreenplayPresenterImpl(listChapterInterface);
-*/
+
+
         final Instrumentation inst = new Instrumentation();
         IntentFilter intentFilter = new IntentFilter(Intent.ACTION_MAIN);
 //        intentFilter.addCategory("MY_CATEGORY");
@@ -76,6 +82,5 @@ public class TU2 {
 
 */
 // register next activity that need to be monitored.
-//
     }
 }
