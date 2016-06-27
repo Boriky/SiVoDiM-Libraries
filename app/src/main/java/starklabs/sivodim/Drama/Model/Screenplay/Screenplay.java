@@ -7,6 +7,7 @@ import java.util.Iterator;
 import starklabs.sivodim.Drama.Model.Chapter.Chapter;
 import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Model.Character.CharacterContainer;
+import starklabs.sivodim.Drama.Model.Utilities.MutableInteger;
 
 /**
  * Created by Francesco Bizzaro on 25/05/2016.
@@ -27,4 +28,5 @@ public interface Screenplay {
     void moveUpChapter(int index);
     void moveDownChapter(int index);
     void removeChapter(int index);
+    MutableInteger getNextSpeechId();
 }

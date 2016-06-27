@@ -17,6 +17,7 @@ import starklabs.sivodim.Drama.Model.Chapter.SpeechImpl;
 import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Model.Character.CharacterContainer;
 import starklabs.sivodim.Drama.Model.Utilities.Background;
+import starklabs.sivodim.Drama.Model.Utilities.MutableInteger;
 import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
 import starklabs.sivodim.Drama.View.EditChapterActivity;
 import starklabs.sivodim.Drama.View.EditChapterInterface;
@@ -39,6 +40,7 @@ public class ChapterPresenterImpl implements ChapterPresenter {
     CharacterContainer characterContainer;
     Character characterSelected;
     String emotionSelected;
+    MutableInteger nextSpeechId;
 
     // name of the speech.. to pick up the project directory
     String projectName;
@@ -65,10 +67,11 @@ public class ChapterPresenterImpl implements ChapterPresenter {
      * @param characterContainer connection to the list of {@link Character} of the {@link starklabs.sivodim.Drama.Model.Screenplay.Screenplay}
      * @param projectName The name of the screenplay
      */
-    public ChapterPresenterImpl(Chapter chapter,CharacterContainer characterContainer,String projectName){
+    public ChapterPresenterImpl(Chapter chapter,CharacterContainer characterContainer,String projectName,MutableInteger nextSpeechId){
         this.chapter=chapter;
         this.characterContainer=characterContainer;
         this.projectName=projectName;
+        this.nextSpeechId=nextSpeechId;
     }
 
     public ChapterPresenterImpl(ListSpeechesInterface listSpeechesInterface){
@@ -240,7 +243,8 @@ public class ChapterPresenterImpl implements ChapterPresenter {
 
         //add SoundFx
         Date date=new Date();
-        String name=projectName.replace(" ","_")+"/speech"+date.getTime()+".wav";
+        String name=projectName.replace(" ","_")+"/speech"+nextSpeechId.getInteger()+".wav";
+        nextSpeechId.setInteger(nextSpeechId.getInteger()+1);
         File path=new File(context.getFilesDir(),name);
         if(!path.exists()){
             try {
