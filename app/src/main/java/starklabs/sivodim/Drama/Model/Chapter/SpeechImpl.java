@@ -146,6 +146,7 @@ public class SpeechImpl implements Speech {
             public void onCompleteSynthesis() {
                 setAudioPath(path);
                 setAudioStatus(true);
+                System.out.println("Sintesi finita");
             }
         });
     }
