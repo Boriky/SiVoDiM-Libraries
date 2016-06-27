@@ -37,7 +37,6 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
     private ListChapterInterface listChapterInterface;
     // to keep track of the last screenplay when on home (after back operation)
     //HomeInterface homeInterface;
-    private ArrayAdapter<String> titlesAdapter;
     private Vector<String> stringArray;
     private StringArrayAdapter titlesAdapter;
     private int selected=-1;
