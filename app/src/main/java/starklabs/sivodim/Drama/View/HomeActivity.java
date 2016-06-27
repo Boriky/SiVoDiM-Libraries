@@ -1,13 +1,20 @@
 package starklabs.sivodim.Drama.View;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,12 +24,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Button;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
@@ -50,6 +60,8 @@ public class HomeActivity extends AppCompatActivity
     private FloatingActionButton doneButton;
     private FloatingActionButton deleteButton;
 
+    private PopupWindow pw;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +75,7 @@ public class HomeActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(HomeActivity.this,NewScreenplayActivity.class);
-                startActivity(intent);
+               homePresenter.goToNewScreenplayActivity(view.getContext());
             }
         });
 
@@ -174,12 +185,16 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
         Toast toast;
         if (id == R.id.nav_config) {
-            toast = Toast.makeText(getApplicationContext(), "Apre l'applicazione di configurazione", Toast.LENGTH_SHORT);
-            toast.show();
+            Intent launchIntent = getPackageManager().getLaunchIntentForPackage("starklabs.libraries");
+            if(launchIntent!=null)
+                startActivity(launchIntent);
+            else
+                Toast.makeText(getApplicationContext(), "Installare l'applicazione di configurazione", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_guide) {
             Intent intent=new Intent(this,UserManualActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_info) {
+            initiatePopupWindow();
             toast = Toast.makeText(getApplicationContext(), "Apre info su app e autori", Toast.LENGTH_SHORT);
             toast.show();
         }
@@ -194,6 +209,37 @@ public class HomeActivity extends AppCompatActivity
         String selected=(String) parent.getItemAtPosition(position);
         homePresenter.goToListChapter(this,selected+".scrpl");
     }
+
+    private void initiatePopupWindow() {
+        try {
+            //We need to get the instance of the LayoutInflater, use the context of this activity
+            LayoutInflater inflater = (LayoutInflater) HomeActivity.this
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            //Inflate the view from a predefined XML layout
+            View layout = inflater.inflate(R.layout.popup_layout,
+                    (ViewGroup) findViewById(R.id.popup_element));
+            // create a 300px width and 470px height PopupWindow
+            pw = new PopupWindow(layout, ActionBar.LayoutParams.WRAP_CONTENT, 600, true);
+            // display the popup in the center
+            pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+            Button cancelButton = (Button) layout.findViewById(R.id.end_data_send_button);
+            cancelButton.setOnClickListener(cancel_button_click_listener);
+            // Closes the popup window when touch outside.
+            pw.setOutsideTouchable(true);
+            pw.setFocusable(true);
+            // Removes default background.
+            pw.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private View.OnClickListener cancel_button_click_listener = new View.OnClickListener() {
+        public void onClick(View v) {
+            pw.dismiss();
+        }
+    };
 
    /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {

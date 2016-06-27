@@ -75,41 +75,46 @@ public class NewChapterActivity extends AppCompatActivity implements NewChapterI
             @Override
             public void onClick(View v) {
                 String title=newChapterName.getText().toString();
-                Soundtrack soundtrack=null;
-                if(audioPath!=null){
-                    File audioChoice=new File(audioPath);
-                    File dir=new File(getFilesDir(), screenplayPresenter.getScreenplayTitle().replace(" ","_"));
-                    if(!dir.exists()){
-                        dir.mkdir();
+                if(!title.isEmpty()) {
+                    Soundtrack soundtrack = null;
+                    if (audioPath != null) {
+                        File audioChoice = new File(audioPath);
+                        File dir = new File(getFilesDir(), screenplayPresenter.getScreenplayTitle().replace(" ", "_"));
+                        if (!dir.exists()) {
+                            dir.mkdir();
+                        }
+                        File destination = new File(dir, "chpt_" + title + ".mp3");
+                        try {
+                            copyFile(audioChoice, destination);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        soundtrack = new Soundtrack(destination.getAbsolutePath());
+                        System.out.println("SAVE in: " + destination.getAbsolutePath());
                     }
-                    File destination=new File(dir,"chpt_"+title+".mp3");
-                    try {
-                        copyFile(audioChoice,destination);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    Background background = null;
+                    if (wallpaperPath != null) {
+                        File wallpaperChoice = new File(wallpaperPath);
+                        File dir = new File(getFilesDir(), screenplayPresenter.getScreenplayTitle().replace(" ", "_"));
+                        if (!dir.exists()) {
+                            dir.mkdir();
+                        }
+                        File destination = new File(dir, "chpt_" + title + ".png");
+                        try {
+                            copyFile(wallpaperChoice, destination);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        background = new Background(destination.getAbsolutePath());
+                        System.out.println("SAVE in: " + destination.getAbsolutePath());
                     }
-                    soundtrack=new Soundtrack(destination.getAbsolutePath());
-                    System.out.println("SAVE in: "+destination.getAbsolutePath());
+                    screenplayPresenter.newChapter(title, soundtrack, background);
+                    Intent intent = new Intent(v.getContext(), ListChapterActivity.class);
+                    startActivity(intent);
                 }
-                Background background=null;
-                if(wallpaperPath!=null){
-                    File wallpaperChoice=new File(wallpaperPath);
-                    File dir=new File(getFilesDir(), screenplayPresenter.getScreenplayTitle().replace(" ","_"));
-                    if(!dir.exists()){
-                        dir.mkdir();
-                    }
-                    File destination=new File(dir,"chpt_"+title+".png");
-                    try {
-                        copyFile(wallpaperChoice,destination);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    background=new Background(destination.getAbsolutePath());
-                    System.out.println("SAVE in: "+destination.getAbsolutePath());
+                else {
+                    Toast.makeText(v.getContext(),"Il titolo del capitolo non può essere vuoto",Toast.LENGTH_SHORT).show();
                 }
-                screenplayPresenter.newChapter(title,soundtrack,background);
-                Intent intent=new Intent(v.getContext(),ListChapterActivity.class);
-                startActivity(intent);
             }
         });
 

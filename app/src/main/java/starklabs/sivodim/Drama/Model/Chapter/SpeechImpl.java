@@ -168,7 +168,7 @@ public class SpeechImpl implements Speech {
 
     }
 
-    public static ArrayAdapter<String> getEmotions(Context context){
+    /*public static ArrayAdapter<String> getEmotions(Context context){
         Vector<String> emotions = new Vector<String>();
         //callback to retrieve emotions
         emotions.add("NONE");
@@ -179,7 +179,21 @@ public class SpeechImpl implements Speech {
         emotions.add("DISGUST");
         emotions.add("SURPRISE");
         return new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,emotions);
+    }*/
+
+    public static ArrayList<String> getEmotions(){
+        ArrayList<String> emotions = new ArrayList<String>();
+        emotions.add("NONE");
+        emotions.add("HAPPINESS");
+        emotions.add("SADNESS");
+        emotions.add("ANGER");
+        emotions.add("FEAR");
+        emotions.add("DISGUST");
+        emotions.add("SURPRISE");
+        return emotions;
     }
+
+
 
     public static ArrayAdapter<String> getVoices(Context context){
         Vector<String> emotions = new Vector<String>();
