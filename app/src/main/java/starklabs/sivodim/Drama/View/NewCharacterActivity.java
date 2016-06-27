@@ -28,6 +28,7 @@ import java.nio.channels.FileChannel;
 import starklabs.sivodim.Drama.Model.Chapter.SpeechImpl;
 import starklabs.sivodim.Drama.Model.Utilities.Avatar;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenterImpl;
+import starklabs.sivodim.Drama.Presenter.CharacterArrayAdapter;
 import starklabs.sivodim.Drama.Presenter.CharacterPresenter;
 import starklabs.sivodim.Drama.Presenter.CharacterPresenterImpl;
 import starklabs.sivodim.R;
@@ -88,7 +89,21 @@ public class NewCharacterActivity extends AppCompatActivity implements NewCharac
             public void onClick(View v) {
                 //insert check for not same names
                 String name = newCharacterName.getText().toString();
-                if (!name.isEmpty()) {
+
+                Boolean nameTaken = false;
+                CharacterArrayAdapter names = characterPresenter.getCharacterArrayAdapter(v.getContext());
+                for(int i=0; i<names.getCount(); i++) {
+                    if(names.getItem(i).getName().equals(name)) {
+                        nameTaken=true;
+                    }
+                }
+
+                if(name.isEmpty()) {
+                    Toast.makeText(v.getContext(), "Il nome del personaggio non può essere vuoto", Toast.LENGTH_SHORT).show();
+                }
+                else if(nameTaken==true) {
+                    Toast.makeText(v.getContext(), "Nome del personaggio già esistente", Toast.LENGTH_SHORT).show();
+                } else {
                     String voice = (String) newCharacterVoice.getSelectedItem();
                     Avatar avatar = null;
                     if (avatarPath != null) {
@@ -109,8 +124,6 @@ public class NewCharacterActivity extends AppCompatActivity implements NewCharac
                     }
                     characterPresenter.newCharacter(name, voice, avatar);
                     characterPresenter.goToListCharacterActivity(v.getContext());
-                } else {
-                    Toast.makeText(v.getContext(), "Il nome del personaggio non può essere vuoto", Toast.LENGTH_SHORT).show();
                 }
             }
         });

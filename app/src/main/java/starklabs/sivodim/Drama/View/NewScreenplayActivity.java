@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.Vector;
+
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenter;
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenterImpl;
 import starklabs.sivodim.R;
@@ -53,7 +55,22 @@ public class NewScreenplayActivity extends AppCompatActivity implements NewScree
 
     public void onClick(View v) {
         String title = editTextProjectName.getText().toString();
-        if(!title.isEmpty()) {
+
+        Vector<String> titles = screenplayPresenter.getStringArray();
+        Boolean titleTaken = false;
+        for(int i=0; i<titles.size(); i++) {
+            if(titles.get(i).equals(title)) {
+                titleTaken = true;
+            }
+        }
+
+        if(title.isEmpty()) {
+            Toast.makeText(v.getContext(),"Il titolo dello sceneggiato non può essere vuoto",Toast.LENGTH_SHORT).show();
+        }
+        else if(titleTaken==true) {
+            Toast.makeText(v.getContext(),"Titolo dello sceneggiato già esistente",Toast.LENGTH_SHORT).show();
+        }
+        else {
             screenplayPresenter.newScreenplay(title, this);
             String selected = (String) spinnerImportCharacters.getSelectedItem();
             // the first position of the spinner is a "not import any character" option
@@ -63,9 +80,6 @@ public class NewScreenplayActivity extends AppCompatActivity implements NewScree
 
             Intent homeActivityIntent = new Intent(this, HomeActivity.class);
             startActivity(homeActivityIntent);
-        }
-        else {
-            Toast.makeText(v.getContext(),"Il titolo dello sceneggiato non può essere vuoto",Toast.LENGTH_SHORT).show();
         }
     }
 
