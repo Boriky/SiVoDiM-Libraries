@@ -44,7 +44,7 @@ public class NewSpeechActivity extends AppCompatActivity implements NewSpeechInt
         newSpeechApply=(Button)findViewById(R.id.newSpeechApply);
 
         newSpeechCharacter.setAdapter(chapterPresenter.getCharactersAdapter(this));
-        newSpeechEmotion.setAdapter(SpeechImpl.getEmotions(this));
+        //newSpeechEmotion.setAdapter(SpeechImpl.getEmotions(this));
 
         newSpeechApply.setOnClickListener(new View.OnClickListener() {
             @Override

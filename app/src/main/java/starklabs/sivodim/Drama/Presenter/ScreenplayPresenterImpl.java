@@ -15,8 +15,6 @@ import starklabs.sivodim.Drama.Model.Screenplay.ScreenplayImpl;
 import starklabs.sivodim.Drama.Model.Utilities.Background;
 import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
 import starklabs.sivodim.Drama.View.EditChapterActivity;
-import starklabs.sivodim.Drama.View.HomeInterface;
-import starklabs.sivodim.Drama.View.ListChapterActivity;
 import starklabs.sivodim.Drama.View.ListChapterInterface;
 import starklabs.sivodim.Drama.View.ListCharacterActivity;
 import starklabs.sivodim.Drama.View.ListSpeechesActivity;
@@ -39,6 +37,7 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
     private ListChapterInterface listChapterInterface;
     // to keep track of the last screenplay when on home (after back operation)
     //HomeInterface homeInterface;
+    private Vector<String> stringArray;
     private StringArrayAdapter titlesAdapter;
     private int selected=-1;
     private String selectedName=null;
@@ -62,6 +61,10 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
         this.listChapterInterface=listChapterActivity;
     }
 
+    public ScreenplayPresenterImpl(Vector<String> stringArray){
+        this.stringArray=stringArray;
+    }
+
 
     // ----------------------------- ACTIVITY ----------------------------------------------
 
@@ -73,6 +76,11 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
     @Override
     public void setActivity(NewChapterInterface newChapterInterface){
         this.newChapterInterface=newChapterInterface;
+    }
+
+    @Override
+    public void setActivity(NewScreenplayInterface newChapterInterface){
+        this.newScreenplayInterface=newChapterInterface;
     }
 
 
@@ -104,6 +112,8 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
         return titlesAdapter;
     }
 
+    @Override
+    public Vector<String> getStringArray() { return stringArray; }
     @Override
     public String getChapterSelectedName(){
         return this.selectedName;
@@ -208,6 +218,7 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
     @Override
     public void importCharacter(String screenplay,Context context){
         this.screenplay.importCharacters(ScreenplayImpl.loadScreenplay(screenplay,context));
+        save(this.screenplay,context);
     }
 
     @Override

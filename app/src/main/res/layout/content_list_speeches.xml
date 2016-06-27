@@ -52,7 +52,8 @@
                 android:layout_weight="0.72"
                 android:ems="10"
                 android:maxHeight="80dp"
-                android:layout_marginRight="10dp" />
+                android:layout_marginRight="10dp"
+                android:hint="Battuta" />
 
             <ImageButton
                 android:id="@+id/setSpeechCharacterButton"
@@ -96,17 +97,15 @@
             android:divider="#ffffff"
             android:id="@+id/newSpeechCharactersList"
             android:nestedScrollingEnabled="true"
-            android:visibility="gone"
-            />
-
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            android:dividerHeight="15dp"
-            android:background="#ffffff"
-            android:divider="#ffffff"
-            android:id="@+id/newSpeechEmotionsList"
-            android:nestedScrollingEnabled="true"
             android:visibility="gone" />
+
+        <GridView
+            android:id="@+id/emotionsListView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:background="#ffffff"
+            android:visibility="gone"
+            android:numColumns="4" />
     </LinearLayout>
 </RelativeLayout>
