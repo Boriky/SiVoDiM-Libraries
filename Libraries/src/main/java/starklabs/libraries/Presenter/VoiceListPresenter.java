@@ -1,7 +1,6 @@
 package starklabs.libraries.Presenter;
 
 import android.content.Context;
-import android.widget.ArrayAdapter;
 
 import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.View.VoiceListActivityInterface;
@@ -42,6 +41,9 @@ public interface VoiceListPresenter {
      * @param context
      * @return
      */
-    ArrayAdapter<String> getVoicesAdapter(Context context);
+    StringArrayAdapter getVoicesAdapter(Context context);
 
+    void setVoiceSelected(int index, String name);
+
+    void deleteVoiceSelected(Context context);
 }

@@ -3,7 +3,7 @@
 <TextView android:id="@+id/voice"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/voiceback"
+    android:background="@drawable/voice_selected"
     android:paddingBottom="15dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"

@@ -1,5 +1,6 @@
 package starklabs.libraries.View;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.NavigationView;
@@ -94,6 +95,18 @@ public class HomeActivity extends AppCompatActivity
 
         mtts = new TextToSpeech(this, this, "starklabs.libraries.Model.Mivoq.MivoqTTSService");
         */
+
+        Button test=(Button) findViewById(R.id.buttonT);
+        if(test!=null){
+            test.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent homeIntent = new Intent(HomeActivity.this, TestActivity.class);
+                    startActivity(homeIntent);
+                }
+            });
+        }
+
     }
 
     @Override

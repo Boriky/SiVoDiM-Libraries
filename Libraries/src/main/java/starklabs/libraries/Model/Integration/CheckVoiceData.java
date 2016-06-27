@@ -42,7 +42,8 @@ public class CheckVoiceData extends Activity {
             ArrayList<String> available = new ArrayList<String>();
 
             for(MivoqVoice vox:voiceList) {
-                available.add(vox.getName());
+                //available.add(vox.getName());
+                available.add(vox.getLanguage());
             }
 
             returnData.putStringArrayListExtra("availableVoices", available);

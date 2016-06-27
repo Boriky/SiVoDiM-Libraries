@@ -2,7 +2,6 @@ package starklabs.libraries.Presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
 
@@ -18,8 +17,12 @@ import starklabs.libraries.View.VoiceListActivityInterface;
 public class VoiceListPresenterImpl implements VoiceListPresenter{
 
     VoiceListActivityInterface voiceListActivityInterface;
-    ArrayAdapter<String> voicesAdapterName;
+    StringArrayAdapter voicesAdapterName;
     private Engine engine;
+
+    //For selection of voice in VoiceListActivity
+    int voiceSelectedInt=-1;
+    String voiceSelected=null;
 
     /** Constructor of VoiceListPresenterImpl
      *
@@ -49,18 +52,28 @@ public class VoiceListPresenterImpl implements VoiceListPresenter{
 
     @Override
     public void loadVoiceNames(Context context) {
-        voicesAdapterName=new ArrayAdapter<String>(context, R.layout.voice);
+        voicesAdapterName=new StringArrayAdapter(context, R.layout.voice);
         ArrayList<MivoqVoice> voices=engine.getVoices();
         for(int i=0; i<voices.size(); i++)
             voicesAdapterName.add(voices.get(i).getName());
     }
 
     @Override
-    public ArrayAdapter<String> getVoicesAdapter(Context context) {
-        if(voicesAdapterName==null){
-            loadVoiceNames(context);
-        }
+    public StringArrayAdapter getVoicesAdapter(Context context) {
+        loadVoiceNames(context);
+        voicesAdapterName.setStringSelected(voiceSelectedInt);
         return voicesAdapterName;
+    }
+
+    public void setVoiceSelected(int index, String name){
+        this.voiceSelectedInt = index;
+        this.voiceSelected = name;
+    }
+
+    @Override
+    public void deleteVoiceSelected(Context context) {
+        engine.removeVoice(voiceSelectedInt);
+        engine.save();
     }
 
 }
