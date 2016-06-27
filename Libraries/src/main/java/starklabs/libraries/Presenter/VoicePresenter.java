@@ -62,4 +62,9 @@ public interface VoicePresenter {
     void setLanguage(int pos);
 
     String getLanguage();
+
+
+    int getGenderPos(String genderTag);
+
+    int getLanguagePos(String langTag);
 }

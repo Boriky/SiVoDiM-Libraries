@@ -22,6 +22,7 @@ public class EngineImpl implements Engine{
     private static MivoqTTSSingleton myEngine= MivoqTTSSingleton.getInstance();
     private static TextToSpeech backupEngine;
     private Context myContext;
+    private boolean isConnected;
 
     private class SynthesisTask extends AsyncTask<Void,Void,Void> {
         private String myPath;
@@ -86,7 +87,7 @@ public class EngineImpl implements Engine{
                 (ConnectivityManager)myContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
+        isConnected = activeNetwork != null &&
                 activeNetwork.isConnected();
 
 
@@ -155,7 +156,7 @@ public class EngineImpl implements Engine{
                 (ConnectivityManager)myContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
+        isConnected = activeNetwork != null &&
                 activeNetwork.isConnected();
         if (isConnected)
             System.out.println("e' connesso");
@@ -193,8 +194,23 @@ public class EngineImpl implements Engine{
     public MivoqVoice createVoice(String name, String gender, String myLanguage) {
         int i=1;
         String voiceName=name;
+        //Check if the name is empty, and in that case assign the default name
+        if(voiceName.equals("")) {voiceName="New Voice"; name="New Voice";}
+
+        //Check for spaces in the beginning of the name
+        while(voiceName.substring(0,0).equals(" "))
+            voiceName=voiceName.substring(1);
+        System.out.println("voiceNameSpazioPrima = " + voiceName);
+
+        //Check for spaces in the ending of the name
+        while(voiceName.substring(voiceName.length()).equals(" "))
+            voiceName=voiceName.substring(0,voiceName.length()-1);
+        System.out.println("voiceNameSpazioDopo = " + voiceName);
+
+        //Check if the name has already been used
+        // if so, it adds an incrementing number to get a unique name
         while (getVoiceByName(voiceName)!=null){
-            voiceName=name+i;
+            voiceName=name.concat(Integer.toString(i));
             i++;
         }
         return myEngine.createVoice(voiceName,gender,myLanguage);
@@ -218,5 +234,9 @@ public class EngineImpl implements Engine{
                 return voiceList.get(i);
         }
         return null;
+    }
+
+    public boolean getIsConnected(){
+        return isConnected;
     }
 }

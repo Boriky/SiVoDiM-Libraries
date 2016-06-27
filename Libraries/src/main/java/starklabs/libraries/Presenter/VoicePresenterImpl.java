@@ -31,6 +31,7 @@ public class VoicePresenterImpl implements VoicePresenter{
         gender="male";
         language="it";
         mivoqVoice=engine.getVoiceByName("");
+
         if(mivoqVoice==null)
             mivoqVoice=engine.createVoice("","male","it");
         int i=mivoqVoice.getEffects().size();
@@ -48,6 +49,8 @@ public class VoicePresenterImpl implements VoicePresenter{
     public VoicePresenterImpl(MivoqVoice mivoqVoice, Engine engine) {
         this.engine = engine;
         this.mivoqVoice=mivoqVoice;
+        gender=mivoqVoice.getGender();
+        language=mivoqVoice.getLanguage();
     }
 
     @Override
@@ -119,6 +122,8 @@ public class VoicePresenterImpl implements VoicePresenter{
             case 2: gender="neutral"; break;
             case 3: gender="unknown"; break;
         }
+        System.out.println("gender = " + gender);
+        System.out.println("language = " + language);
         mivoqVoice.setGenderLanguage(gender,language);
     }
 
@@ -131,8 +136,38 @@ public class VoicePresenterImpl implements VoicePresenter{
             case 3: language="fr"; break;
         }
         mivoqVoice.setGenderLanguage(gender,language);
-
     }
+
+    @Override
+    public int getGenderPos(String genderTag){
+        switch(genderTag)
+        {
+            case "male":
+                return 0;
+            case "female":
+                return 1;
+            case "neutral":
+                return 2;
+            case "unknown":
+                return 3;
+        }
+        return 0;
+    }
+
+    @Override
+    public int getLanguagePos(String langTag) {
+        switch(langTag)
+        {
+            case "it":
+                return 0;
+            case "en":
+                return 1;
+            case "de":
+                return 2;
+            case "fr":
+                return 3;
+        }
+        return 0;    }
 
     @Override
     public String getLanguage() {

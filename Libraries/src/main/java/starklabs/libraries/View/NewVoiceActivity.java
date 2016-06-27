@@ -14,7 +14,6 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import starklabs.libraries.Model.EngineManager.Engine;
 import starklabs.libraries.Model.Voice.Effect;
 import starklabs.libraries.Model.Voice.EffectImpl;
 import starklabs.libraries.Model.Voice.MivoqVoice;
@@ -65,7 +64,7 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //set gender spinner
-        final Spinner gender=(Spinner)findViewById(R.id.character);
+        final Spinner gender=(Spinner)findViewById(R.id.gender);
         voiceName=(EditText)findViewById(R.id.voiceName);
         genderAdapter=voicePresenter.getGenderAdapter(this);
         gender.setAdapter(genderAdapter);
@@ -83,7 +82,7 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
         });
 
         //set language spinner
-        final Spinner language=(Spinner)findViewById(R.id.Emotion);
+        final Spinner language=(Spinner)findViewById(R.id.language);
         languageAdapter=voicePresenter.getLanguageAdapter(this);
         language.setAdapter(languageAdapter);
 
@@ -99,6 +98,7 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
             }
         });
 
+        //set effect seekBar
         //set rate (velocita) effect
         Effect rate=new EffectImpl("Rate");
         rate.setValue("1");
@@ -140,7 +140,7 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
             seekDepth.setOnSeekBarChangeListener(new seekListener(depth) {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    double value=1+ (3*(progress/51) +1)*(progress-50)/100.0;
+                    double value=1+ (3*(progress/51) +1)*(progress-50)/200.0;
                     effect.setValue(Double.toString(value));
                     System.out.println(effect.toString());
                 }
@@ -184,10 +184,11 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
         assert button != null;
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                System.out.println(voicePresenter.getVoice().getLanguage());
-                System.out.println(voicePresenter.getVoice().getGender());
                 voicePresenter.getEngine().speak(voicePresenter.getVoice().getName(), MivoqVoice.getSampleText(voicePresenter.getLanguage()));
 
+                boolean connected=voicePresenter.getEngine().getIsConnected();
+                if(!connected)
+                    Toast.makeText(v.getContext(), "Il sistema non è connesso. La sintesi avverrà con il TTS Android", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -203,7 +204,7 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
                 else {
                     voicePresenter.setGender(gender.getSelectedItemPosition());
                     voicePresenter.setLanguage(language.getSelectedItemPosition());
-                    voicePresenter.getEngine().getVoiceByName("").setName(voiceName.getText().toString());
+                    voicePresenter.getVoice().setName(voiceName.getText().toString());
                     voicePresenter.getEngine().save();
                     voicePresenter = null;
                     Intent homeIntent = new Intent(NewVoiceActivity.this, HomeActivity.class);

@@ -33,6 +33,7 @@ public interface Engine {
     }
     void save();
     MivoqVoice getVoiceByName(String s);
+    boolean getIsConnected();
 }
 
 

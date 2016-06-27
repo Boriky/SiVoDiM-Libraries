@@ -143,14 +143,12 @@ public class MivoqTTSSingleton {
 
         Language L= new Language(myLanguage);
         MivoqVoice V=  new MivoqVoice(name,VoiceName,L);
-        V.setGenderLanguage(gender,myLanguage);
 
-        V.setGender(gender);
+        V.setGenderLanguage(gender,myLanguage);
 
         voiceList.add(V);
 
         return V;
-
     }
 
     public ArrayList<MivoqVoice> getVoices() {
