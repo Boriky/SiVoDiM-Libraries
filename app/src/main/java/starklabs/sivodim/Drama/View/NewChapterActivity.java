@@ -32,6 +32,7 @@ import starklabs.sivodim.Drama.Presenter.ChapterPresenter;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenterImpl;
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenter;
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenterImpl;
+import starklabs.sivodim.Drama.Presenter.StringArrayAdapter;
 import starklabs.sivodim.R;
 
 public class NewChapterActivity extends AppCompatActivity implements NewChapterInterface {
@@ -75,7 +76,23 @@ public class NewChapterActivity extends AppCompatActivity implements NewChapterI
             @Override
             public void onClick(View v) {
                 String title=newChapterName.getText().toString();
-                if(!title.isEmpty()) {
+                String titleScreenplay=screenplayPresenter.getScreenplayTitle();
+
+                StringArrayAdapter titles = screenplayPresenter.getTitlesAdapter(v.getContext(), titleScreenplay+".scrpl");
+                Boolean titleTaken = false;
+                for(int i=0; i<titles.getCount(); i++) {
+                    if(titles.getItem(i).equals(title)) {
+                        titleTaken = true;
+                    }
+                }
+
+                if(title.isEmpty()) {
+                    Toast.makeText(v.getContext(),"Il titolo del capitolo non può essere vuoto",Toast.LENGTH_SHORT).show();
+                }
+                else if(titleTaken==true) {
+                    Toast.makeText(v.getContext(),"Titolo del capitolo già esistente",Toast.LENGTH_SHORT).show();
+                }
+                else {
                     Soundtrack soundtrack = null;
                     if (audioPath != null) {
                         File audioChoice = new File(audioPath);
@@ -111,9 +128,6 @@ public class NewChapterActivity extends AppCompatActivity implements NewChapterI
                     screenplayPresenter.newChapter(title, soundtrack, background);
                     Intent intent = new Intent(v.getContext(), ListChapterActivity.class);
                     startActivity(intent);
-                }
-                else {
-                    Toast.makeText(v.getContext(),"Il titolo del capitolo non può essere vuoto",Toast.LENGTH_SHORT).show();
                 }
             }
         });
