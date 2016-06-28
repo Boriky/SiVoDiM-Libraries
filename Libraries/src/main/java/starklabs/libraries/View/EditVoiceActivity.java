@@ -3,6 +3,8 @@ package starklabs.libraries.View;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -14,12 +16,23 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import starklabs.libraries.Model.Voice.Effect;
 import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.Presenter.VoicePresenter;
 import starklabs.libraries.R;
 
-public class EditVoiceActivity extends AppCompatActivity implements EditVoiceActivityInterface{
+public class EditVoiceActivity extends AppCompatActivity implements EditVoiceActivityInterface, MenuItem.OnMenuItemClickListener {
+
+    // create the options menu: it's invoked just one time when the activity has been created
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.voice_edit_menu,menu);
+        return true;
+    }
 
     public abstract class seekListener implements SeekBar.OnSeekBarChangeListener{
         protected Effect effect;
@@ -119,7 +132,7 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
         }
 
         //set F0Add (altezza) effect
-        SeekBar seekF0Add = (SeekBar) findViewById(R.id.seekBar4);
+        SeekBar seekF0Add = (SeekBar) findViewById(R.id.seekBar);
         double f0AddD;
         if(mivoqVoice.getEffects().get(1).getName().equals("F0Add")) {
             f0AddD = Double.parseDouble(mivoqVoice.getEffects().get(1).getValue());
@@ -168,11 +181,33 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
             }
         }
 
+        //set depth(profondita) effect
+        SeekBar seekDistortion = (SeekBar) findViewById(R.id.seekBar4);
+        double distortionD;
+        if(mivoqVoice.getEffects().get(3).getName().equals("Whisper")) {
+            distortionD = Double.parseDouble(mivoqVoice.getEffects().get(3).getValue());
+            double pD;
+            pD=distortionD;
+            int p = (int) pD;
+            seekDistortion.setProgress(p);
+
+            Effect distortion=mivoqVoice.getEffects().get(3);
+            if (seekDistortion != null) {
+                seekDistortion.setOnSeekBarChangeListener(new seekListener(distortion) {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        double value=progress;
+                        effect.setValue(Double.toString(value));
+                    }
+                });
+            }
+        }
+
         //set accent(accento) effect
         SeekBar seekAccent = (SeekBar) findViewById(R.id.seekBar2);
         double accentD;
-        if(mivoqVoice.getEffects().get(3).getName().equals("F0Scale")) {
-            accentD = Double.parseDouble(mivoqVoice.getEffects().get(3).getValue());
+        if(mivoqVoice.getEffects().get(4).getName().equals("F0Scale")) {
+            accentD = Double.parseDouble(mivoqVoice.getEffects().get(4).getValue());
             double pD;
             if(accentD<=1)
                 pD=50*(2*accentD-1);
@@ -181,7 +216,7 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
             int p = (int) pD;
             seekAccent.setProgress(p);
 
-            Effect accent=mivoqVoice.getEffects().get(3);
+            Effect accent=mivoqVoice.getEffects().get(4);
             if (seekAccent != null) {
                 seekAccent.setOnSeekBarChangeListener(new seekListener(accent) {
                     @Override
@@ -205,13 +240,13 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
                 voicePresenter.getEngine().save();
 
                 voicePresenter = null;
-                Intent homeIntent = new Intent(EditVoiceActivity.this, HomeActivity.class);
+                Intent homeIntent = new Intent(EditVoiceActivity.this, VoiceListActivity.class);
                 startActivity(homeIntent);
             }
         });
 
         //preview of the text with effect
-        ImageButton button = (ImageButton) findViewById(R.id.previewButton);
+        final ImageButton button = (ImageButton) findViewById(R.id.previewButton);
         assert button != null;
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -222,6 +257,45 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
                     Toast.makeText(v.getContext(), "Il sistema non è connesso. La sintesi avverrà con il TTS Android", Toast.LENGTH_LONG).show();
             }
         });
+
+        final Button buttonDefault=(Button) findViewById(R.id.buttonDefault);
+        if(voicePresenter.isDefaultVoice())
+            buttonDefault.setEnabled(false);
+        else{
+            assert buttonDefault != null;
+            buttonDefault.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ArrayList<MivoqVoice> list = voicePresenter.getEngine().getVoices();
+                    int pos=-1;
+
+                    for(int i = 0; (i < list.size()) && (pos == -1); i++)
+                    {
+                        if(voicePresenter.getVoice().getName().equals(list.get(i).getName()))
+                            pos=i;
+                    }
+                    voicePresenter.getEngine().setDefaultVoice(pos);
+                    voicePresenter.setDefaultVoice(true);
+                    buttonDefault.setEnabled(false);
+                }
+            });
+        }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.playMenu:
+                Toast.makeText(this, "Il sistema non è connesso. La sintesi avverrà con il TTS Android", Toast.LENGTH_LONG).show();
+
+                voicePresenter.getEngine().speak(voicePresenter.getVoice().getName(), MivoqVoice.getSampleText(voicePresenter.getLanguage()));
+
+                boolean connected=voicePresenter.getEngine().getIsConnected();
+                if(!connected)
+                    Toast.makeText(this, "Il sistema non è connesso. La sintesi avverrà con il TTS Android", Toast.LENGTH_LONG).show();
+                break;
+        }
+        return false;
     }
 
     @Override

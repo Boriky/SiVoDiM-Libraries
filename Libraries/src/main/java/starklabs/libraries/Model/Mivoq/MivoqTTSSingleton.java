@@ -37,7 +37,6 @@ public class MivoqTTSSingleton {
     private MivoqTTSSingleton() {
 
         voiceList = new ArrayList<MivoqVoice>();
-        //load();
     }
 
     public boolean hasContext() {
@@ -180,5 +179,12 @@ public class MivoqTTSSingleton {
             System.out.println("errore nel caricamento");
         }
 
+    }
+
+    public void setDefaultVoice(int pos) {
+
+        MivoqVoice temp= voiceList.get(pos);
+        voiceList.remove(pos);
+        voiceList.add(0,temp);
     }
 }

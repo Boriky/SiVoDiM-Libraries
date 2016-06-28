@@ -98,32 +98,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal">
-                <SeekBar
-                    android:layout_width="100dp"
+                <!--Altezza-->
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/seekBar"
-                    android:rotation="54"
-                    android:layout_below="@+id/lab4"
-                    android:layout_marginLeft="150dp"
-                    android:layout_marginTop="170dp" />
-
-                <SeekBar
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/seekBar2"
-                    android:rotation="126"
-                    android:layout_below="@+id/lab4"
-                    android:layout_marginLeft="70dp"
-                    android:layout_marginTop="170dp" />
-
-                <SeekBar
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/seekBar3"
-                    android:rotation="198"
-                    android:layout_below="@+id/lab4"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="90dp" />
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Distorsione"
+                    android:id="@+id/lab4"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:textColor="@color/colorPrimaryDark" />
 
                 <SeekBar
                     android:layout_width="100dp"
@@ -131,12 +115,12 @@
                     android:id="@+id/seekBar4"
                     android:rotation="270"
                     android:layout_below="@+id/lab4"
-
                     android:layout_marginTop="40dp"
                     android:layout_alignParentTop="false"
                     android:layout_alignParentLeft="false"
                     android:layout_centerHorizontal="true" />
 
+                <!--Profondita-->
                 <SeekBar
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
@@ -145,54 +129,6 @@
                     android:layout_below="@+id/lab4"
                     android:layout_marginLeft="170dp"
                     android:layout_marginTop="90dp" />
-
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Accento"
-                    android:id="@+id/lab1"
-                    android:layout_below="@+id/lab4"
-                    android:layout_marginTop="200dp"
-                    android:layout_marginLeft="30dp"
-                    android:textColor="@color/colorPrimaryDark"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Energia"
-                    android:id="@+id/lab2"
-                    android:layout_below="@+id/lab4"
-                    android:layout_marginTop="200dp"
-                    android:layout_marginLeft="220dp"
-                    android:textColor="@color/colorPrimaryDark"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Velocità"
-                    android:id="@+id/lab3"
-                    android:layout_below="@+id/lab4"
-                    android:layout_marginTop="70dp"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/colorPrimaryDark" />
-
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Altezza"
-                    android:id="@+id/lab4"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentTop="true"
-                    android:textColor="@color/colorPrimaryDark" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -203,6 +139,70 @@
                     android:layout_marginTop="70dp"
                     android:layout_marginLeft="250dp"
                     android:textColor="@color/colorPrimaryDark"/>
+
+                <!--Altezza-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Altezza"
+                    android:id="@+id/lab2"
+                    android:layout_below="@+id/lab4"
+                    android:layout_marginTop="200dp"
+                    android:layout_marginLeft="220dp"
+                    android:textColor="@color/colorPrimaryDark"/>
+                <SeekBar
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/seekBar"
+                    android:rotation="54"
+                    android:layout_below="@+id/lab4"
+                    android:layout_marginLeft="150dp"
+                    android:layout_marginTop="170dp" />
+
+                <!--accento-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Accento"
+                    android:id="@+id/lab1"
+                    android:layout_below="@+id/lab4"
+                    android:layout_marginTop="200dp"
+                    android:layout_marginLeft="30dp"
+                    android:textColor="@color/colorPrimaryDark"/>
+                <SeekBar
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/seekBar2"
+                    android:rotation="126"
+                    android:layout_below="@+id/lab4"
+                    android:layout_marginLeft="70dp"
+                    android:layout_marginTop="170dp" />
+
+                <!--velocita-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Velocità"
+                    android:id="@+id/lab3"
+                    android:layout_below="@+id/lab4"
+                    android:layout_marginTop="70dp"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/colorPrimaryDark" />
+                <SeekBar
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/seekBar3"
+                    android:rotation="198"
+                    android:layout_below="@+id/lab4"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="90dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:indeterminate="false"
+                    android:longClickable="false" />
             </RelativeLayout>
             <!--add voice-->
             <LinearLayout
@@ -212,19 +212,28 @@
                 android:textAlignment="center"
                 android:gravity="center_horizontal"
                 android:layout_marginTop="25dp">
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Set default"
+                    android:id="@+id/buttonDefault" />
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Modifica Voce"
                     android:id="@+id/EditVoiceButton"
-                    android:layout_marginRight="30dp" />
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp" />
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/previewButton"
                     android:src="@mipmap/ic_play"
                     android:background="@null"
-                    android:layout_marginLeft="30dp" />
+                    android:layout_marginLeft="10dp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

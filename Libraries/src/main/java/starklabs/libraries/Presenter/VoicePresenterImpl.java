@@ -21,6 +21,8 @@ public class VoicePresenterImpl implements VoicePresenter{
     ArrayAdapter<String> languageAdapter;
     private EditVoiceActivityInterface editVoiceActivityInterface;
     private NewVoiceActivityInterface newVoiceActivityInterface;
+    private boolean defaultVoice;
+
 
     /** Constructor of the VoicePresenterImpl
      *
@@ -40,6 +42,7 @@ public class VoicePresenterImpl implements VoicePresenter{
             i--;
         }
         mivoqVoice.setGenderLanguage("male","it");
+        defaultVoice=false;
     }
 
     /** Second constructor of the VoicePresenterImpl
@@ -51,6 +54,7 @@ public class VoicePresenterImpl implements VoicePresenter{
         this.mivoqVoice=mivoqVoice;
         gender=mivoqVoice.getGender();
         language=mivoqVoice.getLanguage();
+        defaultVoice=false;
     }
 
     @Override
@@ -168,6 +172,21 @@ public class VoicePresenterImpl implements VoicePresenter{
                 return 3;
         }
         return 0;    }
+
+    @Override
+    public void setDefaultVoice(int pos) {
+        engine.setDefaultVoice(pos);
+    }
+
+    @Override
+    public void setDefaultVoice(boolean b) {
+        defaultVoice=b;
+    }
+
+    @Override
+    public boolean isDefaultVoice() {
+        return defaultVoice;
+    }
 
     @Override
     public String getLanguage() {

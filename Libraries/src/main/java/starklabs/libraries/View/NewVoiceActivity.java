@@ -3,6 +3,9 @@ package starklabs.libraries.View;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +23,16 @@ import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.Presenter.VoicePresenter;
 import starklabs.libraries.R;
 
-public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActivityInterface{
+public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActivityInterface,
+        Toolbar.OnMenuItemClickListener{
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.voice_new_menu,menu);
+        return true;
+    }
 
     public abstract class seekListener implements SeekBar.OnSeekBarChangeListener{
         protected Effect effect;
@@ -54,14 +66,17 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_voice);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
 
         voicePresenter.setActivity(this);
+
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         getSupportActionBar().setTitle("Crea nuova voce");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //toolbar.setOnMenuItemClickListener(this);
 
         //set gender spinner
         final Spinner gender=(Spinner)findViewById(R.id.gender);
@@ -119,7 +134,7 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
         Effect pitch=new EffectImpl("F0Add");
         pitch.setValue("0");
         voicePresenter.getVoice().setEffect(pitch);
-        SeekBar seekPitch = (SeekBar) findViewById(R.id.seekBar4);
+        SeekBar seekPitch = (SeekBar) findViewById(R.id.seekBar);
         if (seekPitch != null) {
             seekPitch.setOnSeekBarChangeListener(new seekListener(pitch) {
                 @Override
@@ -146,23 +161,23 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
                 }
             });
         }
-/*
-        //set vitality(energia) effect
-        Effect vitality=new EffectImpl("Rate");
-        vitality.setValue("1");
-        voicePresenter.getVoice().setEffect(vitality);
-        SeekBar seekVitality = (SeekBar) findViewById(R.id.seekBar);
-        if (seekRate != null) {
-            seekRate.setOnSeekBarChangeListener(new seekListener(vitality) {
+
+        //set distorsion(distorsione) effect
+        Effect distortion=new EffectImpl("Whisper");
+        distortion.setValue("0");
+        voicePresenter.getVoice().setEffect(distortion);
+        SeekBar seekDistortion = (SeekBar) findViewById(R.id.seekBar4);
+        if (seekDistortion != null) {
+            seekDistortion.setOnSeekBarChangeListener(new seekListener(distortion) {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    double value=1.5 - progress/100.0;
+                    double value=progress;
                     effect.setValue(Double.toString(value));
                     System.out.println(effect.toString());
                 }
             });
         }
-*/
+
         //set accent(accento) effect
         Effect accent=new EffectImpl("F0Scale");
         accent.setValue("1");
@@ -213,6 +228,16 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
             }
         });
 
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.playMenu:
+                Toast.makeText(this, "Salvato", Toast.LENGTH_LONG).show();
+                break;
+        }
+        return false;
     }
 
     @Override

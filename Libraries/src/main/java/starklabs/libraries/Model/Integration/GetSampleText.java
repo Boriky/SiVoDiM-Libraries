@@ -26,7 +26,9 @@ public class GetSampleText extends Activity {
             language = intent.getStringExtra("language");
 
         if (language != null)
-            myText= MivoqVoice.getSampleText(language);
+            myText= MivoqVoice.getSampleText(language.substring(0,2));
+
+        System.out.println("Get_Sample_Text");
 
         if (myText == null)
         {

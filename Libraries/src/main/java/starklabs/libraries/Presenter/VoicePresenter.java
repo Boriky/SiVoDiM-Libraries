@@ -67,4 +67,9 @@ public interface VoicePresenter {
     int getGenderPos(String genderTag);
 
     int getLanguagePos(String langTag);
+
+    void setDefaultVoice(int pos);
+
+    public void setDefaultVoice(boolean b);
+    public boolean isDefaultVoice();
 }

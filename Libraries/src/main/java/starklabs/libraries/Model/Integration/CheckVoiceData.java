@@ -30,20 +30,18 @@ public class CheckVoiceData extends Activity {
         ArrayList<MivoqVoice> voiceList = getVoices();
         if (voiceList== null || voiceList.isEmpty()) {
 
-
-
             result = TextToSpeech.Engine.CHECK_VOICE_DATA_FAIL;
             setResult(result, returnData);
         }
         else
         {
 
-
             ArrayList<String> available = new ArrayList<String>();
 
             for(MivoqVoice vox:voiceList) {
                 //available.add(vox.getName());
                 available.add(vox.getLanguage());
+                //Italian, Italy (it_IT)
             }
 
             returnData.putStringArrayListExtra("availableVoices", available);

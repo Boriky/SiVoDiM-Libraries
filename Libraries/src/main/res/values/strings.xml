@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Libraries</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -10,4 +10,44 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_voice_list">VoiceListActivity</string>
     <string name="title_activity_test">TestActivity</string>
+
+    <!--new-->
+    <!-- Warning message about required internet conectivity for TTS synthesis, displayed as a dialog
+          message when the user selects to play an example for network only locale and there's no internet connectivity. -->
+    <string name="tts_engine_network_required">This language requires a working network connection for text-to-speech output.</string>
+    <!-- Text spoken by the TTS engine as an example if the engine doesn't provide sample text [CHAR LIMIT=100] -->
+    <string name="tts_default_sample_string">This is an example of speech synthesis</string>
+    <!-- On main TTS Settings screen, title of a field explaining current TTS engine status for
+     current default language [CHAR LIMIT=50] -->
+    <string name="tts_status_title">Default language status</string>
+    <!-- On main TTS Settings screen, current TTS engine status for the current default language,
+         selected language is fully supported by the engine [CHAR LIMIT=150]-->
+    <string name="tts_status_ok"><xliff:g id="locale" example="English (United States)">%1$s</xliff:g> is fully supported</string>
+    <!-- On main TTS Settings screen, current TTS engine status for the current default language,
+         selected language is supported by the engine only if there's a working network connection
+     [CHAR LIMIT=150]-->
+    <string name="tts_status_requires_network"><xliff:g id="locale" example="English (United States)">%1$s</xliff:g> requires network connection</string>
+    <!-- On main TTS Settings screen, current TTS engine status for the current default language,
+         selected language is not supported by the engine [CHAR LIMIT=150]-->
+    <string name="tts_status_not_supported"><xliff:g id="locale" example="English (United States)">%1$s</xliff:g> is not supported</string>
+    <!-- On main TTS Settings screen, text for divider under which all TTS engines are listed -->
+    <string name="tts_engines_section">Engines</string>
+    <!-- On main TTS Settings screen, text preceded by the TTS engine name, clicking this button will launch the engine settings -->
+    <!-- TTS option item name in the main settings screen -->
+    <string name="tts_settings_title">Text-to-speech output</string>
+    <!-- [CHAR LIMIT=50] The text for the settings section that users to set a
+        preferred text to speech engine -->
+    <string name="tts_engine_preference_section_title">Preferred engine</string>
+    <!-- [CHAR LIMIT=50] Title of the settings section that displays general preferences
+         that are applicable to all engines, such as the speech rate -->
+    <string name="tts_general_section_title">General</string>
+    <!-- On main TTS Settings screen, in default settings section, setting default speech rate for synthesized voice -->
+    <string name="tts_default_rate_title">Speech rate</string>
+    <!-- On main TTS Settings screen, summary for default speech rate for synthesized voice -->
+    <string name="tts_default_rate_summary">Speed at which the text is spoken</string>
+    <!-- On main TTS Settings screen, triggers playback of an example of speech synthesis -->
+    <string name="tts_play_example_title">Listen to an example</string>
+    <!-- On main TTS Settings screen, summary for triggering playback of an example of speech synthesis -->
+    <string name="tts_play_example_summary">Play a short demonstration of speech synthesis</string>
+
 </resources>

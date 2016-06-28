@@ -239,4 +239,10 @@ public class EngineImpl implements Engine{
     public boolean getIsConnected(){
         return isConnected;
     }
+
+    @Override
+    public void setDefaultVoice(int pos) {
+        myEngine.setDefaultVoice(pos);
+        save();
+    }
 }

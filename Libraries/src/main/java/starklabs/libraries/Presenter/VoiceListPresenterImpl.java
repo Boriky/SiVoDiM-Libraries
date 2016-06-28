@@ -36,6 +36,11 @@ public class VoiceListPresenterImpl implements VoiceListPresenter{
     public void goToEditVoiceActivity(Context context, MivoqVoice mivoqVoice) {
         Intent editVoiceIntent = new Intent(context, EditVoiceActivity.class);
         VoicePresenter voicePresenter = new VoicePresenterImpl(mivoqVoice, engine);
+        if(mivoqVoice.getName().equals(engine.getVoices().get(0).getName()))
+            voicePresenter.setDefaultVoice(true);
+        else
+            voicePresenter.setDefaultVoice(false);
+
         EditVoiceActivity.setPresenter(voicePresenter);
         context.startActivity(editVoiceIntent);
     }

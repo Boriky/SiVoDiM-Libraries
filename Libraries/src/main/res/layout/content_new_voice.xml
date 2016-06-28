@@ -93,6 +93,62 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal">
+
+                <!--Distorsione-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Distorsione"
+                    android:id="@+id/lab4"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:textColor="@color/colorPrimaryDark" />
+
+                <SeekBar
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/seekBar4"
+                    android:progress="0"
+                    android:rotation="270"
+                    android:layout_below="@+id/lab4"
+                    android:layout_marginTop="40dp"
+                    android:layout_alignParentTop="false"
+                    android:layout_alignParentLeft="false"
+                    android:layout_centerHorizontal="true" />
+
+                <!--Profondita-->
+                <SeekBar
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/seekBar5"
+                    android:progress="50"
+                    android:rotation="342"
+                    android:layout_below="@+id/lab4"
+                    android:layout_marginLeft="170dp"
+                    android:layout_marginTop="90dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Profondità"
+                    android:id="@+id/lab5"
+                    android:layout_below="@+id/lab4"
+                    android:layout_marginTop="70dp"
+                    android:layout_marginLeft="250dp"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+                <!--Altezza-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Altezza"
+                    android:id="@+id/lab2"
+                    android:layout_below="@+id/lab4"
+                    android:layout_marginTop="200dp"
+                    android:layout_marginLeft="220dp"
+                    android:textColor="@color/colorPrimaryDark"/>
                 <SeekBar
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
@@ -103,6 +159,17 @@
                     android:layout_marginLeft="150dp"
                     android:layout_marginTop="170dp" />
 
+                <!--accento-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Accento"
+                    android:id="@+id/lab1"
+                    android:layout_below="@+id/lab4"
+                    android:layout_marginTop="200dp"
+                    android:layout_marginLeft="30dp"
+                    android:textColor="@color/colorPrimaryDark"/>
                 <SeekBar
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
@@ -113,6 +180,17 @@
                     android:layout_marginLeft="70dp"
                     android:layout_marginTop="170dp" />
 
+                <!--velocita-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Velocità"
+                    android:id="@+id/lab3"
+                    android:layout_below="@+id/lab4"
+                    android:layout_marginTop="70dp"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/colorPrimaryDark" />
                 <SeekBar
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
@@ -127,86 +205,6 @@
                     android:indeterminate="false"
                     android:longClickable="false" />
 
-                <SeekBar
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/seekBar4"
-                    android:progress="50"
-                    android:rotation="270"
-                    android:layout_below="@+id/lab4"
-
-                    android:layout_marginTop="40dp"
-                    android:layout_alignParentTop="false"
-                    android:layout_alignParentLeft="false"
-                    android:layout_centerHorizontal="true" />
-
-                <SeekBar
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/seekBar5"
-                    android:progress="50"
-                    android:rotation="342"
-                    android:layout_below="@+id/lab4"
-                    android:layout_marginLeft="170dp"
-                    android:layout_marginTop="90dp" />
-
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Accento"
-                    android:id="@+id/lab1"
-                    android:layout_below="@+id/lab4"
-                    android:layout_marginTop="200dp"
-                    android:layout_marginLeft="30dp"
-                    android:textColor="@color/colorPrimaryDark"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Energia"
-                    android:id="@+id/lab2"
-                    android:layout_below="@+id/lab4"
-                    android:layout_marginTop="200dp"
-                    android:layout_marginLeft="220dp"
-                    android:textColor="@color/colorPrimaryDark"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Velocità"
-                    android:id="@+id/lab3"
-                    android:layout_below="@+id/lab4"
-                    android:layout_marginTop="70dp"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/colorPrimaryDark" />
-
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Altezza"
-                    android:id="@+id/lab4"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentTop="true"
-                    android:textColor="@color/colorPrimaryDark" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Profondità"
-                    android:id="@+id/lab5"
-                    android:layout_below="@+id/lab4"
-                    android:layout_marginTop="70dp"
-                    android:layout_marginLeft="250dp"
-                    android:textColor="@color/colorPrimaryDark"/>
             </RelativeLayout>
             <!--add voice-->
             <LinearLayout
