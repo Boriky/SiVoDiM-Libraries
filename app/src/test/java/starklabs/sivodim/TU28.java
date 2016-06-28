@@ -21,6 +21,7 @@ import starklabs.sivodim.Drama.Model.Chapter.Speech;
 import starklabs.sivodim.Drama.Model.Chapter.SpeechImpl;
 import starklabs.sivodim.Drama.Model.Character.CharacterContainer;
 import starklabs.sivodim.Drama.Model.Character.CharacterImpl;
+import starklabs.sivodim.Drama.Model.Utilities.MutableInteger;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenter;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenterImpl;
 
@@ -61,8 +62,8 @@ public class TU28 {
         chapter2.addSpeech(speech2);
         chapter2.addSpeech(speech3);
 
-        ChapterPresenter chapterPresenter = new ChapterPresenterImpl(chapter, characterContainer, project);
-        ChapterPresenter chapterPresenter1 = new ChapterPresenterImpl(chapter2, characterContainer, project);
+        ChapterPresenter chapterPresenter = new ChapterPresenterImpl(chapter, characterContainer, project, new MutableInteger(0));
+        ChapterPresenter chapterPresenter1 = new ChapterPresenterImpl(chapter2, characterContainer, project,new MutableInteger(0));
 
 
         chapterPresenter.moveDownSpeech(0);

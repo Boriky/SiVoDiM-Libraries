@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class TU7 {
     @Test
     public void testAddChapter(){
-        ScreenplayImpl screenplay=new ScreenplayImpl("titolo");
+        ScreenplayImpl screenplay=new ScreenplayImpl("titolo",0);
         Chapter chapter = Mockito.mock(Chapter.class);
         String titolo="TitoloCapitolo";
         when(chapter.getTitle()).thenReturn(titolo);

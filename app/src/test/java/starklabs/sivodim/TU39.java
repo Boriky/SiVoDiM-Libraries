@@ -23,22 +23,22 @@ public class TU39 {
     @Test
     public void testMp3Converter() {
         Context context= Mockito.mock(Context.class);
-        File dir=new File("/Users/Enrico/Desktop/test");
+        File dir=new File("C:Desktop");
         when(context.getFilesDir()).thenReturn(dir);
-        File fileToConvert = new File("/Users/Enrico/Desktop/test/prova.wav");
-        File destination = new File("/Users/Enrico/Desktop/test/prova.mp3");
+        File fileToConvert = new File(context.getFilesDir(),"/prova.wav");
+        File destination = new File(context.getFilesDir(),"/prova.mp3");
 
-        Mp3Converter mp3Converter = new Mp3Converter(context,fileToConvert,destination);
+        Mp3Converter mp3Converter = Mockito.mock(Mp3Converter.class);
         mp3Converter.setFile(fileToConvert);
         mp3Converter.setDestination(destination);
+
 
         try {
             mp3Converter.exec();
         } catch (FFmpegCommandAlreadyRunningException e) {
             e.printStackTrace();
         }
-/**
-        //Extension check
+
         File file=new File(context.getFilesDir(),"/prova.mp3");
         try {
             file.createNewFile();
@@ -57,7 +57,7 @@ public class TU39 {
         if (!estensione.equals(mp3))
             formato_giusto = false;
         assertEquals(true, formato_giusto);
-*/
+
 
     }
 }

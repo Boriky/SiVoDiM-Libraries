@@ -17,6 +17,7 @@ import starklabs.sivodim.Drama.Model.Chapter.ChapterImpl;
 import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Model.Character.CharacterContainer;
 import starklabs.sivodim.Drama.Model.Character.CharacterImpl;
+import starklabs.sivodim.Drama.Model.Utilities.MutableInteger;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenter;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenterImpl;
 import starklabs.sivodim.Drama.Presenter.CharacterPresenterImpl;
@@ -46,7 +47,7 @@ public class TU45 {
         Chapter chapter=new ChapterImpl.ChapterBuilder()
                 .setTitle("chapter").build();
         CharacterContainer characterContainer= Mockito.mock(CharacterContainer.class);
-        ChapterPresenter chapterPresenter= new ChapterPresenterImpl(chapter,characterContainer,"chapterpresenter");
+        ChapterPresenter chapterPresenter= new ChapterPresenterImpl(chapter,characterContainer,"chapterpresenter",new MutableInteger(0));
         NewSpeechInterface newSpeechInterface=new NewSpeechActivity();
 
        chapterPresenter.newSpeech(text,character,emotion,context);

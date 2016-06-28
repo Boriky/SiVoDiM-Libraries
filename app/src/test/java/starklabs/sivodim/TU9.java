@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 public class TU9 {
     @Test
     public void testRemoveCharacter(){
-        ScreenplayImpl screenplay=new ScreenplayImpl("titolo");
+        ScreenplayImpl screenplay=new ScreenplayImpl("titolo",0);
         Character character=Mockito.mock(Character.class);
         String name="nome";
         when(character.getName()).thenReturn(name);
