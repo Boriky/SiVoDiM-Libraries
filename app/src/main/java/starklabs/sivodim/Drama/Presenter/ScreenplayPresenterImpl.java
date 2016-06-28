@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.ArrayAdapter;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -135,7 +136,8 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
         ChapterPresenter chapterPresenter=
                 new ChapterPresenterImpl(screenplay.getChapter(selected),
                         screenplay.getCharacters(),
-                        screenplay.getTitle());
+                        screenplay.getTitle(),
+                        screenplay.getNextSpeechId());
         ListSpeechesActivity.setPresenter(chapterPresenter);
         context.startActivity(intent);
     }
@@ -155,7 +157,8 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
         ChapterPresenter chapterPresenter=
                 new ChapterPresenterImpl(screenplay.getChapter(selected),
                         screenplay.getCharacters(),
-                        screenplay.getTitle());
+                        screenplay.getTitle(),
+                        screenplay.getNextSpeechId());
         EditChapterActivity.setPresenter(chapterPresenter);
         context.startActivity(editChapterIntent);
     }
@@ -191,8 +194,10 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
 
     @Override
     public void newScreenplay(String title,Context context) {
-        this.screenplay=new ScreenplayImpl(title);
+        this.screenplay=new ScreenplayImpl(title,new Integer(0));
         save(screenplay,context);
+        File file=new File(context.getFilesDir(),title.replace(" ","_"));
+        file.mkdir();
     }
 
     @Override
