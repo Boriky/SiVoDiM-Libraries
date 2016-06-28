@@ -3,6 +3,8 @@ package starklabs.sivodim.Drama.Model.Chapter;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
@@ -137,6 +139,10 @@ public class SpeechImpl implements Speech {
     @Override
     public void synthesizeAudio(Context context, final String path) {
         Engine engine=new EngineImpl(context);
+        File file=new File(path);
+        if(!file.getParentFile().exists()){
+                file.getParentFile().mkdir();
+        }
         engine.synthesizeToFile(path,
                 getCharacter().getVoiceID(),
                 getEmotion(),
