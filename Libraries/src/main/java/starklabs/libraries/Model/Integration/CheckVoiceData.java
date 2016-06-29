@@ -39,9 +39,7 @@ public class CheckVoiceData extends Activity {
             ArrayList<String> available = new ArrayList<String>();
 
             for(MivoqVoice vox:voiceList) {
-                //available.add(vox.getName());
-                available.add(vox.getLanguage());
-                //Italian, Italy (it_IT)
+                available.add(vox.getLanguage()+"__"+vox.getName());
             }
 
             returnData.putStringArrayListExtra("availableVoices", available);
@@ -56,16 +54,10 @@ public class CheckVoiceData extends Activity {
 
         MivoqTTSSingleton engine= MivoqTTSSingleton.getInstance();
 
-        ArrayList<MivoqVoice> voices = new ArrayList<MivoqVoice>();
-
-        engine.createVoice("Fede","male","it");
-
         if(!engine.hasContext())
             engine.setContext(this);
 
-
-        voices= engine.getVoices();
-
+        ArrayList<MivoqVoice> voices= engine.getVoices();
 
         return voices;
     }

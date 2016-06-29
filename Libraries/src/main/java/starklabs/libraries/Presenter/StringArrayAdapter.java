@@ -86,14 +86,24 @@ public class StringArrayAdapter extends ArrayAdapter {
         LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         int layout;
 
-        if(position==stringSelected)
+        if(position==0)
+            layout=R.layout.voice_item_default;
+        else if(position==stringSelected)
             layout=R.layout.voice_item_selected;
         else
             layout= R.layout.voice;
 
         row = inflater.inflate(layout, parent, false);
         textView = (TextView) row.findViewById(R.id.voice);
-        textView.setText(txtObj);
+        if (textView!=null)
+            textView.setText(txtObj);
+        else{
+
+            textView=(TextView) row.findViewById(R.id.voiceDefault);
+            if(textView!=null)
+                textView.setText(txtObj);
+        }
+
         return row;
 
     }

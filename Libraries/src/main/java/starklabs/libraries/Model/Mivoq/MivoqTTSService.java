@@ -23,18 +23,35 @@ import starklabs.libraries.Model.Voice.MivoqVoice;
 public class MivoqTTSService extends TextToSpeechService{
 
     private SynthesisCallback mCallback;
+    private static MivoqTTSSingleton engine=MivoqTTSSingleton.getInstance();
+    private int voiceID;
+
+    public MivoqTTSService (){
+        if(!engine.hasContext())
+        {
+            engine.setContext(super.getBaseContext());
+        }
+    }
 
     @Override
     public String onGetDefaultVoiceNameFor (String lang, String country, String variant) {
-        if(lang.equals("ita"))
-            return "Fede";
+        ArrayList<MivoqVoice> list= engine.getVoices();
+        int i=0;
+        MivoqVoice voice= list.get(i);
+        while(!voice.getLanguage().equals(lang.substring(0,2)) && i+1<list.size())
+        {
+            i++; voice=list.get(i);
+        }
+
+        if(i!= list.size())
+            return voice.getLanguage()+"--"+voice.getName();
         else
-            return "Gino";
+            return "Not Available";
     }
 
     @Override
     public int onIsValidVoiceName (String voiceName) {
-        if(voiceName.equals("Fede"))
+        if(voiceName.contains("--") || voiceName.equals("Not Available"))
             return TextToSpeech.SUCCESS;
         else
             return TextToSpeech.ERROR;
@@ -42,26 +59,50 @@ public class MivoqTTSService extends TextToSpeechService{
 
     @Override
     public int onLoadVoice (String voiceName) {
-        if(voiceName.equals("Fede"))
+        String nome[]= voiceName.split("--");
+
+        if(voiceName.equals("Not Available")) //A little problem here, think how to fix it
             return TextToSpeech.SUCCESS;
-        else
+
+        if(nome[0]== null || nome[1]==null)
             return TextToSpeech.ERROR;
+
+        ArrayList<MivoqVoice> list= engine.getVoices();
+        int i=0;
+        while(i<list.size() && !list.get(i).getName().equals(nome[1]) )    i++;
+
+        if(i != list.size())
+            voiceID=i;
+
+        return TextToSpeech.SUCCESS;
     }
 
     @Override
     protected int onIsLanguageAvailable(String lang, String country, String variant) {
-        return TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE;
+        if(lang.substring(0,2).equals("it"))
+            return TextToSpeech.LANG_AVAILABLE;
+        if(lang.substring(0,2).equals("en"))
+            return TextToSpeech.LANG_AVAILABLE;
+        if(lang.substring(0,2).equals("de"))
+            return TextToSpeech.LANG_AVAILABLE;
+        if(lang.substring(0,2).equals("fr"))
+            return TextToSpeech.LANG_AVAILABLE;
+
+        return TextToSpeech.LANG_NOT_SUPPORTED;
     }
 
     @Override
     protected String[] onGetLanguage() {
-        String[] a={"ita", "italia"};
+        String[] a={"ita", "fra", "deu", "eng"};
         return a;
     }
 
     @Override
     protected int onLoadLanguage(String lang, String country, String variant) {
-        return TextToSpeech.LANG_AVAILABLE;
+        if(onLoadVoice(onGetDefaultVoiceNameFor(lang, country, variant))== TextToSpeech.SUCCESS)
+            return TextToSpeech.LANG_AVAILABLE;
+        else
+            return TextToSpeech.LANG_NOT_SUPPORTED;
     }
 
     @Override
@@ -71,16 +112,11 @@ public class MivoqTTSService extends TextToSpeechService{
 
     @Override
     protected void onSynthesizeText(SynthesisRequest req, SynthesisCallback call) {
-        MivoqTTSSingleton engine = MivoqTTSSingleton.getInstance();
-
         mCallback = call;
-
         mCallback.start(16000, AudioFormat.ENCODING_PCM_16BIT, 1);
 
-        MivoqVoice defaultVoice = engine.getVoices().get(0);
+        MivoqVoice defaultVoice = engine.getVoices().get(voiceID);
         byte[] result = engine.synthesizeText(defaultVoice, req.getText());
-
-        System.out.println("buffer" + mCallback.getMaxBufferSize());
 
         int bufferSize = mCallback.getMaxBufferSize();
 
@@ -113,9 +149,16 @@ public class MivoqTTSService extends TextToSpeechService{
     {
         List<Voice> result= new ArrayList<Voice>();
         Set<String> features= new HashSet<String>();
-        Voice Fede= new Voice("Fede",new Locale("ita"),0,0,true,features);
+        Voice myV;
+        ArrayList<MivoqVoice> list= engine.getVoices();
 
-        result.add(Fede);
+        for(int i=0; i<list.size(); i++)
+        {
+            MivoqVoice temp=list.get(i);
+            myV= new Voice(temp.getLanguage()+"--"+temp.getName(),new Locale(temp.getLanguage()),0,0,true,features);
+            result.add(myV);
+        }
+
         return result;
     }
 }

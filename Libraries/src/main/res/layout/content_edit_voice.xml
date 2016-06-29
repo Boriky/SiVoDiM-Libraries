@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal">
-                <!--Altezza-->
+                <!--Distorsione-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
                     android:text="Profondità"
                     android:id="@+id/lab5"
                     android:layout_below="@+id/lab4"
-                    android:layout_marginTop="70dp"
+                    android:layout_marginTop="60dp"
                     android:layout_marginLeft="250dp"
                     android:textColor="@color/colorPrimaryDark"/>
 
@@ -149,7 +149,7 @@
                     android:id="@+id/lab2"
                     android:layout_below="@+id/lab4"
                     android:layout_marginTop="200dp"
-                    android:layout_marginLeft="220dp"
+                    android:layout_marginLeft="230dp"
                     android:textColor="@color/colorPrimaryDark"/>
                 <SeekBar
                     android:layout_width="100dp"
@@ -188,7 +188,7 @@
                     android:text="Velocità"
                     android:id="@+id/lab3"
                     android:layout_below="@+id/lab4"
-                    android:layout_marginTop="70dp"
+                    android:layout_marginTop="60dp"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/colorPrimaryDark" />
                 <SeekBar

@@ -63,13 +63,14 @@ public interface VoicePresenter {
 
     String getLanguage();
 
-
     int getGenderPos(String genderTag);
 
     int getLanguagePos(String langTag);
 
+
+    //which of the two method
     void setDefaultVoice(int pos);
 
-    public void setDefaultVoice(boolean b);
-    public boolean isDefaultVoice();
+    void setDefaultVoice(boolean b);
+    boolean isDefaultVoice();
 }

@@ -67,15 +67,19 @@ public class VoiceListActivity extends AppCompatActivity implements VoiceListAct
         voiceListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0)
+                if(position==0) {
                     Toast.makeText(view.getContext(), "La prima voce non può essere eliminata", Toast.LENGTH_LONG).show();
-                String selectedTitle=(String)parent.getItemAtPosition(position);
-                voiceListPresenter.setVoiceSelected(position, selectedTitle);
-                voiceListView.setAdapter(voiceListPresenter.getVoicesAdapter(view.getContext()));
-                voiceListView.setSelection(position);
-                removeLayout.setVisibility(View.VISIBLE);
-                deleteButton.setVisibility(View.VISIBLE);
-                return true;
+                    return true;
+                }
+                else {
+                    String selectedTitle = (String) parent.getItemAtPosition(position);
+                    voiceListPresenter.setVoiceSelected(position, selectedTitle);
+                    voiceListView.setAdapter(voiceListPresenter.getVoicesAdapter(view.getContext()));
+                    voiceListView.setSelection(position);
+                    removeLayout.setVisibility(View.VISIBLE);
+                    deleteButton.setVisibility(View.VISIBLE);
+                    return true;
+                }
             }
         });
 
