@@ -2,6 +2,7 @@
         package starklabs.sivodim.Drama.Model.Screenplay;
 
         import android.content.Context;
+        import android.widget.Toast;
 
         import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
 
@@ -11,8 +12,9 @@
 
         import starklabs.sivodim.Drama.Model.Chapter.Chapter;
         import starklabs.sivodim.Drama.Model.Chapter.Speech;
+        import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
 
-/**
+        /**
  * Created by Francesco Bizzaro on 25/05/2016.
  */
 public class AudioExport extends ExportAlgorithm {
@@ -22,10 +24,7 @@ public class AudioExport extends ExportAlgorithm {
         if(!dir.exists()){
             dir.mkdir();
         }
-        File dirPatials=new File(dir,"Partials");
-        if(!dirPatials.exists()){
-            dirPatials.mkdir();
-        }
+
         String name=screenplay.getTitle().replace(" ","_");
         File destination=new File(context.getFilesDir(),"concatenation"+name+".wav");
         AudioConcatenator audioConcatenator=new AudioConcatenator(context,destination);
@@ -55,8 +54,16 @@ public class AudioExport extends ExportAlgorithm {
         }
     }
 
-    private void addSoundtrack(){
-
+    private File addSoundtrack(Context context,File chapterExportes, Soundtrack soundtrack){
+        String name=chapterExportes.getName();
+        File destination=new File(context.getFilesDir(),"merged_"+name);
+        AudioMixer audioMixer=new AudioMixer(context,chapterExportes,soundtrack.getAudio(),destination);
+        try {
+            audioMixer.exec();
+        } catch (FFmpegCommandAlreadyRunningException e) {
+            e.printStackTrace();
+        }
+        return destination;
     }
 
     private void finalizeExport(Context context){
@@ -75,6 +82,7 @@ public class AudioExport extends ExportAlgorithm {
     public void export(Context context) {
         concatenateSpeeches(context);
         finalizeExport(context);
+        Toast.makeText(context,"Esportazione conclusa",Toast.LENGTH_SHORT).show();
     }
 }
 

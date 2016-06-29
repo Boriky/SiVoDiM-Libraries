@@ -9,8 +9,8 @@ public class VideoExport extends ExportAlgorithm {
 
     private AudioExport audioExport=new AudioExport();
 
-    private void exportAudio(){
-
+    private void exportAudio(Context context){
+        audioExport.export(context);
     }
 
     private void concatenateImages(){

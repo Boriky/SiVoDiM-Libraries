@@ -25,6 +25,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
+import starklabs.libraries.Model.EngineManager.Engine;
+import starklabs.libraries.Model.EngineManager.EngineImpl;
+import starklabs.libraries.Model.Mivoq.MivoqTTSService;
+import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
+import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.sivodim.Drama.Model.Chapter.SpeechImpl;
 import starklabs.sivodim.Drama.Model.Utilities.Avatar;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenterImpl;
@@ -80,6 +85,8 @@ public class NewCharacterActivity extends AppCompatActivity implements NewCharac
             @Override
             public void onClick(View v) {
                 //play some speech with voice
+                Engine engine=new EngineImpl(v.getContext());
+                engine.speak((String) newCharacterVoice.getSelectedItem(),MivoqVoice.getSampleText("it"));
             }
         });
 

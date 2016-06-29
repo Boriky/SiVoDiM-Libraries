@@ -13,7 +13,15 @@ import starklabs.sivodim.Drama.Model.Utilities.MutableInteger;
  * Created by Francesco Bizzaro on 25/05/2016.
  */
 public interface Screenplay {
+
+    /**
+     * Export the screenplay and save it in a media file
+     * @param type the type of exportation
+     * @param context the application context
+     */
     void export(String type, Context context);
+
+
     void share(String where);
     void addChapter(Chapter chapter);
     void addCharacter(Character character);
