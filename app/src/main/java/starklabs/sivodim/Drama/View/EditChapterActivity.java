@@ -63,18 +63,17 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
         apply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!chapterName.getText().toString().isEmpty()) {
+                if(chapterName.getText().toString().isEmpty()) {
+                    Toast.makeText(v.getContext(),"Il titolo non può essere vuoto",Toast.LENGTH_SHORT).show();
+                }
+                else {
                     chapterPresenter.setChapterTitle(chapterName.getText().toString());
                     //set other properties..
                     Intent intent=new Intent(v.getContext(),ListChapterActivity.class);
                     startActivity(intent);
                 }
-                else {
-                    Toast.makeText(v.getContext(),"Il titolo non può essere vuoto",Toast.LENGTH_SHORT).show();
-                }
             }
         });
-
     }
 
     @Override

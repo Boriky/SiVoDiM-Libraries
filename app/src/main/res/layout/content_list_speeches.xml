@@ -90,7 +90,9 @@
         </LinearLayout>
 
         <ListView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:choiceMode="singleChoice"
+            android:listSelector="@android:color/holo_blue_light"
             android:layout_height="200dp"
             android:dividerHeight="15dp"
             android:background="#ffffff"
@@ -101,6 +103,8 @@
 
         <GridView
             android:id="@+id/emotionsListView"
+            android:choiceMode="singleChoice"
+            android:listSelector="@android:color/holo_blue_light"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_gravity="center"

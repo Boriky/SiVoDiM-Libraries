@@ -78,6 +78,7 @@ public class NewChapterActivity extends AppCompatActivity implements NewChapterI
                 String title=newChapterName.getText().toString();
                 String titleScreenplay=screenplayPresenter.getScreenplayTitle();
 
+                // get chapter adapter from the current screenplay
                 StringArrayAdapter titles = screenplayPresenter.getTitlesAdapter(v.getContext(), titleScreenplay+".scrpl");
                 Boolean titleTaken = false;
                 for(int i=0; i<titles.getCount(); i++) {
