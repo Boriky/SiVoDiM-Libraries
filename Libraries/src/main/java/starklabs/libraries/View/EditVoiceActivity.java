@@ -3,15 +3,12 @@ package starklabs.libraries.View;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -23,16 +20,7 @@ import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.Presenter.VoicePresenter;
 import starklabs.libraries.R;
 
-public class EditVoiceActivity extends AppCompatActivity implements EditVoiceActivityInterface, MenuItem.OnMenuItemClickListener {
-
-    // create the options menu: it's invoked just one time when the activity has been created
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inflater=getMenuInflater();
-        inflater.inflate(R.menu.voice_edit_menu,menu);
-        return true;
-    }
+public class EditVoiceActivity extends AppCompatActivity implements EditVoiceActivityInterface{
 
     public abstract class seekListener implements SeekBar.OnSeekBarChangeListener{
         protected Effect effect;
@@ -246,9 +234,9 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
         });
 
         //preview of the text with effect
-        final ImageButton button = (ImageButton) findViewById(R.id.previewButton);
-        assert button != null;
-        button.setOnClickListener(new View.OnClickListener() {
+        Button buttonPlay = (Button) findViewById(R.id.buttonPlay);
+        assert buttonPlay != null;
+        buttonPlay.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 voicePresenter.getEngine().speak(voicePresenter.getVoice().getName(), MivoqVoice.getSampleText(voicePresenter.getLanguage()));
 
@@ -280,22 +268,6 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
                 }
             });
         }
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.playMenu:
-                Toast.makeText(this, "Il sistema non è connesso. La sintesi avverrà con il TTS Android", Toast.LENGTH_LONG).show();
-
-                voicePresenter.getEngine().speak(voicePresenter.getVoice().getName(), MivoqVoice.getSampleText(voicePresenter.getLanguage()));
-
-                boolean connected=voicePresenter.getEngine().getIsConnected();
-                if(!connected)
-                    Toast.makeText(this, "Il sistema non è connesso. La sintesi avverrà con il TTS Android", Toast.LENGTH_LONG).show();
-                break;
-        }
-        return false;
     }
 
     @Override

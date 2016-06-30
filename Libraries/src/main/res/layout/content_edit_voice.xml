@@ -227,13 +227,12 @@
                     android:id="@+id/EditVoiceButton"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp" />
-                <ImageButton
+
+                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/previewButton"
-                    android:src="@mipmap/ic_play"
-                    android:background="@null"
-                    android:layout_marginLeft="10dp" />
+                    android:text="PLAY"
+                    android:id="@+id/buttonPlay" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
