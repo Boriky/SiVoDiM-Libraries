@@ -75,5 +75,6 @@
         android:layout_alignParentStart="true"
         android:background="#ffffff"
         android:drawSelectorOnTop="false"
-        android:divider="#ffffff" />
+        android:divider="#ffffff"
+        />
 </LinearLayout>

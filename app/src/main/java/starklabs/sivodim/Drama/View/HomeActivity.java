@@ -1,18 +1,12 @@
 package starklabs.sivodim.Drama.View;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,30 +20,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Button;
 import android.widget.PopupWindow;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
-
-import java.io.File;
-
-import starklabs.sivodim.Drama.Model.Screenplay.AudioConcatenator;
-import starklabs.sivodim.Drama.Model.Screenplay.AudioMixer;
-import starklabs.sivodim.Drama.Model.Screenplay.Mp3Converter;
-import starklabs.sivodim.Drama.Model.Utilities.SpeechSound;
 import starklabs.sivodim.Drama.Presenter.HomePresenter;
 import starklabs.sivodim.Drama.Presenter.HomePresenterImpl;
-import starklabs.sivodim.Drama.Presenter.ScreenplayPresenterImpl;
 import starklabs.sivodim.Drama.Presenter.StringArrayAdapter;
 import starklabs.sivodim.R;
-
-import static android.os.Environment.getExternalStorageDirectory;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,HomeInterface, AdapterView.OnItemClickListener {

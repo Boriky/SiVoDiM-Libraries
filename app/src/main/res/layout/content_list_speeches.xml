@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:background="#D3DCE3"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="starklabs.sivodim.Drama.View.ListSpeechesActivity"
@@ -14,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:dividerHeight="15dp"
+        android:padding="5dp"
         android:background="#D3DCE3"
         android:divider="#D3DCE3"
         android:id="@+id/speechesListView"
@@ -21,7 +21,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:nestedScrollingEnabled="false"
-        android:visibility="visible"
         android:layout_above="@+id/form" />
 
     <LinearLayout

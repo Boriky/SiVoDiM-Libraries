@@ -11,7 +11,7 @@
         android:title="Esporta progetto"/>
     <item
         android:id="@+id/shareMenu"
-        android:icon="@android:drawable/ic_menu_share"
+        android:icon="@mipmap/share_icon"
         app:showAsAction="always"
         android:title="Condividi progetto"/>
     <item

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Drama.View.HomeActivity">
+    tools:context=".Drama.View.HomeActivity"
+    android:clipChildren="false">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
