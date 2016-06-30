@@ -73,9 +73,22 @@ public interface Speech extends Serializable {
      */
     Character getCharacter();
 
+    /**
+     * Create the wav file with the synthesis of the speech and save it to path
+     * @param context the application context
+     * @param path the path where save
+     */
     void synthesizeAudio(Context context,String path);
 
+    /**
+     * Gives the path where the synthesis is saved
+     * @return
+     */
     String getAudioPath();
 
+    /**
+     * True only if the speech has been synthesized
+     * @return
+     */
     boolean getAudioStatus();
 }

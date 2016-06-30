@@ -38,7 +38,10 @@ public interface ChapterBuilder {
 
     // ----------------------------- UTILITIES ----------------------------------------------
 
-
-    Chapter getResult();//not used??
+    /**
+     * Build the chapter
+     * @return
+     */
+    Chapter getResult();
 
 }

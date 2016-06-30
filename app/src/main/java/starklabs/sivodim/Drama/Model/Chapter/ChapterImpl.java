@@ -28,29 +28,53 @@ public class ChapterImpl implements Chapter{
         private SoundFx soundFxB = null;
         private ArrayList<Speech> speechesB= new ArrayList<>();
 
-        // setter
+        //-------------------- setter --------------------
+
+        /**
+         * Set the title for the chapter
+         * @param title the title to set
+         * @return
+         */
         public ChapterBuilder setTitle(String title) {
             this.titleB = title;
             return this;
         }
 
+        /**
+         * Set the chapter's background
+         * @param background the background to set
+         * @return
+         */
         public ChapterBuilder setBackground(Background background) {
             this.backgroundB = background;
             return this;
         }
 
+        /**
+         * Set the soundtrack to the chapter
+         * @param soundtrack the soundtrack to set
+         * @return
+         */
         public ChapterBuilder setSoundtrack(Soundtrack soundtrack) {
             this.soundtrackB = soundtrack;
             return this;
         }
 
+        /**
+         * set the SoundFx to the chapter
+         * @param soundFx the sound effect to set
+         * @return
+         */
         public ChapterBuilder setSoundFx(SoundFx soundFx) {
             this.soundFxB = soundFx;
             return this;
         }
 
 
-        // return chapter built by builder
+        /**
+         * Build the chapter
+         * @return
+         */
         public ChapterImpl build() {
             if(titleB!=null) {
                 return new ChapterImpl(this);

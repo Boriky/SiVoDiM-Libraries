@@ -6,7 +6,7 @@
         android:title="Salva progetto"/>
     <item
         android:id="@+id/exportMenu"
-        android:icon="@android:drawable/ic_menu_save"
+        android:icon="@mipmap/export_icon"
         app:showAsAction="always"
         android:title="Esporta progetto"/>
     <item

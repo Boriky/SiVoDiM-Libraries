@@ -1,6 +1,7 @@
 package starklabs.sivodim.Drama.Model.Screenplay;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.github.hiteshsondhi88.libffmpeg.FFmpeg;
 import com.github.hiteshsondhi88.libffmpeg.FFmpegExecuteResponseHandler;
@@ -16,12 +17,21 @@ import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedExceptio
 public abstract class FfmpegConnector {
     private FFmpeg ffmpeg;
     private boolean finish=false;
+    private Context context;
+    private boolean errors=false;
+    private boolean print=false;
 
     /**
      * Constructor that load {@link FFmpeg} binaries.
      * @param context
      */
+
     public FfmpegConnector(Context context){
+        this(context,false);
+    }
+    public FfmpegConnector(Context context,boolean print){
+        this.print=print;
+        this.context=context;
         this.ffmpeg=FFmpeg.getInstance(context);
         try {
             ffmpeg.loadBinary(new LoadBinaryResponseHandler() {
@@ -41,6 +51,14 @@ public abstract class FfmpegConnector {
         } catch (FFmpegNotSupportedException e) {
             // Handle if FFmpeg is not supported by device
         }
+    }
+
+    /**
+     * Gives true if there was an error
+     * @return
+     */
+    public boolean isErrors(){
+        return errors;
     }
 
     /**
@@ -64,6 +82,8 @@ public abstract class FfmpegConnector {
             @Override
             public void onFailure(String message) {
                 System.out.println(message);
+                errors=true;
+                Toast.makeText(context,"C'è stato un errore",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -75,6 +95,8 @@ public abstract class FfmpegConnector {
             public void onFinish() {
                 System.out.println("END OPERATION");
                 finish=true;
+                if(errors==true)
+                    Toast.makeText(context,"L'esportazione non è riuscita, riprova",Toast.LENGTH_SHORT).show();
             }
         });
         //boolean isFfmpeg=ffmpeg.isFFmpegCommandRunning();
