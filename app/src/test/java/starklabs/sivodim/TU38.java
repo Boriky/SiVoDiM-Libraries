@@ -27,7 +27,7 @@ public class TU38 {
     @Test
     public void testScreenplayGetter(){
         String title="title";
-        Screenplay screenplay=new ScreenplayImpl(title);
+        Screenplay screenplay=new ScreenplayImpl(title,0);
         String characterName="character";
         Character character=new CharacterImpl.CharacterBuilder()
                 .setName(characterName).build();

@@ -15,6 +15,7 @@ import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedExceptio
 
 public abstract class FfmpegConnector {
     private FFmpeg ffmpeg;
+    private boolean finish=false;
 
     /**
      * Constructor that load {@link FFmpeg} binaries.
@@ -73,16 +74,20 @@ public abstract class FfmpegConnector {
             @Override
             public void onFinish() {
                 System.out.println("END OPERATION");
+                finish=true;
             }
         });
-        while (!ffmpeg.isFFmpegCommandRunning()){
-            try {
-                Thread.sleep(10);
-                System.out.println("Waiting FFMPEG");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        //boolean isFfmpeg=ffmpeg.isFFmpegCommandRunning();
+        //if(!isFfmpeg) {
+           /* while (!ffmpeg.isFFmpegCommandRunning()) {
+                try {
+                    Thread.sleep(10);
+                    System.out.println("Waiting FFMPEG");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }*/
+        //}
         while (ffmpeg.isFFmpegCommandRunning()){
             try {
                 Thread.sleep(10);
@@ -91,6 +96,16 @@ public abstract class FfmpegConnector {
                 e.printStackTrace();
             }
         }
+        /*int i=0;
+        while (!finish && i<100){
+            i++;
+            try {
+                Thread.sleep(10);
+                System.out.println("Waiting FFMPEG");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }*/
     }
 
     /**

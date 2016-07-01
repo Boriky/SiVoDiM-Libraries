@@ -32,6 +32,7 @@ import starklabs.sivodim.Drama.Presenter.ChapterPresenter;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenterImpl;
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenter;
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenterImpl;
+import starklabs.sivodim.Drama.Presenter.StringArrayAdapter;
 import starklabs.sivodim.R;
 
 public class NewChapterActivity extends AppCompatActivity implements NewChapterInterface {
@@ -75,41 +76,59 @@ public class NewChapterActivity extends AppCompatActivity implements NewChapterI
             @Override
             public void onClick(View v) {
                 String title=newChapterName.getText().toString();
-                Soundtrack soundtrack=null;
-                if(audioPath!=null){
-                    File audioChoice=new File(audioPath);
-                    File dir=new File(getFilesDir(), screenplayPresenter.getScreenplayTitle().replace(" ","_"));
-                    if(!dir.exists()){
-                        dir.mkdir();
+                String titleScreenplay=screenplayPresenter.getScreenplayTitle();
+
+                StringArrayAdapter titles = screenplayPresenter.getTitlesAdapter(v.getContext(), titleScreenplay+".scrpl");
+                Boolean titleTaken = false;
+                for(int i=0; i<titles.getCount(); i++) {
+                    if(titles.getItem(i).equals(title)) {
+                        titleTaken = true;
                     }
-                    File destination=new File(dir,"chpt_"+title+".mp3");
-                    try {
-                        copyFile(audioChoice,destination);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    soundtrack=new Soundtrack(destination.getAbsolutePath());
-                    System.out.println("SAVE in: "+destination.getAbsolutePath());
                 }
-                Background background=null;
-                if(wallpaperPath!=null){
-                    File wallpaperChoice=new File(wallpaperPath);
-                    File dir=new File(getFilesDir(), screenplayPresenter.getScreenplayTitle().replace(" ","_"));
-                    if(!dir.exists()){
-                        dir.mkdir();
-                    }
-                    File destination=new File(dir,"chpt_"+title+".png");
-                    try {
-                        copyFile(wallpaperChoice,destination);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    background=new Background(destination.getAbsolutePath());
-                    System.out.println("SAVE in: "+destination.getAbsolutePath());
+
+                if(title.isEmpty()) {
+                    Toast.makeText(v.getContext(),"Il titolo del capitolo non può essere vuoto",Toast.LENGTH_SHORT).show();
                 }
-                screenplayPresenter.newChapter(title,soundtrack,background);
-                Intent intent=new Intent(v.getContext(),ListChapterActivity.class);
-                startActivity(intent);
+                else if(titleTaken==true) {
+                    Toast.makeText(v.getContext(),"Titolo del capitolo già esistente",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Soundtrack soundtrack = null;
+                    if (audioPath != null) {
+                        File audioChoice = new File(audioPath);
+                        File dir = new File(getFilesDir(), screenplayPresenter.getScreenplayTitle().replace(" ", "_"));
+                        if (!dir.exists()) {
+                            dir.mkdir();
+                        }
+                        File destination = new File(dir, "chpt_" + title + ".mp3");
+                        try {
+                            copyFile(audioChoice, destination);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        soundtrack = new Soundtrack(destination.getAbsolutePath());
+                        System.out.println("SAVE in: " + destination.getAbsolutePath());
+                    }
+                    Background background = null;
+                    if (wallpaperPath != null) {
+                        File wallpaperChoice = new File(wallpaperPath);
+                        File dir = new File(getFilesDir(), screenplayPresenter.getScreenplayTitle().replace(" ", "_"));
+                        if (!dir.exists()) {
+                            dir.mkdir();
+                        }
+                        File destination = new File(dir, "chpt_" + title + ".png");
+                        try {
+                            copyFile(wallpaperChoice, destination);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        background = new Background(destination.getAbsolutePath());
+                        System.out.println("SAVE in: " + destination.getAbsolutePath());
+                    }
+                    screenplayPresenter.newChapter(title, soundtrack, background);
+                    Intent intent = new Intent(v.getContext(), ListChapterActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 

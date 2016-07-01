@@ -24,8 +24,8 @@ import static org.junit.Assert.assertEquals;
 public class TU27 {
     @Test
     public void testMoveChapter(){
-        Screenplay screenplay=new ScreenplayImpl("screenplay");
-        Screenplay screenplay1=new ScreenplayImpl("screenplay1");
+        Screenplay screenplay=new ScreenplayImpl("screenplay",0);
+        Screenplay screenplay1=new ScreenplayImpl("screenplay1",0);
         Chapter chapter1=new ChapterImpl.ChapterBuilder()
                 .setTitle("chapter1").build();
         Chapter chapter2=new ChapterImpl.ChapterBuilder()

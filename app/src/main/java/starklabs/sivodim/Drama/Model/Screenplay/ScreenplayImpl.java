@@ -5,24 +5,28 @@ import android.content.Context;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 import starklabs.sivodim.Drama.Model.Chapter.Chapter;
 import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Model.Character.CharacterContainer;
+import starklabs.sivodim.Drama.Model.Utilities.MutableInteger;
 import starklabs.sivodim.Drama.Model.Utilities.XMLParser;
 
 /**
  * Created by Francesco Bizzaro on 25/05/2016.
  */
 public class ScreenplayImpl implements Screenplay {
+    private MutableInteger nextSpeechId;
     private String title;
     private CharacterContainer characterContainer;
     private ArrayList<Chapter> chapters=new ArrayList<>();
     private ExportAlgorithm exportAlgorithm;
     private ShareAlgorithm shareAlgorithm;
 
-    public ScreenplayImpl(String title){
+    public ScreenplayImpl(String title,int nextSpeechId){
         this.title = title;
+        this.nextSpeechId=new MutableInteger(nextSpeechId);
         characterContainer=new CharacterContainer();
     }
 
@@ -36,6 +40,11 @@ public class ScreenplayImpl implements Screenplay {
         XMLParser xmlParser = new XMLParser();
         xmlParser.parseXml(screenplayFile);
         return xmlParser.getParsedData();
+    }
+
+    @Override
+    public MutableInteger getNextSpeechId(){
+        return nextSpeechId;
     }
 
     public static void saveScreenplay(Screenplay screenplay, Context context) {
@@ -90,7 +99,10 @@ public class ScreenplayImpl implements Screenplay {
     @Override
     public void importCharacters(Screenplay screenplay){
         CharacterContainer characters=screenplay.getCharacters();
-        this.characterContainer=characters.clone();
+        ListIterator<Character> iterator = characters.iterator();
+        while(iterator.hasNext()) {
+            this.characterContainer.addCharacter(iterator.next());
+        }
     }
 
     @Override

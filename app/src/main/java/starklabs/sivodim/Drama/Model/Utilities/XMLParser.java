@@ -146,8 +146,10 @@ public class XMLParser {
 
             // new screenplay object to store parsed data
             String title = root.getAttribute("title");
+            String nextSpeechId=root.getAttribute("nextSpeechId");
+
             // new screenplay object to store parsed data
-            parsedData = new ScreenplayImpl(title);
+            parsedData = new ScreenplayImpl(title,Integer.parseInt(nextSpeechId));
 
             // debug
             vDebug("Root element :" + root.getNodeName());
@@ -207,6 +209,7 @@ public class XMLParser {
                 Element screenplayElem = doc.createElement("screenplay");
                 doc.appendChild(screenplayElem);
                 screenplayElem.setAttribute("title",screenplay.getTitle());
+                screenplayElem.setAttribute("nextSpeechId",String.valueOf(screenplay.getNextSpeechId().getInteger()));
 
                 // create element "character", father of all "character" elements
                 Element charactersElem = doc.createElement("characters");

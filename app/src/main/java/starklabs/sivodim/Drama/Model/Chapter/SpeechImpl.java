@@ -3,6 +3,8 @@ package starklabs.sivodim.Drama.Model.Chapter;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
@@ -137,6 +139,10 @@ public class SpeechImpl implements Speech {
     @Override
     public void synthesizeAudio(Context context, final String path) {
         Engine engine=new EngineImpl(context);
+        File file=new File(path);
+        if(!file.getParentFile().exists()){
+                file.getParentFile().mkdir();
+        }
         engine.synthesizeToFile(path,
                 getCharacter().getVoiceID(),
                 getEmotion(),
@@ -146,6 +152,7 @@ public class SpeechImpl implements Speech {
             public void onCompleteSynthesis() {
                 setAudioPath(path);
                 setAudioStatus(true);
+                System.out.println("Sintesi finita");
             }
         });
     }
@@ -168,7 +175,7 @@ public class SpeechImpl implements Speech {
 
     }
 
-    public static ArrayAdapter<String> getEmotions(Context context){
+    /*public static ArrayAdapter<String> getEmotions(Context context){
         Vector<String> emotions = new Vector<String>();
         //callback to retrieve emotions
         emotions.add("NONE");
@@ -179,7 +186,21 @@ public class SpeechImpl implements Speech {
         emotions.add("DISGUST");
         emotions.add("SURPRISE");
         return new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,emotions);
+    }*/
+
+    public static ArrayList<String> getEmotions(){
+        ArrayList<String> emotions = new ArrayList<String>();
+        emotions.add("NONE");
+        emotions.add("HAPPINESS");
+        emotions.add("SADNESS");
+        emotions.add("ANGER");
+        emotions.add("FEAR");
+        emotions.add("DISGUST");
+        emotions.add("SURPRISE");
+        return emotions;
     }
+
+
 
     public static ArrayAdapter<String> getVoices(Context context){
         Vector<String> emotions = new Vector<String>();
