@@ -60,6 +60,10 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
 /*
                 Engine myEngine=new EngineImpl(getApplicationContext());
                 MivoqVoice Fede=myEngine.createVoice("Fede", "male", "it");
@@ -111,12 +115,12 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        // This method should shut down the application
+        finish();
+        Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("EXIT", true);
+        startActivity(intent);
     }
 
     @Override

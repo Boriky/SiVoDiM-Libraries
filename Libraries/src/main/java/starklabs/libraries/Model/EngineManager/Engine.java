@@ -32,6 +32,7 @@ public interface Engine {
         void onCompleteSynthesis();
     }
     void save();
+    void load();
     MivoqVoice getVoiceByName(String s);
     boolean getIsConnected();
     void setDefaultVoice(int pos);

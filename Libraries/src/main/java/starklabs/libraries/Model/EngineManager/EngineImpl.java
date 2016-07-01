@@ -192,7 +192,7 @@ public class EngineImpl implements Engine{
     }
 
     public MivoqVoice createVoice(String name, String gender, String myLanguage) {
-        int i=1;
+        int i=0;
         String voiceName=name;
         //Check if the name is empty, and in that case assign the default name
         if(voiceName.equals("")) {voiceName="New Voice"; name="New Voice";}
@@ -209,6 +209,8 @@ public class EngineImpl implements Engine{
 
         //Check if the name has already been used
         // if so, it adds an incrementing number to get a unique name
+        System.out.println(getVoiceByName(voiceName)!=null);
+
         while (getVoiceByName(voiceName)!=null){
             voiceName=name.concat(Integer.toString(i));
             i++;
@@ -225,6 +227,9 @@ public class EngineImpl implements Engine{
     public void save() {
         myEngine.save();
     }
+
+    @Override
+    public void load() { myEngine.load(); }
 
     @Override
     public MivoqVoice getVoiceByName(String s) {

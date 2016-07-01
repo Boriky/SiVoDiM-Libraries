@@ -281,4 +281,10 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
 
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        voicePresenter.getEngine().load();
+        super.onBackPressed();
+    }
 }

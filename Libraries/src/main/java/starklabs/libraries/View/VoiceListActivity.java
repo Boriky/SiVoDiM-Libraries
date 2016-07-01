@@ -1,5 +1,6 @@
 package starklabs.libraries.View;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -54,6 +55,13 @@ public class VoiceListActivity extends AppCompatActivity implements VoiceListAct
         doneButton=(FloatingActionButton)findViewById(R.id.doneButton);
         deleteButton=(FloatingActionButton)findViewById(R.id.deleteButton);
 
+        //Setting to default the list adapter (if any longclick item is selected
+        if(voiceListView!= null) {
+            voiceListView.setSelection(-1);
+        }
+        removeLayout.setVisibility(View.GONE);
+        deleteButton.setVisibility(View.GONE);
+
         voiceListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -61,6 +69,7 @@ public class VoiceListActivity extends AppCompatActivity implements VoiceListAct
                 Engine engine=new EngineImpl(view.getContext());
                 MivoqVoice mV=engine.getVoiceByName(selected);
                 voiceListPresenter.goToEditVoiceActivity(view.getContext(), mV);
+                finish();
             }
         });
 
@@ -117,5 +126,11 @@ public class VoiceListActivity extends AppCompatActivity implements VoiceListAct
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent homeIntent = new Intent(VoiceListActivity.this, HomeActivity.class);
+        startActivity(homeIntent);
     }
 }

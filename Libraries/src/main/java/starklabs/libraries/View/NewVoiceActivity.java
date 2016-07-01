@@ -195,13 +195,18 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(voiceName.getText().toString().equals("")){
+                String vN=voiceName.getText().toString();
+                if(vN.equals("")){
                     Toast.makeText(v.getContext(),"Inserisci un nome",Toast.LENGTH_SHORT).show();
+                }
+                //String vName=voicePresenter.getEngine().getVoiceByName(vN).toString();
+                if(voicePresenter.getEngine().getVoiceByName(vN)!=null){
+                    Toast.makeText(v.getContext(),"Nome già utilizzato",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     voicePresenter.setGender(gender.getSelectedItemPosition());
                     voicePresenter.setLanguage(language.getSelectedItemPosition());
-                    voicePresenter.getVoice().setName(voiceName.getText().toString());
+                    voicePresenter.getVoice().setName(vN);
                     voicePresenter.getEngine().save();
                     voicePresenter = null;
                     Intent homeIntent = new Intent(NewVoiceActivity.this, HomeActivity.class);
@@ -222,5 +227,14 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(getApplicationContext(),"La voce è stata cancellata",Toast.LENGTH_SHORT).show();
+        int index = voicePresenter.getEngine().getVoices().size()-1;
+        voicePresenter.getEngine().removeVoice(index);
+        Intent homeIntent = new Intent(NewVoiceActivity.this, HomeActivity.class);
+        startActivity(homeIntent);
     }
 }

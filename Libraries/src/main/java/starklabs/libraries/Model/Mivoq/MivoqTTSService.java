@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import starklabs.libraries.Model.Voice.Language;
 import starklabs.libraries.Model.Voice.MivoqVoice;
 
 /**
@@ -38,8 +37,8 @@ public class MivoqTTSService extends TextToSpeechService{
     public String onGetDefaultVoiceNameFor (String lang, String country, String variant) {
         ArrayList<MivoqVoice> list= engine.getVoices();
         int i=0;
-        Language language= new Language("ita");
-        MivoqVoice voice=new MivoqVoice("ProvaEnri", "ita", language);
+        //Language language= new Language("ita");
+        MivoqVoice voice = list.get(0);//=new MivoqVoice("ProvaEnri", "ita", language);
         if(list.size()>0) {
             for(i=0; list.size()!=0 && !voice.getLanguage().equals(lang.substring(0, 2)) && i + 1 < list.size(); i++){
             //MivoqVoice voice = list.get(i);

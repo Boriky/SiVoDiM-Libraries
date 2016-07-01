@@ -15,6 +15,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import starklabs.libraries.Model.Voice.Effect;
+import starklabs.libraries.Model.Voice.EffectImpl;
 import starklabs.libraries.Model.Voice.Language;
 import starklabs.libraries.Model.Voice.MivoqVoice;
 
@@ -44,9 +46,30 @@ public class MivoqTTSSingleton {
     }
 
     public void setContext(Context T) {
-        if(!hasContext()) {
+        if(true) {
             myContext = T;
             load();
+            if(voiceList.isEmpty()) {
+                MivoqVoice myVoice=createVoice("DefaultVoice","male","it");
+                Effect rate=new EffectImpl("Rate");
+                rate.setValue("1");
+                Effect f0Add=new EffectImpl("F0Add");
+                f0Add.setValue("0");
+                Effect hMMTractScaler=new EffectImpl("HMMTractScaler");
+                hMMTractScaler.setValue("1.0");
+                Effect whisper=new EffectImpl("Whisper");
+                whisper.setValue("0");
+                Effect f0Scale=new EffectImpl("F0Scale");
+                f0Scale.setValue("1");
+                myVoice.setEffect(rate);
+                myVoice.setEffect(f0Add);
+                myVoice.setEffect(hMMTractScaler);
+                myVoice.setEffect(whisper);
+                myVoice.setEffect(f0Scale);
+
+                save();
+            }
+
         }
     }
 
@@ -141,6 +164,9 @@ public class MivoqTTSSingleton {
         String VoiceName="roberto-hsmm";
 
         Language L= new Language(myLanguage);
+
+
+
         MivoqVoice V=  new MivoqVoice(name,VoiceName,L);
 
         V.setGenderLanguage(gender,myLanguage);
@@ -159,25 +185,38 @@ public class MivoqTTSSingleton {
     }
 
     public void save(){
+        if(myContext== null) return;
+
+
         File dir = myContext.getFilesDir();
         File voicesFile = new File(dir, "voices.xml");
 
         XMLParser xmlParser = new XMLParser();
-        if(voicesFile!=null)
+        if (voicesFile != null)
             xmlParser.saveXML(voicesFile, voiceList);
     }
 
     public void load(){
+        if(myContext== null)
+        {
+            System.out.println("Costruito il TTS con un contesto nullo.");
+            return;
+        }
+
         File dir = myContext.getFilesDir();
         File voicesFile = new File(dir, "voices.xml");
 
-        XMLParser xmlParser = new XMLParser();
-        xmlParser.parseXML(voicesFile);
-        voiceList = xmlParser.getParsedVoice();
-        if(voiceList==null){
-            voiceList=new ArrayList<MivoqVoice>();
-            System.out.println("errore nel caricamento");
+        if(voicesFile!=null && voicesFile.exists()) {
+            XMLParser xmlParser = new XMLParser();
+            xmlParser.parseXML(voicesFile);
+            voiceList = xmlParser.getParsedVoice();
+            if (voiceList == null) {
+                voiceList = new ArrayList<MivoqVoice>();
+                System.out.println("errore nel caricamento");
+            }
         }
+        else
+            System.out.println("Errore File delle voci inesistente");
 
     }
 
