@@ -3,6 +3,7 @@
 
         import android.content.Context;
         import android.content.Intent;
+        import android.widget.TextView;
         import android.widget.Toast;
 
         import com.github.hiteshsondhi88.libffmpeg.FFmpegExecuteResponseHandler;
@@ -23,6 +24,12 @@
  * Created by Francesco Bizzaro on 25/05/2016.
  */
 public class AudioExport extends ExportAlgorithm {
+
+     private TextView feedback;
+
+     public AudioExport(TextView feedback){
+         this.feedback=feedback;
+     }
 
      private void concatenateSpeeches(final Context context, int i, final List<File> chapterExportes, final Iterator<Chapter> chapterIterator){
          if(chapterIterator.hasNext()){// join the speeches of the chapter
@@ -67,7 +74,7 @@ public class AudioExport extends ExportAlgorithm {
 
                      @Override
                      public void onStart() {
-
+                         if(feedback!=null)feedback.setText("Esporto il capitolo "+finalI+"..");
                      }
 
                      @Override
@@ -115,7 +122,7 @@ public class AudioExport extends ExportAlgorithm {
 
                      @Override
                      public void onStart() {
-
+                         if(feedback!=null)feedback.setText("Unisco i capitoli..");
                      }
 
                      @Override
@@ -157,7 +164,7 @@ public class AudioExport extends ExportAlgorithm {
 
                 @Override
                 public void onStart() {
-
+                    if(feedback!=null)feedback.setText("Aggiungo il sottofondo al capitolo "+i+"..");
                 }
 
                 @Override
@@ -173,7 +180,7 @@ public class AudioExport extends ExportAlgorithm {
 
     private void finalizeExport(final Context context){
         String name=screenplay.getTitle().replace(" ","_");
-        File file=new File(context.getFilesDir(),"concatenation"+name+".wav");
+        final File file=new File(context.getFilesDir(),"concatenation"+name+".wav");
         File destination=new File(context.getFilesDir(),name+".mp3");
         Mp3Converter mp3Converter=new Mp3Converter(context,file,destination);
         try {
@@ -195,7 +202,7 @@ public class AudioExport extends ExportAlgorithm {
 
                 @Override
                 public void onStart() {
-
+                    if(feedback!=null)feedback.setText("Converto in mp3..");
                 }
 
                 @Override

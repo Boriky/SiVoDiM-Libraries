@@ -1,6 +1,7 @@
 package starklabs.sivodim.Drama.Model.Screenplay;
 
 import android.content.Context;
+import android.widget.TextView;
 
 import java.util.Iterator;
 
@@ -19,7 +20,7 @@ public interface Screenplay {
      * @param type the type of exportation
      * @param context the application context
      */
-    void export(String type, Context context);
+    void export(String type, Context context,TextView feedback);
 
 
     void share(String where);

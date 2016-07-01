@@ -1,6 +1,7 @@
 package starklabs.sivodim.Drama.Model.Screenplay;
 
 import android.content.Context;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -66,11 +67,11 @@ public class ScreenplayImpl implements Screenplay {
     }
 
     @Override
-    public void export(String type,Context context) {
+    public void export(String type, Context context, TextView feedback) {
         if(type.equals("Video"))
-            exportAlgorithm=new VideoExport();
+            exportAlgorithm=new VideoExport(feedback);
         else
-            exportAlgorithm=new AudioExport();
+            exportAlgorithm=new AudioExport(feedback);
         exportAlgorithm.setScreenplay(this);
         exportAlgorithm.export(context);
     }
