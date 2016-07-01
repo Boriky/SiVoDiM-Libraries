@@ -2,8 +2,10 @@
         package starklabs.sivodim.Drama.Model.Screenplay;
 
         import android.content.Context;
+        import android.content.Intent;
         import android.widget.Toast;
 
+        import com.github.hiteshsondhi88.libffmpeg.FFmpegExecuteResponseHandler;
         import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
 
         import java.io.File;
@@ -13,13 +15,14 @@
         import starklabs.sivodim.Drama.Model.Chapter.Chapter;
         import starklabs.sivodim.Drama.Model.Chapter.Speech;
         import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
+        import starklabs.sivodim.Drama.View.ListChapterActivity;
 
         /**
  * Created by Francesco Bizzaro on 25/05/2016.
  */
 public class AudioExport extends ExportAlgorithm {
 
-    private void concatenateSpeeches(Context context){
+    private void concatenateSpeeches(final Context context){
         File dir=new File(screenplay.getPath(context));
         if(!dir.exists()){
             dir.mkdir();
@@ -48,31 +51,113 @@ public class AudioExport extends ExportAlgorithm {
             }
         }
         try {
-            audioConcatenator.exec();
+            audioConcatenator.exec(new FFmpegExecuteResponseHandler() {
+                @Override
+                public void onSuccess(String message) {
+
+                }
+
+                @Override
+                public void onProgress(String message) {
+                    System.out.println(message);
+                }
+
+                @Override
+                public void onFailure(String message) {
+
+                }
+
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    finalizeExport(context);
+                }
+            });
         } catch (FFmpegCommandAlreadyRunningException e) {
             e.printStackTrace();
         }
     }
+
+   /*  private File concatenateSpeeches(Context context,File chapterExportes, Soundtrack soundtrack){
+
+     }*/
 
     private File addSoundtrack(Context context,File chapterExportes, Soundtrack soundtrack){
         String name=chapterExportes.getName();
         File destination=new File(context.getFilesDir(),"merged_"+name);
         AudioMixer audioMixer=new AudioMixer(context,chapterExportes,soundtrack.getAudio(),destination);
         try {
-            audioMixer.exec();
+            audioMixer.exec(new FFmpegExecuteResponseHandler() {
+                @Override
+                public void onSuccess(String message) {
+
+                }
+
+                @Override
+                public void onProgress(String message) {
+                    System.out.println(message);
+                }
+
+                @Override
+                public void onFailure(String message) {
+
+                }
+
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onFinish() {
+
+                }
+            });
         } catch (FFmpegCommandAlreadyRunningException e) {
             e.printStackTrace();
         }
         return destination;
     }
 
-    private void finalizeExport(Context context){
+    private void finalizeExport(final Context context){
         String name=screenplay.getTitle().replace(" ","_");
         File file=new File(context.getFilesDir(),"concatenation"+name+".wav");
         File destination=new File(context.getFilesDir(),name+".mp3");
         Mp3Converter mp3Converter=new Mp3Converter(context,file,destination);
         try {
-            mp3Converter.exec();
+            mp3Converter.exec(new FFmpegExecuteResponseHandler() {
+                @Override
+                public void onSuccess(String message) {
+
+                }
+
+                @Override
+                public void onProgress(String message) {
+                    System.out.println(message);
+                }
+
+                @Override
+                public void onFailure(String message) {
+
+                }
+
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    System.out.println("FINITO FFMPEG!!!!!!");
+                    Intent intent=new Intent(context,ListChapterActivity.class);
+                    context.startActivity(intent);
+                    Toast.makeText(context,"Esportazione conclusa",Toast.LENGTH_SHORT).show();
+                }
+            });
         } catch (FFmpegCommandAlreadyRunningException e) {
             e.printStackTrace();
         }
@@ -81,8 +166,6 @@ public class AudioExport extends ExportAlgorithm {
     @Override
     public void export(Context context) {
         concatenateSpeeches(context);
-        finalizeExport(context);
-        Toast.makeText(context,"Esportazione conclusa",Toast.LENGTH_SHORT).show();
     }
 }
 

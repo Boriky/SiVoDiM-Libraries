@@ -326,7 +326,6 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
                 break;
             case R.id.exportMenu:
                 screenplayPresenter.getScreenplay().export("Audio",this);
-                loadSound();
                 break;
             case R.id.shareMenu:
                 onShare();

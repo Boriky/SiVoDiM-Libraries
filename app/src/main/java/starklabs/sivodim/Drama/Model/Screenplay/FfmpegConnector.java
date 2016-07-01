@@ -66,9 +66,9 @@ public abstract class FfmpegConnector {
      * and executes that.
      * @throws FFmpegCommandAlreadyRunningException
      */
-    public void exec() throws FFmpegCommandAlreadyRunningException {
+    public void exec(FFmpegExecuteResponseHandler ffmpegExReAn) throws FFmpegCommandAlreadyRunningException {
         String cmd=getCommand();
-        ffmpeg.execute(cmd.split(" "), new FFmpegExecuteResponseHandler() {
+        ffmpeg.execute(cmd.split(" "),ffmpegExReAn /*new FFmpegExecuteResponseHandler() {
             @Override
             public void onSuccess(String message) {
 
@@ -98,7 +98,7 @@ public abstract class FfmpegConnector {
                 if(errors==true)
                     Toast.makeText(context,"L'esportazione non è riuscita, riprova",Toast.LENGTH_SHORT).show();
             }
-        });
+        }*/);
         //boolean isFfmpeg=ffmpeg.isFFmpegCommandRunning();
         //if(!isFfmpeg) {
            /* while (!ffmpeg.isFFmpegCommandRunning()) {
@@ -113,6 +113,7 @@ public abstract class FfmpegConnector {
         while (ffmpeg.isFFmpegCommandRunning()){
             try {
                 Thread.sleep(10);
+
                 System.out.println("Executing FFMPEG");
             } catch (InterruptedException e) {
                 e.printStackTrace();
