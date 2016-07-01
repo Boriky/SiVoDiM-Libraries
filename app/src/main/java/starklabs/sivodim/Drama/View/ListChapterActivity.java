@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,10 +19,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SeekBar;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +57,15 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
     private Button pauseButton;
     private MediaPlayer mediaPlayer=null;
     private Handler handler = new Handler();
+    private LinearLayout moveButton;
+    private FloatingActionButton upButton;
+    private FloatingActionButton downButton;
+    private FloatingActionButton doneButton;
+    private FloatingActionButton editButton;
+    private FloatingActionButton deleteButton;
+    private FloatingActionButton fab;
+    private String title;
+
 
     private Runnable updateBar = new Runnable() {
         public void run()
@@ -91,18 +103,11 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        String title=screenplayPresenter.getScreenplayTitle();
+        title=screenplayPresenter.getScreenplayTitle();
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                screenplayPresenter.goToNewChapterActivity(view.getContext());
-            }
-        });
 
         chapterListView=(ListView) findViewById(R.id.listChapterView);
         player=(LinearLayout)findViewById(R.id.player);
@@ -110,6 +115,20 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
         seekBar=(SeekBar)findViewById(R.id.seekbarMusic);
         pauseButton=(Button)findViewById(R.id.pauseButton);
         timingInfo=(TextView)findViewById(R.id.timingInfo);
+        moveButton=(LinearLayout)findViewById(R.id.moveButtons);
+        upButton=(FloatingActionButton) findViewById(R.id.upButton);
+        downButton=(FloatingActionButton) findViewById(R.id.downButton);
+        doneButton=(FloatingActionButton) findViewById(R.id.doneButton);
+        editButton=(FloatingActionButton) findViewById(R.id.editButton);
+        deleteButton=(FloatingActionButton) findViewById(R.id.deleteButton);
+        fab= (FloatingActionButton) findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                screenplayPresenter.goToNewChapterActivity(view.getContext());
+            }
+        });
 
         //seekBar.setEnabled(false);
         chapterListAdapter=screenplayPresenter.getTitlesAdapter(this,title+".scrpl");
@@ -131,8 +150,77 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 String selected=(String) parent.getItemAtPosition(position);
-                screenplayPresenter.goToEditChapterActivity(view.getContext(),selected);
+                screenplayPresenter.setChapterSelected(position,selected);
+                chapterListView.setAdapter(screenplayPresenter.getTitlesAdapter(view.getContext(),selected));
+                chapterListView.setSelection(position);
+                moveButton.setVisibility(View.VISIBLE);
+                fab.setVisibility(View.GONE);
+                deleteButton.setVisibility(View.VISIBLE);
                 return true;
+            }
+        });
+
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                screenplayPresenter.setChapterSelected(-1,null);
+                chapterListView.setAdapter(screenplayPresenter.getTitlesAdapter(v.getContext(),title+".scrpl"));
+                chapterListView.setSelection(chapterListView.getCount()-1);
+                moveButton.setVisibility(View.GONE);
+                deleteButton.setVisibility(View.GONE);
+                fab.setVisibility(View.VISIBLE);
+            }
+        });
+
+        upButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position=screenplayPresenter.getChapterSelected()-1;
+                if(position<0)position=0;
+                screenplayPresenter.moveUpChapter(screenplayPresenter.getChapterSelected());
+                screenplayPresenter.setChapterSelected(position,
+                        screenplayPresenter.getChapterSelectedName());
+                chapterListView.setAdapter(screenplayPresenter.getTitlesAdapter(v.getContext(),title+".scrpl"));
+                chapterListView.setSelection(position);
+                moveButton.setVisibility(View.VISIBLE);
+                deleteButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        downButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position=screenplayPresenter.getChapterSelected()+1;
+                if(position>=chapterListView.getCount())position=chapterListView.getCount()-1;
+                screenplayPresenter.moveDownChapter(screenplayPresenter.getChapterSelected());
+                screenplayPresenter.setChapterSelected(position,
+                        screenplayPresenter.getChapterSelectedName());
+                chapterListView.setAdapter(screenplayPresenter.getTitlesAdapter(v.getContext(),title+".scrpl"));
+                chapterListView.setSelection(position);
+                moveButton.setVisibility(View.VISIBLE);
+                deleteButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                screenplayPresenter.removeChapter(screenplayPresenter.getChapterSelected());
+                screenplayPresenter.setChapterSelected(-1,null);
+                chapterListView.setAdapter(screenplayPresenter.getTitlesAdapter(v.getContext(),title+".scrpl"));
+                chapterListView.setSelection(chapterListView.getCount()-1);
+                moveButton.setVisibility(View.GONE);
+                deleteButton.setVisibility(View.GONE);
+                fab.setVisibility(View.VISIBLE);
+            }
+        });
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                screenplayPresenter.goToEditChapterActivity(v.getContext(),
+                        screenplayPresenter.getChapterSelectedName());
+                screenplayPresenter.setChapterSelected(-1,null);
             }
         });
 
@@ -249,36 +337,7 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
                 break;
             case R.id.exportMenu:
                 screenplayPresenter.getScreenplay().export("Audio",this);
-                /*String name=screenplayPresenter.getScreenplayTitle().replace(" ","_");
-                File destination=new File(getFilesDir(),name+".mp3");
-                SpeechSound speechSound=new SpeechSound(destination.getAbsolutePath());
-                speechSound.play();*/
                 Toast.makeText(this,"Esportazione riuscita",Toast.LENGTH_LONG).show();
-                /*/---- test FFmpeg -----------------------------------------------------------
-                File f=new File(getExternalStorageDirectory(),"pic004.png");
-                System.out.println(f.getAbsolutePath());
-                File file=new File(getFilesDir(),"track.mp3");
-                File file2=new File(getFilesDir(),"provafile.wav");
-                File file3=new File(getFilesDir(),"provafilefr.wav");
-                File dest=new File(getFilesDir(),"parzial.wav");
-                File dest2=new File(getFilesDir(),"mergedAudio.wav");
-                AudioConcatenator am=new AudioConcatenator(this,dest);
-                am.addFile(file2);
-                am.addFile(file3);
-                AudioMixer aam=new AudioMixer(this,dest,file,dest2);
-                File dest3=new File(getFilesDir(),"export.mp3");
-                Mp3Converter mp=new Mp3Converter(this,dest2,dest3);
-                try {
-                    am.exec();
-                    aam.exec();
-                    mp.exec();
-                } catch (FFmpegCommandAlreadyRunningException e) {
-                    e.printStackTrace();
-                }
-                SpeechSound soundtrack=new SpeechSound(dest3.getAbsolutePath());
-                soundtrack.play();
-                Toast.makeText(this,"Esportazione riuscita",Toast.LENGTH_LONG).show();
-                //---- end of test FFmpeg -----------------------------------------------------*/
                 break;
             case R.id.shareMenu:
                 onShare();

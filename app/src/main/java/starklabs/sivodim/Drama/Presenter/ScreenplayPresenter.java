@@ -39,7 +39,7 @@ public interface ScreenplayPresenter {
      * @param sceenplay The screenplay to consider
      * @return
      */
-    ArrayAdapter<String> getTitlesAdapter(Context context, String sceenplay);
+    StringArrayAdapter getTitlesAdapter(Context context, String sceenplay);
 
     /**
      * Returns the title of the screenplay
@@ -53,7 +53,17 @@ public interface ScreenplayPresenter {
      */
     Screenplay getScreenplay();
 
+    /**
+     * Gives the position of the current chapter selected
+     * @return
+     */
+    int getChapterSelected();
 
+    String getChapterSelectedName();
+
+    // --------------------------- SETTER -------------------------------------
+
+    void setChapterSelected(int index,String name);
 
     // ----------------------------- UTILITIES --------------------------------------------
 
@@ -81,9 +91,11 @@ public interface ScreenplayPresenter {
     void newScreenplay(String title,Context context);
 
     // check how drag and drop works for orderChapter implementation
-    void moveUpChapter(String chapterTitle);
+    void moveUpChapter(int index);
 
-    void moveDownChapter(String chapterTitle);
+    void moveDownChapter(int index);
+
+    void removeChapter(int index);
 
     /**
      * Save a screenplay to memory in the default directory, with the title as name and ".scrpl" as extension

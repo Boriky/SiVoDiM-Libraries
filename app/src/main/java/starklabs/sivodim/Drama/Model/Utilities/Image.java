@@ -18,6 +18,7 @@ public abstract class Image {
         if(imgFile.exists()){
             long fileLength=imgFile.length();
             if (fileLength<=maxSize()){
+                //System.out.println("fileLength+\"<\"+maxSize() = " + fileLength+"<"+maxSize());
                 image=BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             }
         }

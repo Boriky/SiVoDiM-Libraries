@@ -6,6 +6,8 @@ import android.widget.ArrayAdapter;
 import starklabs.sivodim.Drama.Model.Chapter.Chapter;
 import starklabs.sivodim.Drama.Model.Chapter.Speech;
 import starklabs.sivodim.Drama.Model.Character.Character;
+import starklabs.sivodim.Drama.Model.Utilities.Background;
+import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
 import starklabs.sivodim.Drama.View.EditChapterActivity;
 import starklabs.sivodim.Drama.View.EditChapterInterface;
 import starklabs.sivodim.Drama.View.ListSpeechesInterface;
@@ -73,6 +75,10 @@ public interface ChapterPresenter {
     Character getCharacterSelected();
 
     String getEmotionSelected();
+
+    Background getChapterBackground();
+
+    Soundtrack getSoundtrack();
 
     // ----------------------------- SETTER ------------------------------------------------
 

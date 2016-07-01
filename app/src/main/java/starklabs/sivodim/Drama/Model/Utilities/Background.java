@@ -6,7 +6,7 @@ import java.io.File;
  * Created by Francesco Bizzaro on 25/05/2016.
  */
 public class Background extends Image {
-    private static final long maxSize=1048576;
+    private static final long maxSize=10485760;
 
     private File file;
 

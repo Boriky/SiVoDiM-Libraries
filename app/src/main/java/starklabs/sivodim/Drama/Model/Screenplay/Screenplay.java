@@ -24,4 +24,7 @@ public interface Screenplay {
     String getTitle();
     String getPath(Context context);
     Chapter getChapter(String title);
+    void moveUpChapter(int index);
+    void moveDownChapter(int index);
+    void removeChapter(int index);
 }
