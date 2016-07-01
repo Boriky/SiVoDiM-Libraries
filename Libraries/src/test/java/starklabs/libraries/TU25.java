@@ -2,6 +2,7 @@ package starklabs.libraries;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -33,17 +34,9 @@ public class TU25 {
 
         VoiceListPresenter voiceListPresenter = new VoiceListPresenterImpl(engine);
 
-        voiceListPresenter.loadVoiceNames(context);
-
-        //ArrayAdapter<String> arrayAdapter = Mockito.mock(ArrayAdapter.class);
-        //when(arrayAdapter.add("enri")).thenReturn();
-
 
         ArrayAdapter<String> arrayAdapter = voiceListPresenter.getVoicesAdapter(context.getApplicationContext());
-        arrayAdapter.add("Enri");
-
-        System.out.println("arrayAdapter = " + arrayAdapter.getItem(0));
-
+        voiceListPresenter.loadVoiceNames(context);
 
         arrayAdapter.isEmpty();
 
