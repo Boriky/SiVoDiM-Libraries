@@ -1,20 +1,15 @@
-package starklabs.libraries;
+package starklabs.libraries.TestUnity;
 
 import android.content.Context;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 
-import starklabs.libraries.Model.EngineManager.Engine;
-import starklabs.libraries.Model.EngineManager.EngineImpl;
+import java.io.FileNotFoundException;
+
 import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
 import starklabs.libraries.Model.Voice.Language;
 import starklabs.libraries.Model.Voice.MivoqVoice;
-import org.mockito.Mockito;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Enrico on 24/06/16.

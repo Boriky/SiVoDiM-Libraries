@@ -1,12 +1,9 @@
-package starklabs.libraries;
+package starklabs.libraries.TestUnity;
 
 import android.content.Context;
 
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import java.io.File;
-import java.io.IOException;
 
 import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
 import starklabs.libraries.Model.Voice.Effect;
@@ -43,6 +40,7 @@ public class TU16 {
         //Create real voice
         MivoqVoice enri = mivoqTTSSingleton.createVoice(name, gender, myLanguage);
         Effect effect = new EffectImpl("Rate");
+
         effect.setValue("1.5");
         enri.setEffect(effect);
 
