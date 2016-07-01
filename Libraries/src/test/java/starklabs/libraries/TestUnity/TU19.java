@@ -1,4 +1,4 @@
-package starklabs.libraries;
+package starklabs.libraries.TestUnity;
 
 import android.content.Context;
 
@@ -9,16 +9,15 @@ import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
 import starklabs.libraries.Model.Voice.Effect;
 import starklabs.libraries.Model.Voice.EffectImpl;
 import starklabs.libraries.Model.Voice.MivoqVoice;
-
 import static org.junit.Assert.assertEquals;
+
 
 /**
  * Created by Enrico on 24/06/16.
  */
-public class TU18 {
+public class TU19 {
     @Test
-    public void testEditEffect(){
-
+    public void testEditLanguage(){
         MivoqTTSSingleton mivoqTTSSingleton = MivoqTTSSingleton.getInstance();
         Context context = Mockito.mock(Context.class);
         mivoqTTSSingleton.setContext(context);
@@ -29,21 +28,8 @@ public class TU18 {
 
         //Create real voice
         MivoqVoice enri = mivoqTTSSingleton.createVoice(name, gender, myLanguage);
-        Effect effect = new EffectImpl("Rate");
-        effect.setValue("1.5");
-        enri.setEffect(effect);
+        enri.setGenderLanguage(gender,myLanguage);
+        assertEquals(true,enri.getLanguage().equals(myLanguage));
 
-        String e = "F0Add";
-        Effect effettoModificato = new EffectImpl(e);
-        enri.setEffect(effettoModificato);
-
-
-        boolean check = true;
-
-        if(enri.getEffects().get(0).getName().equals(effect)){
-            check = false;
-        }
-
-        assertEquals(true, check);
     }
 }
