@@ -132,12 +132,19 @@ public class SpeechImpl implements Speech {
     @Override
     public String getEmotion() { return this.emotionID; }
 
+    @Override
+    public long getDuration(){
+        if(audioStatus==false)return 0L;
+        if(audioPath==null || !(new File(audioPath).exists()))return 0L;
+        return new SpeechSound(audioPath).getDuration();
+    }
 
     @Override
     public Character getCharacter() { return this.character; }
 
     @Override
     public void synthesizeAudio(Context context, final String path) {
+        setAudioStatus(false);
         Engine engine=new EngineImpl(context);
         File file=new File(path);
         if(!file.getParentFile().exists()){
@@ -174,19 +181,6 @@ public class SpeechImpl implements Speech {
         private SpeechSound synthesis;
 
     }
-
-    /*public static ArrayAdapter<String> getEmotions(Context context){
-        Vector<String> emotions = new Vector<String>();
-        //callback to retrieve emotions
-        emotions.add("NONE");
-        emotions.add("HAPPINESS");
-        emotions.add("SADNESS");
-        emotions.add("ANGER");
-        emotions.add("FEAR");
-        emotions.add("DISGUST");
-        emotions.add("SURPRISE");
-        return new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item,emotions);
-    }*/
 
     public static ArrayList<String> getEmotions(){
         ArrayList<String> emotions = new ArrayList<String>();

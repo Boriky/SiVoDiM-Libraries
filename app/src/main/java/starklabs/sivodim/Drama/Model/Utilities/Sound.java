@@ -3,6 +3,7 @@ package starklabs.sivodim.Drama.Model.Utilities;
 import android.media.MediaPlayer;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by Francesco Bizzaro on 25/05/2016.
@@ -40,6 +41,19 @@ public abstract class Sound {
         if(mediaPlayer!=null){
             mediaPlayer.stop();
         }
+    }
+
+    public long getDuration(){
+        if(mediaPlayer==null){
+            mediaPlayer = new MediaPlayer();
+            try {
+                mediaPlayer.setDataSource(path);
+                mediaPlayer.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return mediaPlayer.getDuration();
     }
 
     public void play(){

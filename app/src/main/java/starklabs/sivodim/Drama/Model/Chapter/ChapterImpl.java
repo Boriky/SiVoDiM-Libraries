@@ -1,6 +1,7 @@
 package starklabs.sivodim.Drama.Model.Chapter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -98,6 +99,18 @@ public class ChapterImpl implements Chapter{
     @Override
     public ListIterator<Speech> getSpeechIterator(){
         return speeches.listIterator();
+    }
+
+
+    @Override
+    public long getDuration(){
+        Iterator<Speech> iterator=getSpeechIterator();
+        int dur=0;
+        while (iterator.hasNext()){
+            Speech speech=iterator.next();
+            dur+=speech.getDuration();
+        }
+        return dur;
     }
 
     @Override

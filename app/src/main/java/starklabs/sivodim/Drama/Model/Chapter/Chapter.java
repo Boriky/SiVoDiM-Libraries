@@ -39,6 +39,8 @@ public interface Chapter {
     Background getBackground();
 
 
+    long getDuration();
+
     // ----------------------------- SETTER ----------------------------------------------
 
     /**

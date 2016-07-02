@@ -338,6 +338,10 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
                 TextView processFeedback=initiatePopupWindow();
                 screenplayPresenter.getScreenplay().export("Audio",this,processFeedback);
                 break;
+            case R.id.videoExportMenu:
+                TextView processFeedback2=initiatePopupWindow();
+                screenplayPresenter.getScreenplay().export("Video",this,processFeedback2);
+                break;
             case R.id.shareMenu:
                 onShare();
                 Toast.makeText(this,"Condividi",Toast.LENGTH_LONG).show();

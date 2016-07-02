@@ -178,7 +178,7 @@ public class AudioExport extends ExportAlgorithm {
         return destination;
     }
 
-    private void finalizeExport(final Context context){
+    protected void finalizeExport(final Context context){
         String name=screenplay.getTitle().replace(" ","_");
         final File file=new File(context.getFilesDir(),"concatenation"+name+".wav");
         File destination=new File(context.getFilesDir(),name+".mp3");

@@ -73,6 +73,8 @@ public interface Speech extends Serializable {
      */
     Character getCharacter();
 
+    long getDuration();
+
     /**
      * Create the wav file with the synthesis of the speech and save it to path
      * @param context the application context

@@ -8,8 +8,8 @@ import java.io.File;
  * Created by Francesco Bizzaro on 28/05/2016.
  */
 public class Mp3Converter extends FfmpegConnector{
-    File file;
-    File destination;
+    private File file;
+    private File destination;
 
     public Mp3Converter(Context context,File fileToConvert, File destination){
         super(context);
