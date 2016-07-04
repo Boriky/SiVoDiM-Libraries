@@ -21,6 +21,7 @@ public abstract class Sound {
     }
 
     public File getAudio(){
+        if(!audio.exists())return null;
         return audio;
     }
 
