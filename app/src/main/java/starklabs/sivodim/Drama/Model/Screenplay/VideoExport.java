@@ -2,6 +2,8 @@ package starklabs.sivodim.Drama.Model.Screenplay;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -9,12 +11,16 @@ import com.github.hiteshsondhi88.libffmpeg.FFmpegExecuteResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import starklabs.sivodim.Drama.Model.Chapter.Chapter;
 import starklabs.sivodim.Drama.Model.Chapter.Speech;
+import starklabs.sivodim.Drama.Model.Utilities.Background;
 import starklabs.sivodim.Drama.View.ListChapterActivity;
+import starklabs.sivodim.R;
 
 /**
  * Created by Francesco Bizzaro on 25/05/2016.
@@ -93,9 +99,38 @@ public class VideoExport extends ExportAlgorithm {
             i++;
             final int finalI=i;
             int duration= (int) Math.round(((double)chapter.getDuration())/1000D);
+            Background background=chapter.getBackground();
+            if(background==null || background.getPath()==null || background.getPath().equals("")){
+                File backg=new File(context.getFilesDir(),"blank_background.png");
+                if(backg.exists()){
+                    background=new Background(backg.getAbsolutePath());
+                }
+                else {
+                    Bitmap backgroundBitmap=
+                            BitmapFactory.decodeResource(context.getResources(), R.drawable.blank_background);
+
+
+                    FileOutputStream out = null;
+                    try {
+                        out = new FileOutputStream(backg);
+                        backgroundBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (out != null) {
+                                out.close();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    background=new Background(backg.getAbsolutePath());
+                }
+            }
             ImageVideoConverter imageVideoConverter=new ImageVideoConverter(
                     context,
-                    chapter.getBackground(),
+                    background,
                     duration,
                     destination);
             //remember to check if background exists.. otherwise set a default background...
@@ -151,45 +186,54 @@ public class VideoExport extends ExportAlgorithm {
             final int begin=(int) Math.round(((double)timePassed)/1000D);
             timePassed+=speech.getDuration();
             final int end=(int) Math.round(((double)timePassed)/1000D);
-            VideoOverlayer videoOverlayer=new VideoOverlayer(context,video,
+            if(speech.getCharacter().getAvatar()==null ||
+                    speech.getCharacter().getAvatar().getPath()==null ||
+                    speech.getCharacter().getAvatar().getPath().equals("")){
+                createOverlay(context,i,chapterIterator,chapterExportes,
+                        speechIterator,finalJ);
+            }
+            else {
+                VideoOverlayer videoOverlayer=new VideoOverlayer(context,video,
                     speech.getCharacter().getAvatar(),
                     begin,end,destination);
-            try {
-                videoOverlayer.exec(new FFmpegExecuteResponseHandler() {
-                    @Override
-                    public void onSuccess(String message) {
+                try {
+                    videoOverlayer.exec(new FFmpegExecuteResponseHandler() {
+                        @Override
+                        public void onSuccess(String message) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onProgress(String message) {
+                        @Override
+                        public void onProgress(String message) {
                         System.out.println(message);
                     }
 
-                    @Override
-                    public void onFailure(String message) {
+                        @Override
+                        public void onFailure(String message) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onStart() {
+                        @Override
+                        public void onStart() {
                         feedback.setText("Inserisco gli avatar..");
                     }
 
-                    @Override
-                    public void onFinish() {
-                        createOverlay(context,i,chapterIterator,chapterExportes,
+                        @Override
+                        public void onFinish() {
+                            createOverlay(context,i,chapterIterator,chapterExportes,
                                 speechIterator,finalJ);
-                    }
-                });
-            } catch (FFmpegCommandAlreadyRunningException e) {
-                e.printStackTrace();
+                        }
+                    });
+                } catch (FFmpegCommandAlreadyRunningException e) {
+                    e.printStackTrace();
+                }
             }
         }
         else {
             timePassed+=200;
             makeChapterVideo(context,i,chapterIterator,chapterExportes);
         }
+
     }
 
     private void concatenateChapters(final Context context, ArrayList<File>chapterExportes){

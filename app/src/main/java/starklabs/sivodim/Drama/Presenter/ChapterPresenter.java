@@ -80,6 +80,8 @@ public interface ChapterPresenter {
 
     Soundtrack getSoundtrack();
 
+    String getProjectName();
+
     // ----------------------------- SETTER ------------------------------------------------
 
     /**
@@ -97,6 +99,10 @@ public interface ChapterPresenter {
     void setCharacterSelected(Character character);
 
     void setEmotionSelected(String emotion);
+
+    void setBackground(Background background);
+
+    void setSoundtrack(Soundtrack soundtrack);
 
     // ----------------------------- UTILITIES ------------------------------------------------
 

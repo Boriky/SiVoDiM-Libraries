@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -32,6 +33,7 @@ import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
 import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.sivodim.Drama.Model.Chapter.SpeechImpl;
 import starklabs.sivodim.Drama.Model.Utilities.Avatar;
+import starklabs.sivodim.Drama.Model.Utilities.SpeechSound;
 import starklabs.sivodim.Drama.Presenter.ChapterPresenterImpl;
 import starklabs.sivodim.Drama.Presenter.CharacterArrayAdapter;
 import starklabs.sivodim.Drama.Presenter.CharacterPresenter;
@@ -86,8 +88,24 @@ public class NewCharacterActivity extends AppCompatActivity implements NewCharac
             @Override
             public void onClick(View v) {
                 //play some speech with voice
+                newChatacterTestVoice.setEnabled(false);
+                final File path=new File(getFilesDir(), "testVoce.wav");
                 Engine engine=new EngineImpl(v.getContext());
-                engine.speak((String) newCharacterVoice.getSelectedItem(),MivoqVoice.getSampleText("it"));
+                //engine.speak((String) newCharacterVoice.getSelectedItem(),MivoqVoice.getSampleText("it"));
+                engine.synthesizeToFile(path.getAbsolutePath(),
+                        (String) newCharacterVoice.getSelectedItem(),
+                        "NONE", MivoqVoice.getSampleText("it"), new Engine.Listener() {
+                            @Override
+                            public void onCompleteSynthesis() {
+                                SpeechSound speechSound=new SpeechSound(path.getAbsolutePath());
+                                speechSound.play(new MediaPlayer.OnCompletionListener() {
+                                    @Override
+                                    public void onCompletion(MediaPlayer mp) {
+                                        newChatacterTestVoice.setEnabled(true);
+                                    }
+                                });
+                            }
+                        });
             }
         });
 

@@ -38,6 +38,7 @@ public abstract class Sound {
         }
     }
 
+
     public void stop(){
         if(mediaPlayer!=null){
             mediaPlayer.stop();
@@ -55,6 +56,25 @@ public abstract class Sound {
             }
         }
         return mediaPlayer.getDuration();
+    }
+
+    public void play(MediaPlayer.OnCompletionListener completionListner){
+        if(isDefined()){
+            if (mediaPlayer==null){
+                mediaPlayer = new MediaPlayer();
+            }
+            try {
+                if(!onPause){
+                    mediaPlayer.setDataSource(path);
+                    mediaPlayer.prepare();
+                }
+                mediaPlayer.setOnCompletionListener(completionListner);
+                mediaPlayer.start();
+                onPause=false;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void play(){
