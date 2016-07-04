@@ -80,10 +80,15 @@ public class AudioExport extends ExportAlgorithm {
                      @Override
                      public void onFinish() {
                         if(chapter.getSoundtrack()!=null && chapter.getSoundtrack().getAudio()!=null
-                                && chapter.getSoundtrack().getAudio().exists())
-                            addSoundtrack(context,finalI,chapterExportes,chapterIterator,chapter,destination.getName());
-                         else
+                                && chapter.getSoundtrack().getAudio().exists()) {
+                            System.out.println("ENTRO IN ADD SOUNDTRACK");
+                            addSoundtrack(context, finalI, chapterExportes, chapterIterator,
+                                    chapter, destination.getName());
+                        }
+                        else{
+                            System.out.println("NON C'E' SOUNDTRACK");
                             concatenateSpeeches(context,finalI,chapterExportes,chapterIterator);
+                            }
                      }
                  });
              } catch (FFmpegCommandAlreadyRunningException e) {

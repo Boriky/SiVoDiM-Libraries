@@ -344,7 +344,9 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
                 break;
             case R.id.shareMenu:
                 onShare();
-                Toast.makeText(this,"Condividi",Toast.LENGTH_LONG).show();
+                break;
+            case R.id.videoShareMenu:
+                onShareVideo();
                 break;
             case R.id.editMenu:
                 Toast.makeText(this,"Modifica",Toast.LENGTH_LONG).show();
@@ -357,6 +359,26 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
                 break;
         }
         return false;
+    }
+
+    public void onShareVideo(){
+        String videoClipFileName=screenplayPresenter.getScreenplayTitle().replace(" ","_")+".mp4";
+        File filePath=new File(getFilesDir(),videoClipFileName);
+        // concatenate the internal cache folder with the document its path and filename
+        final File file = new File(getFilesDir(), videoClipFileName);
+// let the FileProvider generate an URI for this private file
+        final Uri uri = FileProvider.getUriForFile(this, "com.mydomain.fileprovider", file);
+// create an intent, so the user can choose which application he/she wants to use to share this file
+        final Intent intent = ShareCompat.IntentBuilder.from(this)
+                .setType("video/mp4")
+                .setSubject("Condividi sceneggiato video")
+                .setStream(uri)
+                .setChooserTitle("Condivisione di "+videoClipFileName)
+                .createChooserIntent()
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        startActivity(intent);
     }
 
     public void onShare() {
@@ -388,8 +410,6 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
                 .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         startActivity(intent);
-
-        System.out.println("Share file: "+file.getAbsolutePath()+" <----");
     }
 
     private TextView initiatePopupWindow() {

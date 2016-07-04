@@ -21,6 +21,9 @@
         android:id="@+id/videoExportMenu"
         android:title="Esporta in video"/>
     <item
+        android:id="@+id/videoShareMenu"
+        android:title="Condividi video"/>
+    <item
         android:id="@+id/newCharacterMenu"
         android:title="Crea personaggio"/>
     <item
