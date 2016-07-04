@@ -105,7 +105,5 @@ public class StringArrayAdapter extends ArrayAdapter {
         }
 
         return row;
-
     }
-
 }

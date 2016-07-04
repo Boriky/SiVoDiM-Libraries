@@ -64,41 +64,6 @@ public class HomeActivity extends AppCompatActivity
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
         }
-/*
-                Engine myEngine=new EngineImpl(getApplicationContext());
-                MivoqVoice Fede=myEngine.createVoice("Fede", "male", "it");
-                Effect e1=new EffectImpl("Rate");
-                e1.setValue("0.8");
-                Fede.setEffect(e1);
-                myEngine.speak("Fede", "C'è un gatto, l'uomo, quell'aereo.");
-
-                MivoqTTSSingleton engine = MivoqTTSSingleton.getInstance();
-                engine.setContext(getApplicationContext());
-
-                MivoqVoice Fede=engine.CreateVoice("Fede", "male", "it");
-                engine.Speak(Fede, "Prova1");
-
-                File path=getFilesDir();
-                File myFile=new File(path,"nomeFile.wav");
-                try {
-                    engine.SynthesizeToFile(myFile.toString(),Fede, "Prova2");
-                    System.out.println("File scritto");
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-
-                String b= "data/data/starklabs.libraries/provafilede.wav";
-                try {
-                    engine.SynthesizeToFile(b,Fedede, "Provade");
-                    System.out.println("File scritto");
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        mtts = new TextToSpeech(this, this, "starklabs.libraries.Model.Mivoq.MivoqTTSService");
-        */
 
         Button test=(Button) findViewById(R.id.buttonT);
         if(test!=null){
@@ -148,30 +113,19 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.nav_guide) {
 
             Engine myEngine=new EngineImpl(getApplicationContext());
-            //MivoqVoice Patrizia=myEngine.createVoice("Patrizia", "female", "it");
-           // MivoqVoice Roberto=myEngine.createVoice("Roberto", "male", "it");
-
             myEngine.speak("Patrizia", "Ciao, sono la nuova voce di Mivoq");
 
-            //File path=getFilesDir();
-            //File myFile=new File(path,"patrizia.wav");
             /*
+            //try of synthesizeToFile method
+            MivoqVoice Patrizia=myEngine.createVoice("Patrizia", "female", "it");
+            File path=getFilesDir();
+            File myFile=new File(path,"patrizia.wav");
             try {
                 engine.synthesizeToFile(myFile.toString(), Patrizia ,"Ciao, sono Patrizia, la nuova voce femminile di Mivoq" );
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-
-            File myFile1=new File(path,"roberto.wav");
-            try {
-                engine.synthesizeToFile(myFile1.toString(), Roberto ,"Ciao, sono Roberto, la nuova voce maschile di Mivoq" );
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
-*/
-            //myEngine.synthesizeToFile(myFile.toString(),"Patrizia", null, "Ciao, sono Patrizia, la nuova voce femminile di Mivoq");
-
+            */
 
             toast = Toast.makeText(getApplicationContext(), "Apre il manuale utente", Toast.LENGTH_SHORT);
             toast.show();

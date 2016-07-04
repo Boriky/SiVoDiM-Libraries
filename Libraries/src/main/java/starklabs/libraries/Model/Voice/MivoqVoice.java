@@ -119,12 +119,10 @@ import java.util.ArrayList;
             //Check for spaces in the beginning of the name
             while(myVoiceName.substring(0,1).equals(" "))
                 myVoiceName=myVoiceName.substring(1);
-            System.out.println("voiceNameSpazioPrima = " + myVoiceName);
 
             //Check for spaces in the ending of the name
             while(myVoiceName.substring(myVoiceName.length()-1).equals(" "))
                 myVoiceName=myVoiceName.substring(0,myVoiceName.length()-1);
-            System.out.println("voiceNameSpazioDopo = " + myVoiceName);
 
             name=myVoiceName;
         }

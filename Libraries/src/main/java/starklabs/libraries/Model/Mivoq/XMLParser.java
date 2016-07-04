@@ -72,11 +72,7 @@ public class XMLParser {
             for (int i = 0; i < voiceNodes.getLength(); i++) {
                 Node node = voiceNodes.item(i);
                 // check if the node is a tag
-                vDebug("Verifica lettura nodi PRIMA if :" + node.getNodeName());
-                vDebug("");
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    vDebug("Verifica lettura nodi DOPO if :" + node.getNodeName());
-                    vDebug("");
                     // from Node to Element "cast"
                     Element voiceElem = (Element) node;
                     String nodeName = voiceElem.getNodeName();

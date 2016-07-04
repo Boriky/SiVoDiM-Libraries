@@ -69,7 +69,6 @@ public class MivoqTTSSingleton {
 
                 save();
             }
-
         }
     }
 
@@ -164,8 +163,6 @@ public class MivoqTTSSingleton {
         String VoiceName="roberto-hsmm";
 
         Language L= new Language(myLanguage);
-
-
 
         MivoqVoice V=  new MivoqVoice(name,VoiceName,L);
 

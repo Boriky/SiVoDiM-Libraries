@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -87,6 +88,19 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
         int genderPos=voicePresenter.getGenderPos(genderTag);
         gender.setSelection(genderPos);
 
+        gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                voicePresenter.setGender(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
         //set language
         final Spinner language=(Spinner)findViewById(R.id.language);
         languageAdapter=voicePresenter.getLanguageAdapter(this);
@@ -96,6 +110,18 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
         String languageTag=mivoqVoice.getLanguage();
         int langPos=voicePresenter.getLanguagePos(languageTag);
         language.setSelection(langPos);
+
+        language.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                voicePresenter.setLanguage(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //set effect seekBar
         //set rate (velocita) effect
@@ -246,6 +272,7 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
             }
         });
 
+        //set Default Voice
         final Button buttonDefault=(Button) findViewById(R.id.buttonDefault);
         if(voicePresenter.isDefaultVoice())
             buttonDefault.setEnabled(false);
@@ -285,6 +312,7 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
     @Override
     public void onBackPressed() {
         voicePresenter.getEngine().load();
-        super.onBackPressed();
+        Intent homeIntent = new Intent(EditVoiceActivity.this, VoiceListActivity.class);
+        startActivity(homeIntent);
     }
 }

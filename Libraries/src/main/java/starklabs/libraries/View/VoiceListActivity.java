@@ -133,4 +133,13 @@ public class VoiceListActivity extends AppCompatActivity implements VoiceListAct
         Intent homeIntent = new Intent(VoiceListActivity.this, HomeActivity.class);
         startActivity(homeIntent);
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        voiceListPresenter.setVoiceSelected(-1,null);
+        voiceListView.setAdapter(voiceListPresenter.getVoicesAdapter(getApplicationContext()));
+        voiceListView.setSelection(voiceListView.getCount()-1);
+        removeLayout.setVisibility(View.GONE);
+        deleteButton.setVisibility(View.GONE);    }
 }

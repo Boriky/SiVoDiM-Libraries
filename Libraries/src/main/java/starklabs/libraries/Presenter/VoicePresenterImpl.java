@@ -126,8 +126,6 @@ public class VoicePresenterImpl implements VoicePresenter{
             case 2: gender="neutral"; break;
             case 3: gender="unknown"; break;
         }
-        System.out.println("gender = " + gender);
-        System.out.println("language = " + language);
         mivoqVoice.setGenderLanguage(gender,language);
     }
 
@@ -192,5 +190,11 @@ public class VoicePresenterImpl implements VoicePresenter{
     public String getLanguage() {
         return language;
     }
+
+    @Override
+    public String getGender() {
+        return gender;
+    }
+
 
 }

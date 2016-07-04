@@ -42,6 +42,7 @@ public class VoiceListPresenterImpl implements VoiceListPresenter{
             voicePresenter.setDefaultVoice(false);
 
         EditVoiceActivity.setPresenter(voicePresenter);
+        editVoiceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(editVoiceIntent);
     }
 

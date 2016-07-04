@@ -9,6 +9,7 @@ import android.speech.tts.TextToSpeech;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
@@ -66,16 +67,43 @@ public class EngineImpl implements Engine{
     }
 
     public EngineImpl(Context c) {
-        myContext=c;
+        myContext = c;
         myEngine.setContext(c);
-        if(backupEngine==null)
-            backupEngine= new TextToSpeech(c,
+        if(backupEngine!=null)
+            backupEngine.shutdown();
+        backupEngine=null;
+        if (backupEngine == null) {
+            backupEngine = new TextToSpeech(c,
                     new TextToSpeech.OnInitListener() {
                         @Override
                         public void onInit(int status) {
                             //Initialization TTS
                         }
                     });
+            List<TextToSpeech.EngineInfo> listEngine = backupEngine.getEngines();
+            System.out.println("backupEngine = " + backupEngine.getDefaultEngine());
+            if(backupEngine.getDefaultEngine().equals("starklabs.libraries")) {
+                int i = 0;
+                System.out.println("Inizio lista engine");
+                System.out.println("listEngine = " + listEngine.size());
+                System.out.println("listEngine = " + listEngine.get(i));
+
+                while (i < listEngine.size() && listEngine.get(i).name.equals("starklabs.libraries")) {
+                    System.out.println("listEngine = " + listEngine.get(i));
+                    i++;
+                }
+
+                if (i < listEngine.size()) {
+                    backupEngine.shutdown();
+                    backupEngine = new TextToSpeech(c, new TextToSpeech.OnInitListener() {
+                        @Override
+                        public void onInit(int status) {
+                            // no need to initialize anything
+                        }
+                    }, listEngine.get(i).name);
+                }
+            }
+        }
     }
 
     public ArrayList<MivoqVoice> getVoices() {
@@ -173,7 +201,7 @@ public class EngineImpl implements Engine{
                 found=true;
             }
 
-        System.out.println(VID.getName());
+        //System.out.println(VID.getName());
 
         if(isConnected)
         {
@@ -192,7 +220,7 @@ public class EngineImpl implements Engine{
     }
 
     public MivoqVoice createVoice(String name, String gender, String myLanguage) {
-        int i=0;
+        int i=1;
         String voiceName=name;
         //Check if the name is empty, and in that case assign the default name
         if(voiceName.equals("")) {voiceName="New Voice"; name="New Voice";}
@@ -200,16 +228,13 @@ public class EngineImpl implements Engine{
         //Check for spaces in the beginning of the name
         while(voiceName.substring(0,0).equals(" "))
             voiceName=voiceName.substring(1);
-        System.out.println("voiceNameSpazioPrima = " + voiceName);
 
         //Check for spaces in the ending of the name
         while(voiceName.substring(voiceName.length()).equals(" "))
             voiceName=voiceName.substring(0,voiceName.length()-1);
-        System.out.println("voiceNameSpazioDopo = " + voiceName);
 
         //Check if the name has already been used
         // if so, it adds an incrementing number to get a unique name
-        System.out.println(getVoiceByName(voiceName)!=null);
 
         while (getVoiceByName(voiceName)!=null){
             voiceName=name.concat(Integer.toString(i));

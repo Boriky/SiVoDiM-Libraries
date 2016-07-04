@@ -84,7 +84,7 @@ public class MivoqNewConnectionImpl implements MivoqConnection {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                System.out.println("c'e' stato un errore");
+                System.out.println("c'e' stato un errore nell'invio della richiesta");
                 System.out.println(error.getMessage());
             }
         });
@@ -94,7 +94,6 @@ public class MivoqNewConnectionImpl implements MivoqConnection {
             myRequestQueue = Volley.newRequestQueue(myContext, new HurlStack());
 
         myRequestQueue.add(request);
-        System.out.println("New Step 1");
     }
 
     public byte[] getResponse(){

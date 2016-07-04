@@ -37,13 +37,10 @@ public class MivoqTTSService extends TextToSpeechService{
     public String onGetDefaultVoiceNameFor (String lang, String country, String variant) {
         ArrayList<MivoqVoice> list= engine.getVoices();
         int i=0;
-        //Language language= new Language("ita");
-        MivoqVoice voice = list.get(0);//=new MivoqVoice("ProvaEnri", "ita", language);
+        MivoqVoice voice = list.get(0);
         if(list.size()>0) {
             for(i=0; list.size()!=0 && !voice.getLanguage().equals(lang.substring(0, 2)) && i + 1 < list.size(); i++){
-            //MivoqVoice voice = list.get(i);
-            //while (!voice.getLanguage().equals(lang.substring(0, 2)) && i + 1 < list.size()) {
-            //  i++;
+
                 voice = list.get(i);
             }
             if (i != list.size())
@@ -160,7 +157,7 @@ public class MivoqTTSService extends TextToSpeechService{
         for(int i=0; i<list.size(); i++)
         {
             MivoqVoice temp=list.get(i);
-            myV= new Voice(temp.getLanguage()+"--"+temp.getName(),new Locale(temp.getLanguage()),0,0,true,features);
+            myV= new Voice(temp.getLanguage()+"--"+temp.getName(),new Locale(temp.getLanguage()),Voice.QUALITY_NORMAL,Voice.LATENCY_NORMAL,true,features);
             result.add(myV);
         }
 

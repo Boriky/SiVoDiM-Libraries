@@ -13,6 +13,8 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.List;
+
 import starklabs.libraries.Model.Voice.Effect;
 import starklabs.libraries.Model.Voice.EffectImpl;
 import starklabs.libraries.Model.Voice.MivoqVoice;
@@ -199,14 +201,21 @@ public class NewVoiceActivity extends AppCompatActivity implements NewVoiceActiv
                 if(vN.equals("")){
                     Toast.makeText(v.getContext(),"Inserisci un nome",Toast.LENGTH_SHORT).show();
                 }
-                //String vName=voicePresenter.getEngine().getVoiceByName(vN).toString();
-                if(voicePresenter.getEngine().getVoiceByName(vN)!=null){
-                    Toast.makeText(v.getContext(),"Nome già utilizzato",Toast.LENGTH_SHORT).show();
-                }
+
                 else {
                     voicePresenter.setGender(gender.getSelectedItemPosition());
+                    String voiceGender= voicePresenter.getGender();
                     voicePresenter.setLanguage(language.getSelectedItemPosition());
-                    voicePresenter.getVoice().setName(vN);
+                    String voiceLanguage= voicePresenter.getLanguage();
+                    int index = voicePresenter.getEngine().getVoices().size()-1;
+                    List<Effect> listEffects=voicePresenter.getVoice().getEffects();
+
+                    voicePresenter.getEngine().removeVoice(index);
+                    MivoqVoice myVoice=voicePresenter.getEngine().createVoice(vN,voiceGender,voiceLanguage);
+
+                    for(int i=0; i<5; i++)
+                        myVoice.setEffect(listEffects.get(i));
+
                     voicePresenter.getEngine().save();
                     voicePresenter = null;
                     Intent homeIntent = new Intent(NewVoiceActivity.this, HomeActivity.class);
