@@ -39,12 +39,12 @@ public class MivoqTTSService extends TextToSpeechService{
         int i=0;
         MivoqVoice voice = list.get(0);
         if(list.size()>0) {
-            for(i=0; list.size()!=0 && !voice.getLanguage().equals(lang.substring(0, 2)) && i + 1 < list.size(); i++){
+            for(i=0; list.size()!=0 && !voice.getLanguage().equals(lang) && i + 1 < list.size(); i++){
 
                 voice = list.get(i);
             }
             if (i != list.size())
-                return voice.getLanguage() + "--" + voice.getName();
+                return voice.getLanguage() + "-"+voice.getState()+"-" + voice.getName();
             else
                 return "Not Available";
         }
@@ -53,58 +53,64 @@ public class MivoqTTSService extends TextToSpeechService{
 
     @Override
     public int onIsValidVoiceName (String voiceName) {
-        if(voiceName.contains("--") || voiceName.equals("Not Available"))
+        if(voiceName.contains("-") || voiceName.equals("Not Available"))
             return TextToSpeech.SUCCESS;
         else
             return TextToSpeech.ERROR;
+        //return TextToSpeech.SUCCESS;
     }
 
     @Override
     public int onLoadVoice (String voiceName) {
-        String nome[]= voiceName.split("--");
+        String nome[]= voiceName.split("-");
 
         if(voiceName.equals("Not Available")) //A little problem here, think how to fix it
             return TextToSpeech.SUCCESS;
 
-        if(nome[0]== null || nome[1]==null)
+        if(nome[0]== null || nome[1]==null || nome[2]==null)
             return TextToSpeech.ERROR;
 
         ArrayList<MivoqVoice> list= engine.getVoices();
         int i=0;
-        while(i<list.size() && !list.get(i).getName().equals(nome[1]) )    i++;
+        while(i<=list.size() && !list.get(i).getName().equals(nome[2]) ) i++;
 
-        if(i != list.size())
-            voiceID=i;
-
+        if(i+1 != list.size()) {
+            voiceID = i;
+            System.out.println("Settata la voce numero= "+voiceID);
+        }
         return TextToSpeech.SUCCESS;
     }
 
     @Override
     protected int onIsLanguageAvailable(String lang, String country, String variant) {
         if(lang.substring(0,2).equals("it"))
-            return TextToSpeech.LANG_AVAILABLE;
+            return TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE;
         if(lang.substring(0,2).equals("en"))
-            return TextToSpeech.LANG_AVAILABLE;
+            return TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE;
         if(lang.substring(0,2).equals("de"))
-            return TextToSpeech.LANG_AVAILABLE;
+            return TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE;
         if(lang.substring(0,2).equals("fr"))
-            return TextToSpeech.LANG_AVAILABLE;
+            return TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE;
 
         return TextToSpeech.LANG_NOT_SUPPORTED;
     }
 
     @Override
     protected String[] onGetLanguage() {
-        String[] a={"ita", "fra", "deu", "eng"};
-        return a;
+        MivoqVoice defaultVoice = engine.getVoices().get(voiceID);
+        String[] result= {defaultVoice.getLanguage(),defaultVoice.getState(),defaultVoice.getName()};
+
+        //String[] a={"ita", "ITA", "Prova2"};
+        return result;
     }
 
     @Override
     protected int onLoadLanguage(String lang, String country, String variant) {
         if(onLoadVoice(onGetDefaultVoiceNameFor(lang, country, variant))== TextToSpeech.SUCCESS)
-            return TextToSpeech.LANG_AVAILABLE;
+            return TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE;
         else
             return TextToSpeech.LANG_NOT_SUPPORTED;
+        //return TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE;
     }
 
     @Override
@@ -138,7 +144,7 @@ public class MivoqTTSService extends TextToSpeechService{
 
         Set<String> result= super.onGetFeaturesForLanguage (lang,country, variant);
 
-        result.add(TextToSpeech.Engine.KEY_FEATURE_NETWORK_SYNTHESIS);
+        //result.add(TextToSpeech.Engine.KEY_FEATURE_NETWORK_SYNTHESIS);
 
         return result;
 
@@ -157,7 +163,8 @@ public class MivoqTTSService extends TextToSpeechService{
         for(int i=0; i<list.size(); i++)
         {
             MivoqVoice temp=list.get(i);
-            myV= new Voice(temp.getLanguage()+"--"+temp.getName(),new Locale(temp.getLanguage()),Voice.QUALITY_NORMAL,Voice.LATENCY_NORMAL,true,features);
+            myV= new Voice(temp.getLanguage()+"-"+temp.getState()+"-"+temp.getName(),
+                    new Locale(temp.getLanguage()),Voice.QUALITY_NORMAL,Voice.LATENCY_NORMAL,true,features);
             result.add(myV);
         }
 

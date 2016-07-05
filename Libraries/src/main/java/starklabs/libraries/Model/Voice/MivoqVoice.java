@@ -68,7 +68,7 @@ import java.util.ArrayList;
         {
             String myVoiceName="roberto-hsmm";
 
-            switch (myLang)
+            switch (myLang.substring(0,2))
             {
                 case "it":
                     if(gen.equals("female")) myVoiceName="patrizia-hsmm";
@@ -173,6 +173,7 @@ import java.util.ArrayList;
 
         public String getLanguage()
         {
+            System.out.println("lang = " + lang.toString());
             return lang.toString();
         }
 
@@ -195,5 +196,31 @@ import java.util.ArrayList;
         {
             effects.remove(index);
         }
+
+        public String getState() {
+            String newLang;
+
+            switch (lang.toString())
+            {
+                case "ita":
+                case "it": newLang="ita";
+                    break;
+                case "deu":
+                case "de": newLang="deu";
+                    break;
+                case "fra":
+                case "fr": newLang="fra";
+                    break;
+                case "eng":
+                case "en": newLang="usa";
+                    break;
+                default: newLang="alg";
+            }
+            return newLang;
+        }
+
+        //public Locale getLocale() {
+        //  return new Locale("ita", "ITA", "Prova2");
+        //}
 
     }

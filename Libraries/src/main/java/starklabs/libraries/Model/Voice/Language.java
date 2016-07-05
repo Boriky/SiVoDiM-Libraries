@@ -34,13 +34,31 @@ public class Language {
 
     public String toString()
     {
-        String result=lang;
-        if(state != null && state.equals(state))
+        String newLang;
+        switch(lang)
         {
-            result+="_"+state;
-            if(modifier != null && modifier.equals(modifier))
-                result+="."+modifier;
+            case "ita":
+            case "it": newLang="ita";
+                break;
+            case "deu":
+            case "de": newLang="deu";
+                break;
+            case "fra":
+            case "fr": newLang="fra";
+                break;
+            case "eng":
+            case "en": newLang="eng";
+                break;
+            default: newLang="alg";
         }
+
+        String result=newLang;
+        /*if(state != null && state.equals(state))
+        {
+            result+="-"+state;
+            if(modifier != null && modifier.equals(modifier))
+                result+="-"+modifier;
+        }*/
         return result;
     }
 }

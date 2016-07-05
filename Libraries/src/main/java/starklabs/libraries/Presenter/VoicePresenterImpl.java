@@ -160,12 +160,16 @@ public class VoicePresenterImpl implements VoicePresenter{
     public int getLanguagePos(String langTag) {
         switch(langTag)
         {
+            case "ita":
             case "it":
                 return 0;
+            case "eng":
             case "en":
                 return 1;
+            case "deu":
             case "de":
                 return 2;
+            case "fra":
             case "fr":
                 return 3;
         }

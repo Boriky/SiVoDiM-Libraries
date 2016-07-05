@@ -46,7 +46,9 @@ public class MivoqTTSSingleton {
     }
 
     public void setContext(Context T) {
-        if(true) {
+        System.out.println("richiamo setContext------------------------");
+
+        if(T!=null) {
             myContext = T;
             load();
             if(voiceList.isEmpty()) {
@@ -66,7 +68,6 @@ public class MivoqTTSSingleton {
                 myVoice.setEffect(hMMTractScaler);
                 myVoice.setEffect(whisper);
                 myVoice.setEffect(f0Scale);
-
                 save();
             }
         }
@@ -77,6 +78,7 @@ public class MivoqTTSSingleton {
 
         if(queue== null)
             queue = Volley.newRequestQueue(myContext, new HurlStack());
+
 
         MivoqConnection request= myFactory.createConnection();
 

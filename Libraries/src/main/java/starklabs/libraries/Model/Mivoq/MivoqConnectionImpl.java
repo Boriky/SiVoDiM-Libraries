@@ -51,7 +51,7 @@ public class MivoqConnectionImpl implements MivoqConnection{
     //Insert parameters for the Mivoq Service
         Params.put("input[type]",inputType);
         Params.put("input[content]",text);
-        Params.put("input[locale]",locale);
+        Params.put("input[locale]",locale.substring(0,2));
         Params.put("output[type]",outputType);
         Params.put("output[format]",outputFormat);
         Params.put("voice[gender]",voiceGender);
