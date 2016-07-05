@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,9 +14,13 @@ import com.github.hiteshsondhi88.libffmpeg.FFmpegExecuteResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import starklabs.sivodim.Drama.Model.Chapter.Chapter;
@@ -278,7 +285,7 @@ public class VideoExport extends ExportAlgorithm {
     private void finalizeExport(final Context context){
         String name=screenplay.getTitle().replace(" ","_");
         File video=new File(context.getFilesDir(),"concat_mp4_"+name+".mp4");
-        File destination=new File(context.getFilesDir(),name+".mp4");
+        final File destination=new File(context.getFilesDir(),name+".mp4");
         File audio=new File(context.getFilesDir(),name+".mp3");
         AudioVideoMixer audioVideoMixer=new AudioVideoMixer(context,video,audio,destination);
         try {
@@ -306,6 +313,11 @@ public class VideoExport extends ExportAlgorithm {
                 @Override
                 public void onFinish() {
                     System.out.println("FINITO FFMPEG!!!!!!");
+                    try {
+                        copyFile(destination,getOutputMediaFile(MEDIA_TYPE_VIDEO));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     Intent intent=new Intent(context,ListChapterActivity.class);
                     context.startActivity(intent);
                     Toast.makeText(context,"Esportazione conclusa",Toast.LENGTH_SHORT).show();
@@ -320,5 +332,63 @@ public class VideoExport extends ExportAlgorithm {
     public void export(Context context) {
         audioExport.setScreenplay(screenplay);
         exportAudio(context);
+    }
+
+    //https://developer.android.com/guide/topics/media/camera.html
+
+    private static void copyFile(File source, File dest)
+            throws IOException {
+        FileChannel inputChannel = null;
+        FileChannel outputChannel = null;
+        try {
+            inputChannel = new FileInputStream(source).getChannel();
+            outputChannel = new FileOutputStream(dest).getChannel();
+            outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
+        } finally {
+            if(inputChannel!=null)inputChannel.close();
+            if(outputChannel!=null)outputChannel.close();
+        }
+    }
+
+    public static final int MEDIA_TYPE_IMAGE = 1;
+    public static final int MEDIA_TYPE_VIDEO = 2;
+
+    /** Create a file Uri for saving an image or video */
+    private static Uri getOutputMediaFileUri(int type){
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
+
+    /** Create a File for saving an image or video */
+    private static File getOutputMediaFile(int type){
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_MOVIES), "Sivodim");
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                Log.d("Sivodim", "failed to create directory");
+                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE){
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "IMG_"+ timeStamp + ".jpg");
+        } else if(type == MEDIA_TYPE_VIDEO) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "VID_"+ timeStamp + ".mov");
+        } else {
+            return null;
+        }
+
+        return mediaFile;
     }
 }

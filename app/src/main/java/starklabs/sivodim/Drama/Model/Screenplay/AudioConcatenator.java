@@ -38,6 +38,7 @@ public class AudioConcatenator extends FfmpegConnector {
     }
 
     public void createFileList(){
+        if(files==null)return;
         try {
             listTxt = new File(destination.getParentFile(),"concatList.txt");
             if(!listTxt.exists())listTxt.createNewFile();

@@ -126,9 +126,8 @@ public class NewChapterActivity extends AppCompatActivity implements NewChapterI
                         background = new Background(destination.getAbsolutePath());
                         System.out.println("SAVE in: " + destination.getAbsolutePath());
                     }
-                    screenplayPresenter.newChapter(title, soundtrack, background);
-                    Intent intent = new Intent(v.getContext(), ListChapterActivity.class);
-                    startActivity(intent);
+
+                    screenplayPresenter.newChapter(v.getContext(),title, soundtrack, background);
                 }
             }
         });
