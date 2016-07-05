@@ -17,20 +17,20 @@ import java.util.HashMap;
 
 
 public class MivoqNewConnectionImpl implements MivoqConnection {
-    private String Locale;
+    private String locale;
 
-    private String VoiceGender;
-    private String VoiceName;
-    private String Effects;
+    private String voiceGender;
+    private String voiceName;
+    private String effects;
 
     //private static final String Select_Algorithm= "ssml";
 
     // Some constants used for every request is submitted to the servers
-    private static final String InputType="TEXT";
-    private static final String OutputType="AUDIO";
-    private static final String OutputFormat="WAVE_FILE";
+    private static final String inputType ="TEXT";
+    private static final String outputType ="AUDIO";
+    private static final String outputFormat ="WAVE_FILE";
     // new URL that Mivoq s.r.l. provided for the access to the 2 new italian voices
-    private static final String Url ="http://inst0213.tts.mivoq.it/say";
+    private static final String url ="http://inst0213.tts.mivoq.it/say";
 
     private Request request;
     private Context myContext;
@@ -38,14 +38,14 @@ public class MivoqNewConnectionImpl implements MivoqConnection {
     private static RequestQueue myRequestQueue;
 
     //private MivoqTTSSingleton Observer;
-    private byte[] Response = null;
+    private byte[] response = null;
 
     public MivoqNewConnectionImpl(){}
 
-    public void setVoiceGender(String s){ VoiceGender=s; }
-    public void setVoiceName(String s) { VoiceName=s; }
-    public void setLocale(String s) { Locale=s; }
-    public void setEffects(String s) { Effects=s; }
+    public void setVoiceGender(String s){ voiceGender =s; }
+    public void setVoiceName(String s) { voiceName =s; }
+    public void setLocale(String s) { locale =s; }
+    public void setEffects(String s) { effects =s; }
 
     public void setQueue(RequestQueue RQ) {myRequestQueue=RQ;}
 
@@ -56,19 +56,19 @@ public class MivoqNewConnectionImpl implements MivoqConnection {
         HashMap<String, String> Params = new HashMap<String, String>();
 
         //Array of parameters that the request has to send to the Mivoq Service
-        Params.put("input[type]",InputType);
+        Params.put("input[type]", inputType);
         Params.put("input[content]",Text);
-        Params.put("input[locale]",Locale.substring(0,2));
-        Params.put("output[type]",OutputType);
-        Params.put("output[format]",OutputFormat);
-        Params.put("voice[gender]",VoiceGender);
-        Params.put("voice[name]",VoiceName);
+        Params.put("input[locale]", locale.substring(0,2));
+        Params.put("output[type]", outputType);
+        Params.put("output[format]", outputFormat);
+        Params.put("voice[gender]", voiceGender);
+        Params.put("voice[name]", voiceName);
 
         // Mivoq seems to have removed the algorythm selection in the new sistem;
         //Params.put("voice[selection_algorythm]",Select_Algorithm);
-        Params.put("utterance[effects]",Effects);
+        Params.put("utterance[effects]", effects);
 
-        request = new AuthAudioRequest(Request.Method.POST, Url, Params,
+        request = new AuthAudioRequest(Request.Method.POST, url, Params,
                 new Response.Listener<byte[]>()
                 {
                     @Override
@@ -77,7 +77,7 @@ public class MivoqNewConnectionImpl implements MivoqConnection {
                         synchronized(this){
                             System.out.println("Consegna avvenuta con successo");
 
-                            Response=myResponse;
+                            response =myResponse;
                         }
 
                     }}	, new Response.ErrorListener(){
@@ -98,7 +98,7 @@ public class MivoqNewConnectionImpl implements MivoqConnection {
 
     public byte[] getResponse(){
 
-        return Response;
+        return response;
 
     }
 }

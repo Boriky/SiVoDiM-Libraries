@@ -109,7 +109,6 @@ public class MivoqTTSService extends TextToSpeechService{
             return TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE;
         else
             return TextToSpeech.LANG_NOT_SUPPORTED;
-        //return TextToSpeech.LANG_COUNTRY_VAR_AVAILABLE;
     }
 
     @Override

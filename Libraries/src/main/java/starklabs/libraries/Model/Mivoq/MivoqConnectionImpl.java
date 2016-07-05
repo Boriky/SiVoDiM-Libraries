@@ -75,14 +75,14 @@ public class MivoqConnectionImpl implements MivoqConnection{
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                System.out.println("c'e' stato un errore");
+                System.out.println("c'e' stato un errore nell'invio della richiesta");
                 System.out.println(error.getMessage());
             }
         } );
 
 
         myRequestQueue.add(request);
-        System.out.println("Step 1");
+        System.out.println("Aggiunta la richiesta alla coda");
     }
 
     public byte[] getResponse(){
