@@ -74,6 +74,11 @@ public class ChapterPresenterImpl implements ChapterPresenter {
         this.nextSpeechId=nextSpeechId;
     }
 
+    @Override
+    public String getProjectName(){
+        return this.projectName;
+    }
+
     public ChapterPresenterImpl(ListSpeechesInterface listSpeechesInterface){
         this.listSpeechesInterface=listSpeechesInterface;
     }
@@ -124,6 +129,16 @@ public class ChapterPresenterImpl implements ChapterPresenter {
     @Override
     public void setEmotionSelected(String emotion) {
         this.emotionSelected=emotion;
+    }
+
+    @Override
+    public void setBackground(Background background) {
+        chapter.setBackground(background);
+    }
+
+    @Override
+    public void setSoundtrack(Soundtrack soundtrack) {
+        chapter.setSoundtrack(soundtrack);
     }
 
 

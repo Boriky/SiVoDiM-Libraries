@@ -42,19 +42,32 @@ public class AudioExport extends ExportAlgorithm {
              audioConcatenator.setDestination(destination);
              final Chapter chapter=chapterIterator.next();
              ListIterator<Speech>speechListIterator=chapter.getSpeechIterator();
+             boolean empty=true;
              while (speechListIterator.hasNext()){
                  Speech speech=speechListIterator.next();
+                 int limit=300;
                  while (speech.getAudioStatus()==false){
-                     System.out.println("Battuta si sta scaricando");
                      try {
+                         limit--;
                          Thread.sleep(10);
+                         if (limit<0){
+                             Intent intent=new Intent(context,ListChapterActivity.class);
+                             context.startActivity(intent);
+                             Toast.makeText(context,"Errore nello scaricamento delle battute",Toast.LENGTH_SHORT).show();
+                             return;
+                         }
                      } catch (InterruptedException e) {
                          e.printStackTrace();
                      }
                  }
                  File speechFile=new File(speech.getAudioPath());
                  audioConcatenator.addFile(speechFile);
+                 empty=false;
              }
+             if(empty){
+                 concatenateSpeeches(context,finalI,chapterExportes,chapterIterator);
+             }
+             else{
              try {
                  audioConcatenator.exec(new FFmpegExecuteResponseHandler() {
                      @Override
@@ -94,6 +107,7 @@ public class AudioExport extends ExportAlgorithm {
              } catch (FFmpegCommandAlreadyRunningException e) {
                  e.printStackTrace();
              }
+         }
 
          }else{// join all chapters
              File dir=new File(screenplay.getPath(context));
@@ -104,9 +118,18 @@ public class AudioExport extends ExportAlgorithm {
              File destination=new File(context.getFilesDir(),"concatenation"+name+".wav");
              AudioConcatenator audioConcatenator=new AudioConcatenator(context,destination);
              audioConcatenator.setDestination(destination);
+             boolean empty=true;
              for (File file: chapterExportes){
-                 if(file.exists())
+                 if(file.exists()){
                      audioConcatenator.addFile(file);
+                     empty=false;
+                 }
+             }
+             if(empty){
+                 Intent intent=new Intent(context,ListChapterActivity.class);
+                 context.startActivity(intent);
+                 Toast.makeText(context,"Lo sceneggiato non ha battute",Toast.LENGTH_SHORT).show();
+                 return;
              }
              try {
                  audioConcatenator.exec(new FFmpegExecuteResponseHandler() {
