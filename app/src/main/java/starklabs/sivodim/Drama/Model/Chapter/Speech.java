@@ -17,37 +17,37 @@ public interface Speech extends Serializable {
     // ----------------------------- SETTER ----------------------------------------------
 
     /**
-     * Sets the text for the speech
+     * Sets the text of the speech
      * @param text Text to the speech
      */
     void setText(String text);
 
     /**
-     * Sets the emotion for the speech
+     * Sets the emotion of the speech
      * @param emotionID
      */
     void setEmotion(String emotionID);
 
     /**
-     * Sets the {@link Character} for the speech
+     * Sets the {@link Character} of the speech
      * @param character
      */
     void setCharacter(Character character);
 
     /**
-     * Sets the {@link SoundFx} for the speech
+     * Sets the {@link SoundFx} of the speech
      * @param soundFx
      */
     void setSoundFx(SoundFx soundFx);
 
     /**
-     * Sets the {@link String} for the speech
+     * Sets the {@link String} of the speech
      * @param audioPath
      */
     void setAudioPath(String audioPath);
 
     /**
-     * Sets the {@link boolean} for the speech
+     * Sets the {@link boolean} of the speech
      * @param audioStatus
      */
     void setAudioStatus(boolean audioStatus);
@@ -56,34 +56,38 @@ public interface Speech extends Serializable {
     // ----------------------------- GETTER ----------------------------------------------
 
     /**
-     * Gives the text of the speech
+     * Returns the text of the speech
      * @return
      */
     String getText();
 
     /**
-     * Gives the emotion of the speech
+     * Returns the emotion of the speech
      * @return
      */
     String getEmotion();
 
     /**
-     * Gives the character of the speech
+     * Returns the character of the speech
      * @return
      */
     Character getCharacter();
 
+    /**
+     * Return the duration in milliseconds of the speech
+     * @return
+     */
     long getDuration();
 
     /**
-     * Create the wav file with the synthesis of the speech and save it to path
+     * Creates the wav file with the synthesis of the speech and save it to path
      * @param context the application context
      * @param path the path where save
      */
     void synthesizeAudio(Context context,String path);
 
     /**
-     * Gives the path where the synthesis is saved
+     * Returns the path where the synthesis is saved
      * @return
      */
     String getAudioPath();

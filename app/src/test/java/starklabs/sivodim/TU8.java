@@ -5,7 +5,6 @@ import org.mockito.Mockito;
 import static org.mockito.Mockito.when;
 import static org.junit.Assert.*;
 import starklabs.sivodim.Drama.Model.Character.Character;
-import starklabs.sivodim.Drama.Model.Screenplay.CharacterContainer;
 import starklabs.sivodim.Drama.Model.Screenplay.Screenplay;
 import starklabs.sivodim.Drama.Model.Screenplay.ScreenplayImpl;
 import starklabs.sivodim.Drama.Model.Utilities.Avatar;
