@@ -191,6 +191,18 @@ public class VoicePresenterImpl implements VoicePresenter{
     }
 
     @Override
+    public void setVoiceName(String s) {
+        MivoqVoice myVoice=engine.getVoiceByName(s);
+        int i = 1;
+        while (myVoice!=null){
+            s=s.concat(Integer.toString(i));
+            i++;
+            myVoice=engine.getVoiceByName(s);
+        }
+        mivoqVoice.setName(s);
+    }
+
+    @Override
     public String getLanguage() {
         return language;
     }
@@ -199,6 +211,7 @@ public class VoicePresenterImpl implements VoicePresenter{
     public String getGender() {
         return gender;
     }
+
 
 
 }

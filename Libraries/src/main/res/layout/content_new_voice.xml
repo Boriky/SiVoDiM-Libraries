@@ -203,7 +203,8 @@
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:indeterminate="false"
-                    android:longClickable="false" />
+                    android:longClickable="false"
+                    android:contextClickable="false" />
             </RelativeLayout>
 
             <!--add voice-->

@@ -69,7 +69,6 @@ public class VoiceListActivity extends AppCompatActivity implements VoiceListAct
                 Engine engine=new EngineImpl(view.getContext());
                 MivoqVoice mV=engine.getVoiceByName(selected);
                 voiceListPresenter.goToEditVoiceActivity(view.getContext(), mV);
-                finish();
             }
         });
 
@@ -130,8 +129,11 @@ public class VoiceListActivity extends AppCompatActivity implements VoiceListAct
 
     @Override
     public void onBackPressed() {
-        Intent homeIntent = new Intent(VoiceListActivity.this, HomeActivity.class);
-        startActivity(homeIntent);
+        Intent intent = new Intent(VoiceListActivity.this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("EXIT", true);
+        startActivity(intent);
+        finish();
     }
 
     @Override

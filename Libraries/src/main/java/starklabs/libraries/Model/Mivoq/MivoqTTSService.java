@@ -39,11 +39,11 @@ public class MivoqTTSService extends TextToSpeechService{
         int i=0;
         MivoqVoice voice = list.get(0);
         if(list.size()>0) {
-            for(i=0; list.size()!=0 && !voice.getLanguage().equals(lang) && i + 1 < list.size(); i++){
+            while(i<=list.size() && !list.get(i).getName().equals(variant) ) i++;
 
-                voice = list.get(i);
-            }
-            if (i != list.size())
+            voice = list.get(i);
+
+            if (i < list.size())
                 return voice.getLanguage() + "-"+voice.getState()+"-" + voice.getName();
             else
                 return "Not Available";
@@ -57,7 +57,6 @@ public class MivoqTTSService extends TextToSpeechService{
             return TextToSpeech.SUCCESS;
         else
             return TextToSpeech.ERROR;
-        //return TextToSpeech.SUCCESS;
     }
 
     @Override
@@ -74,7 +73,7 @@ public class MivoqTTSService extends TextToSpeechService{
         int i=0;
         while(i<=list.size() && !list.get(i).getName().equals(nome[2]) ) i++;
 
-        if(i+1 != list.size()) {
+        if(i < list.size()) {
             voiceID = i;
             System.out.println("Settata la voce numero= "+voiceID);
         }

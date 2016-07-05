@@ -75,7 +75,7 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
 
         //set correct VoiceName of the MivoqVoice selected
         final String voiceName = mivoqVoice.getName();
-        EditText textViewNameVoice= (EditText) findViewById(R.id.voiceName);
+        final EditText textViewNameVoice= (EditText) findViewById(R.id.voiceName);
         textViewNameVoice.setText(voiceName);
 
         //set gender
@@ -250,7 +250,9 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
                 voicePresenter.setGender(gender.getSelectedItemPosition());
                 voicePresenter.setLanguage(language.getSelectedItemPosition());
 
-                mivoqVoice.setName(voiceName);
+                String changedVoiceName=textViewNameVoice.getText().toString();
+                if(!mivoqVoice.getName().equals(changedVoiceName))
+                    voicePresenter.setVoiceName(changedVoiceName);
                 voicePresenter.getEngine().save();
 
                 voicePresenter = null;
