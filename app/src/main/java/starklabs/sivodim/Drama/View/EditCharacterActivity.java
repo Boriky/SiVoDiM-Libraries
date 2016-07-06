@@ -40,7 +40,6 @@ public class EditCharacterActivity extends AppCompatActivity implements EditChar
     private ImageView editAvatar;
     private Spinner editVoice;
     private EditText editName;
-    private Button apply;
     private Character character;
 
     public static void setPresenter(CharacterPresenter characterPresenter){
@@ -61,7 +60,6 @@ public class EditCharacterActivity extends AppCompatActivity implements EditChar
         editAvatar=(ImageView)findViewById(R.id.editAvatar);
         editVoice=(Spinner)findViewById(R.id.editVoice);
         editName=(EditText)findViewById(R.id.editName);
-        apply=(Button)findViewById(R.id.applyChanges);
         character=characterPresenter.getCharacter();
 
         Avatar avatar=character.getAvatar();
@@ -81,48 +79,6 @@ public class EditCharacterActivity extends AppCompatActivity implements EditChar
         }
         editVoice.setSelection(position);
 
-        apply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name=editName.getText().toString();
-                if(!name.isEmpty()) {
-                    character.setName(name);
-                    character.setVoice((String) editVoice.getSelectedItem());
-
-                    Avatar avatar = character.getAvatar();
-
-                        if (avatarPath != null && (character.getAvatar() == null ||
-                                avatarPath != character.getAvatar().getPath())) {
-                            // check if avatar has changed
-
-                            File avatarChoice = new File(avatarPath);
-                            File dir = new File(getFilesDir(),
-                                    characterPresenter.getProjectName());
-                            if (!dir.exists()) {
-                                dir.mkdir();
-                            }
-                            File destination = new File(dir, name + ".png");
-                            try {
-                                copyFile(avatarChoice, destination);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            avatar = new Avatar(destination.getAbsolutePath());
-                        }
-                        characterPresenter.getCharacter().setAvatar(avatar);
-                        if(characterPresenter.getCharacter().getAvatar()!=null) {
-                            Intent intent = new Intent(v.getContext(), ListCharacterActivity.class);
-                            startActivity(intent);
-                        }
-                        else {
-                            Toast.makeText(v.getContext(),"Dimensione dell'avatar troppo grande",Toast.LENGTH_SHORT).show();
-                        }
-                }
-                else {
-                    Toast.makeText(v.getContext(),"Il nome del personaggio non può essere vuoto",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         editAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -240,15 +196,61 @@ public class EditCharacterActivity extends AppCompatActivity implements EditChar
         }
     }
 
+    private void saveChanges(){
+                String name=editName.getText().toString();
+                if(!name.isEmpty()) {
+                    character.setName(name);
+                    character.setVoice((String) editVoice.getSelectedItem());
+
+                    Avatar avatar = character.getAvatar();
+
+                    if (avatarPath != null && (character.getAvatar() == null ||
+                            avatarPath != character.getAvatar().getPath())) {
+                        // check if avatar has changed
+
+                        File avatarChoice = new File(avatarPath);
+                        File dir = new File(getFilesDir(),
+                                characterPresenter.getProjectName());
+                        if (!dir.exists()) {
+                            dir.mkdir();
+                        }
+                        File destination = new File(dir, name + ".png");
+                        try {
+                            copyFile(avatarChoice, destination);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        avatar = new Avatar(destination.getAbsolutePath());
+                    }
+                    characterPresenter.getCharacter().setAvatar(avatar);
+                    if(characterPresenter.getCharacter().getAvatar()!=null) {
+                        Intent intent = new Intent(this, ListCharacterActivity.class);
+                        startActivity(intent);
+                    }
+                    else {
+                        Toast.makeText(this,"Dimensione dell'avatar troppo grande",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(this,"Il nome del personaggio non può essere vuoto",Toast.LENGTH_SHORT).show();
+                }
+
+    }
+
         @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case android.R.id.home:
-                Intent intent=new Intent(this,ListCharacterActivity.class);
-                startActivity(intent);
+                saveChanges();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        saveChanges();
     }
 }

@@ -145,6 +145,7 @@ public class SpeechImpl implements Speech {
     @Override
     public void synthesizeAudio(Context context, final String path) {
         setAudioStatus(false);
+        this.audioPath=path;
         Engine engine=new EngineImpl(context);
         File file=new File(path);
         if(!file.getParentFile().exists()){
@@ -166,6 +167,19 @@ public class SpeechImpl implements Speech {
 
     @Override
     public String getAudioPath() {
+        /*int i=0;
+        while (!audioStatus){
+            i++;
+            try {
+                Thread.sleep(10);
+                System.out.println("Sto scaricando..");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        if(i==500){
+            synthesizeAudio();
+        }
+        }*/
         return audioPath;
     }
 

@@ -25,7 +25,7 @@
  */
 public class AudioExport extends ExportAlgorithm {
 
-     private TextView feedback;
+     protected TextView feedback;
 
      public AudioExport(TextView feedback){
          this.feedback=feedback;

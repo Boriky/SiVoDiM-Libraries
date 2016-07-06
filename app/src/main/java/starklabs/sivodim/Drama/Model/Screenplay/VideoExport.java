@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
@@ -17,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -179,6 +181,24 @@ public class VideoExport extends ExportAlgorithm {
         }
     }
 
+
+    private void combineImages(Bitmap bottomImage,Bitmap topImage,File destination){
+// Start with the first in the constructor..
+        Canvas comboImage = new Canvas(bottomImage);
+// Then draw the second on top of that
+        comboImage.drawBitmap(topImage, 0f, 0f, null);
+
+// bottomImage is now a composite of the two.
+
+// To write the file out to the SDCard:
+        OutputStream os = null;
+        try {
+            os = new FileOutputStream(destination);
+            bottomImage.compress(Bitmap.CompressFormat.PNG, 50, os);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void createOverlay(final Context context,final int i, final Iterator<Chapter>chapterIterator,
                                final ArrayList<File> chapterExportes,

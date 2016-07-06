@@ -34,7 +34,8 @@
             android:name=".Drama.View.ListSpeechesActivity"
             android:label="@string/title_activity_list_speeches"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Drama.View.NewChapterActivity" />
+        <activity android:name=".Drama.View.NewChapterActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Drama.View.EditChapterActivity" />
         <activity android:name=".Drama.View.NewSpeechActivity" />
         <activity android:name=".Drama.View.EditSpeechActivity" />

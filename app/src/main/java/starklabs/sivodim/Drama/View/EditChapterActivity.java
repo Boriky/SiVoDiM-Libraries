@@ -40,7 +40,6 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
     private Button editSoundtrack;
     private ImageView editWallpaper;
     private TextView trackView;
-    private Button apply;
     private String backgroundPath;
     private String soundtrackPath;
 
@@ -66,7 +65,6 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
         editSoundtrack=(Button)findViewById(R.id.newTrack);
         editWallpaper=(ImageView) findViewById(R.id.newWallpaper);
         trackView=(TextView)findViewById(R.id.trackView);
-        apply=(Button)findViewById(R.id.editChapterApplyButton);
 
         chapterName.setText(chapterPresenter.getChapterTitle());
         Background background=chapterPresenter.getChapterBackground();
@@ -75,58 +73,6 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
         Soundtrack soundtrack=chapterPresenter.getSoundtrack();
         if(soundtrack!=null && soundtrack.getAudio()!=null && !soundtrack.getAudio().getName().equals(""))
             trackView.setText(soundtrack.getAudio().getName());
-
-
-        apply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(chapterName.getText().toString().isEmpty()) {
-                    Toast.makeText(v.getContext(),"Il titolo non può essere vuoto",Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    String title=chapterName.getText().toString();
-                    chapterPresenter.setChapterTitle(title);
-                    //set other properties..
-                    Soundtrack soundtrack = null;
-                    if (soundtrackPath != null) {
-                        File audioChoice = new File(soundtrackPath);
-                        File dir = new File(getFilesDir(), chapterPresenter.getProjectName().replace(" ", "_"));
-                        if (!dir.exists()) {
-                            dir.mkdir();
-                        }
-                        File destination = new File(dir, "chpt_" + title + ".mp3");
-                        try {
-                            copyFile(audioChoice, destination);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        soundtrack = new Soundtrack(destination.getAbsolutePath());
-                        System.out.println("SAVE in: " + destination.getAbsolutePath());
-                    }
-                    Background background = null;
-                    if (backgroundPath != null) {
-                        File wallpaperChoice = new File(backgroundPath);
-                        File dir = new File(getFilesDir(), chapterPresenter.getProjectName().replace(" ", "_"));
-                        if (!dir.exists()) {
-                            dir.mkdir();
-                        }
-                        File destination = new File(dir, "chpt_" + title + ".png");
-                        try {
-                            copyFile(wallpaperChoice, destination);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        background = new Background(destination.getAbsolutePath());
-                        System.out.println("SAVE in: " + destination.getAbsolutePath());
-                    }
-                    chapterPresenter.setBackground(background);
-                    chapterPresenter.setSoundtrack(soundtrack);
-
-                    Intent intent=new Intent(v.getContext(),ListChapterActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
 
         editWallpaper.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,7 +187,6 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-//            grantUriPermission(null, selectedImage, Intent.FLAG_GRANT_READ_URI_PERMISSION);
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
             Cursor cursor = getContentResolver().query(selectedImage,
@@ -258,7 +203,6 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
 
         if (requestCode == RESULT_LOAD_AUDIO && resultCode == RESULT_OK && null != data) {
             Uri selectedAudio = data.getData();
-//            grantUriPermission(null, selectedImage, Intent.FLAG_GRANT_READ_URI_PERMISSION);
             String[] filePathColumn = {MediaStore.Audio.Media.DATA};
 
             Cursor cursor = getContentResolver().query(selectedAudio,
@@ -275,15 +219,68 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
         }
     }
 
+    private void saveChanges(){
+                if(chapterName.getText().toString().isEmpty()) {
+                    Toast.makeText(this,"Il titolo non può essere vuoto",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    String title=chapterName.getText().toString();
+                    chapterPresenter.setChapterTitle(title);
+                    //set other properties..
+                    Soundtrack soundtrack = null;
+                    if (soundtrackPath != null) {
+                        File audioChoice = new File(soundtrackPath);
+                        File dir = new File(getFilesDir(), chapterPresenter.getProjectName().replace(" ", "_"));
+                        if (!dir.exists()) {
+                            dir.mkdir();
+                        }
+                        File destination = new File(dir, "chpt_" + title + ".mp3");
+                        try {
+                            copyFile(audioChoice, destination);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        soundtrack = new Soundtrack(destination.getAbsolutePath());
+                        System.out.println("SAVE in: " + destination.getAbsolutePath());
+                    }
+                    Background background = null;
+                    if (backgroundPath != null) {
+                        File wallpaperChoice = new File(backgroundPath);
+                        File dir = new File(getFilesDir(), chapterPresenter.getProjectName().replace(" ", "_"));
+                        if (!dir.exists()) {
+                            dir.mkdir();
+                        }
+                        File destination = new File(dir, "chpt_" + title + ".png");
+                        try {
+                            copyFile(wallpaperChoice, destination);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        background = new Background(destination.getAbsolutePath());
+                        System.out.println("SAVE in: " + destination.getAbsolutePath());
+                    }
+                    chapterPresenter.setBackground(background);
+                    chapterPresenter.setSoundtrack(soundtrack);
+
+                    Intent intent=new Intent(this,ListChapterActivity.class);
+                    startActivity(intent);
+                }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case android.R.id.home:
-                Intent intent=new Intent(this,ListChapterActivity.class);
-                startActivity(intent);
+                saveChanges();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        saveChanges();
     }
 }

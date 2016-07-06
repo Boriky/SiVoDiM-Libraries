@@ -2,6 +2,7 @@ package starklabs.sivodim.Drama.Presenter;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import starklabs.sivodim.Drama.Model.Chapter.Chapter;
 import starklabs.sivodim.Drama.Model.Chapter.Speech;
@@ -131,6 +132,10 @@ public interface ChapterPresenter {
      * @param position
      */
     void moveDownSpeech(int position);
+
+    void exportPreview(TextView textView);
+
+    void stopPreview();
 
     // ----------------------------- MOVE ------------------------------------------------
 

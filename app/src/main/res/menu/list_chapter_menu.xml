@@ -15,9 +15,6 @@
         app:showAsAction="always"
         android:title="Condividi progetto"/>
     <item
-        android:id="@+id/editMenu"
-        android:title="Modifica progetto"/>
-    <item
         android:id="@+id/videoExportMenu"
         android:title="Esporta in video"/>
     <item

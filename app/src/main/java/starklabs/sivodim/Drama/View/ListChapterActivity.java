@@ -348,9 +348,6 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
             case R.id.videoShareMenu:
                 onShareVideo();
                 break;
-            case R.id.editMenu:
-                Toast.makeText(this,"Modifica",Toast.LENGTH_LONG).show();
-                break;
             case R.id.newCharacterMenu:
                 screenplayPresenter.goToNewCharacterActivity(this);
                 break;
@@ -384,17 +381,6 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
     public void onShare() {
         String audioClipFileName=screenplayPresenter.getScreenplayTitle().replace(" ","_")+".mp3";
         File filePath=new File(getFilesDir(),audioClipFileName);
-        /*final Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-        shareIntent.setType("audio/mp3");
-        shareIntent.putExtra(android.content.Intent.EXTRA_STREAM,
-                Uri.parse("file://"+file.getAbsolutePath()));
-        System.out.println("Share file: "+file.getAbsolutePath()+" <----");
-        shareIntent.setPackage("com.whatsapp");
-        startActivity(Intent.createChooser(shareIntent, "Share Audio Clip"));*/
-        /*final Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-        shareIntent.setType("audio/mp3");
-        shareIntent.putExtra(android.content.Intent.EXTRA_STREAM, Uri.parse("file://"+file.getAbsolutePath()));
-        startActivity(Intent.createChooser(shareIntent,"Titolo"));*/
         // concatenate the internal cache folder with the document its path and filename
         final File file = new File(getFilesDir(), audioClipFileName);
 // let the FileProvider generate an URI for this private file
