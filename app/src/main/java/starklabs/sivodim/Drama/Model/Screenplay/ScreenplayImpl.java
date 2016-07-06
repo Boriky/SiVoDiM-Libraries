@@ -18,19 +18,48 @@ import starklabs.sivodim.Drama.Model.Utilities.XMLParser;
  * Created by Francesco Bizzaro on 25/05/2016.
  */
 public class ScreenplayImpl implements Screenplay {
+    /**
+     * MutableInteger attribute to identify every Speech with an unique ID
+     */
     private MutableInteger nextSpeechId;
+    /**
+     * String attribute that represents the title of the Screenplay
+     */
     private String title;
+    /**
+     * CharacterContainer that contains all the Characters created inside the Screenplay
+     */
     private CharacterContainer characterContainer;
+    /**
+     * ArrayList of Chapter objects that contains all the Chapters created inside the Screenplay
+     */
     private ArrayList<Chapter> chapters=new ArrayList<>();
+    /**
+     * ExportAlgorithm attribute that implements AudioExport or VideoExport
+     */
     private ExportAlgorithm exportAlgorithm;
-    private ShareAlgorithm shareAlgorithm;
 
+    /* ----- CONSTRUCTOR ----- */
+
+    /**
+     * Create ScreenplayImpl object
+     * @param title
+     * @param nextSpeechId
+     */
     public ScreenplayImpl(String title,int nextSpeechId){
         this.title = title;
         this.nextSpeechId=new MutableInteger(nextSpeechId);
         characterContainer=new CharacterContainer();
     }
 
+    /* ----- UTILITIES METHODS ----- */
+
+    /**
+     * Load and return Screenplay object from device memory calling parseXML(String screenplayTitle) on XMLParser object
+     * @param screenplayTitle
+     * @param context
+     * @return
+     */
     public static Screenplay loadScreenplay(String screenplayTitle, Context context){
         File dir = context.getFilesDir();
         File screenplayFile = new File(dir,screenplayTitle);
@@ -48,6 +77,12 @@ public class ScreenplayImpl implements Screenplay {
         return nextSpeechId;
     }
 
+    /**
+     * Save Screenplay object into device memory calling
+     * saveXML(File screenplayFile, Screenplay screenplay) on XMLParser object
+     * @param screenplay
+     * @param context
+     */
     public static void saveScreenplay(Screenplay screenplay, Context context) {
         File dir = context.getFilesDir();
         System.out.println("PATH="+dir.getAbsolutePath());
@@ -74,27 +109,6 @@ public class ScreenplayImpl implements Screenplay {
             exportAlgorithm=new AudioExport(feedback);
         exportAlgorithm.setScreenplay(this);
         exportAlgorithm.export(context);
-    }
-
-    @Override
-    public String getTitle(){
-        return title;
-    }
-
-    @Override
-    public String getPath(Context context) {
-        File file=new File(context.getFilesDir(),getTitle().replace(" ","_"));
-        return file.getAbsolutePath();
-    }
-
-    @Override
-    public void share(String where) {
-
-    }
-
-    @Override
-    public CharacterContainer getCharacters(){
-        return characterContainer;
     }
 
     @Override
@@ -125,17 +139,6 @@ public class ScreenplayImpl implements Screenplay {
     }
 
     @Override
-    public Chapter getChapter(String title){
-        Iterator<Chapter> chapterIterator=chapters.iterator();
-        while (chapterIterator.hasNext()){
-            Chapter chapter=chapterIterator.next();
-            if(chapter.getTitle().equals(title))
-                return chapter;
-        }
-        return null;
-    }
-
-    @Override
     public void moveUpChapter(int index){
         if(index>0){
             Chapter chapter=chapters.remove(index);
@@ -155,6 +158,35 @@ public class ScreenplayImpl implements Screenplay {
     @Override
     public void removeChapter(int index) {
         chapters.remove(index);
+    }
+
+    /* ----- GETTER METHODS ----- */
+
+    @Override
+    public String getTitle(){
+        return title;
+    }
+
+    @Override
+    public String getPath(Context context) {
+        File file=new File(context.getFilesDir(),getTitle().replace(" ","_"));
+        return file.getAbsolutePath();
+    }
+
+    @Override
+    public CharacterContainer getCharacters(){
+        return characterContainer;
+    }
+
+    @Override
+    public Chapter getChapter(String title){
+        Iterator<Chapter> chapterIterator=chapters.iterator();
+        while (chapterIterator.hasNext()){
+            Chapter chapter=chapterIterator.next();
+            if(chapter.getTitle().equals(title))
+                return chapter;
+        }
+        return null;
     }
 
     @Override

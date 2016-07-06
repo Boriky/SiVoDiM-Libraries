@@ -21,14 +21,16 @@ public abstract class FfmpegConnector {
     private boolean errors=false;
     private boolean print=false;
 
+    /* ----- CONSTRUCTORS ----- */
+
     /**
      * Constructor that load {@link FFmpeg} binaries.
      * @param context
      */
-
     public FfmpegConnector(Context context){
         this(context,false);
     }
+
     public FfmpegConnector(Context context,boolean print){
         this.print=print;
         this.context=context;
@@ -53,6 +55,8 @@ public abstract class FfmpegConnector {
         }
     }
 
+    /* ----- UTILITIES METHODS ----- */
+
     /**
      * Gives true if there was an error
      * @return
@@ -68,48 +72,8 @@ public abstract class FfmpegConnector {
      */
     public void exec(FFmpegExecuteResponseHandler ffmpegExReAn) throws FFmpegCommandAlreadyRunningException {
         String cmd=getCommand();
-        ffmpeg.execute(cmd.split(" "),ffmpegExReAn /*new FFmpegExecuteResponseHandler() {
-            @Override
-            public void onSuccess(String message) {
+        ffmpeg.execute(cmd.split(" "),ffmpegExReAn );
 
-            }
-
-            @Override
-            public void onProgress(String message) {
-                System.out.println(message);
-            }
-
-            @Override
-            public void onFailure(String message) {
-                System.out.println(message);
-                errors=true;
-                Toast.makeText(context,"C'è stato un errore",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onStart() {
-                System.out.println("START OPERATION");
-            }
-
-            @Override
-            public void onFinish() {
-                System.out.println("END OPERATION");
-                finish=true;
-                if(errors==true)
-                    Toast.makeText(context,"L'esportazione non è riuscita, riprova",Toast.LENGTH_SHORT).show();
-            }
-        }*/);
-        //boolean isFfmpeg=ffmpeg.isFFmpegCommandRunning();
-        //if(!isFfmpeg) {
-           /* while (!ffmpeg.isFFmpegCommandRunning()) {
-                try {
-                    Thread.sleep(10);
-                    System.out.println("Waiting FFMPEG");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }*/
-        //}
         while (ffmpeg.isFFmpegCommandRunning()){
             try {
                 Thread.sleep(10);
@@ -119,16 +83,6 @@ public abstract class FfmpegConnector {
                 e.printStackTrace();
             }
         }
-        /*int i=0;
-        while (!finish && i<100){
-            i++;
-            try {
-                Thread.sleep(10);
-                System.out.println("Waiting FFMPEG");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }*/
     }
 
     /**

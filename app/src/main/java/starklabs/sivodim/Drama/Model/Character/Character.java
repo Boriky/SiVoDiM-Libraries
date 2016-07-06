@@ -13,37 +13,37 @@ public interface Character {
     void setAvatar(Avatar avatar);
 
     /**
-     * set the voice to the character
+     * Set the voice to the character
      * @param voiceID the ID of the voice to set
      */
     void setVoice(String voiceID);
 
     /**
-     * set the name of the character
+     * Set the name of the character
      * @param name the name to set
      */
     void setName(String name);
 
     /**
-     * Gives the avatar of the character
+     * Return the avatar of the character
      * @return
      */
     Avatar getAvatar();
 
     /**
-     * Gives the ID of the voice of the character
+     * Return the ID of the voice of the character
      * @return
      */
     String getVoiceID();
 
     /**
-     * Gives the name of the character
+     * Return the name of the character
      * @return
      */
     String getName();
 
     /**
-     * Returns a copy of the character
+     * Return a copy of the character
      * @return
      */
     CharacterImpl clone();

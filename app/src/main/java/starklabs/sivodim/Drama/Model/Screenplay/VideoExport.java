@@ -35,18 +35,39 @@ import starklabs.sivodim.R;
  * Created by Francesco Bizzaro on 25/05/2016.
  */
 public class VideoExport extends ExportAlgorithm {
-
-
+    /**
+     * View that gives the user feedback on the status of the export process
+     */
     private TextView feedback;
+    /**
+     * Export audio for video(low dependency between classes)
+     */
     private AudioForVideoExport audioExport;
+    /**
+     * Attribute that stores the time that has passed since the beginning of the export operation
+     */
     private long timePassed;
 
+    /**
+     * Internal class for exporting audio
+     */
     private class AudioForVideoExport extends AudioExport{
 
+        /* ----- CONSTRUCTOR ----- */
+
+        /**
+         * Create an AudioForVideoExport object
+         * @param feedback
+         */
         public AudioForVideoExport(TextView feedback){
             super(feedback);
         }
 
+        /**
+         * Generate video file using FFmpeg library
+         * FFmpeg is synchronized
+         * @param context
+         */
         @Override
         protected void finalizeExport(final Context context){
             String name=screenplay.getTitle().replace(" ","_");
@@ -90,15 +111,30 @@ public class VideoExport extends ExportAlgorithm {
 
     }
 
+    /**
+     * Create a VideoExport object
+     * @param feedback
+     */
     public VideoExport(TextView feedback){
         this.feedback=feedback;
         audioExport=new AudioForVideoExport(feedback);
     }
 
+    /**
+     * Call the export(Context context) method to export an audio file
+     * @param context
+     */
     private void exportAudio(Context context){
         audioExport.export(context);
     }
 
+    /**
+     * Generate a video for a chapter
+     * @param context
+     * @param i
+     * @param chapterIterator
+     * @param chapterExportes
+     */
     private void makeChapterVideo(final Context context, int i, final Iterator<Chapter>chapterIterator, final ArrayList<File> chapterExportes){
         if(chapterIterator.hasNext()){
             final Chapter chapter=chapterIterator.next();
@@ -263,6 +299,11 @@ public class VideoExport extends ExportAlgorithm {
 
     }
 
+    /**
+     * Concatenate the video generated for every chapter
+     * @param context
+     * @param chapterExportes
+     */
     private void concatenateChapters(final Context context, ArrayList<File>chapterExportes){
         String name=screenplay.getTitle().replace(" ","_");
         File destination=new File(context.getFilesDir(),"concat_mp4_"+name+".mp4");
@@ -302,6 +343,10 @@ public class VideoExport extends ExportAlgorithm {
         }
     }
 
+    /**
+     * Finalize the video export process
+     * @param context
+     */
     private void finalizeExport(final Context context){
         String name=screenplay.getTitle().replace(" ","_");
         File video=new File(context.getFilesDir(),"concat_mp4_"+name+".mp4");
@@ -348,6 +393,10 @@ public class VideoExport extends ExportAlgorithm {
         }
     }
 
+    /**
+     *
+     * @param context
+     */
     @Override
     public void export(Context context) {
         audioExport.setScreenplay(screenplay);
@@ -356,6 +405,12 @@ public class VideoExport extends ExportAlgorithm {
 
     //https://developer.android.com/guide/topics/media/camera.html
 
+    /**
+     *
+     * @param source
+     * @param dest
+     * @throws IOException
+     */
     private static void copyFile(File source, File dest)
             throws IOException {
         FileChannel inputChannel = null;

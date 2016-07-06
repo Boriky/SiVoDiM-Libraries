@@ -1,7 +1,6 @@
+package starklabs.sivodim.Drama.Model.Screenplay;
 
-        package starklabs.sivodim.Drama.Model.Screenplay;
-
-        import android.content.Context;
+import android.content.Context;
         import android.content.Intent;
         import android.widget.TextView;
         import android.widget.Toast;
@@ -20,17 +19,36 @@
         import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
         import starklabs.sivodim.Drama.View.ListChapterActivity;
 
-        /**
+/**
  * Created by Francesco Bizzaro on 25/05/2016.
  */
 public class AudioExport extends ExportAlgorithm {
 
      protected TextView feedback;
 
+    /* ----- CONSTRUCTOR ----- */
+
+    /**
+     * Create an AudioExport object: initialize the feedback view
+     * @param feedback
+     */
      public AudioExport(TextView feedback){
          this.feedback=feedback;
      }
 
+    /* ----- UTILITIES METHODS ----- */
+
+    /**
+     * Method that:
+     * 1) concatenates all the audio files associated to the Speech objects
+     * 2) concatenates all the audio files that has been created for every Chapter object
+     * The method uses FFmpeg library
+     * FFmpeg library calls are synchronized
+     * @param context
+     * @param i
+     * @param chapterExportes
+     * @param chapterIterator
+     */
      private void concatenateSpeeches(final Context context, int i, final List<File> chapterExportes, final Iterator<Chapter> chapterIterator){
          if(chapterIterator.hasNext()){// join the speeches of the chapter
              String name=screenplay.getTitle().replace(" ","_");
@@ -164,6 +182,18 @@ public class AudioExport extends ExportAlgorithm {
          }
      }
 
+    /**
+     * Method that adds a soundtrack to the export process
+     * The method uses FFmpeg library
+     * FFmpeg library calls are synchronized
+     * @param context
+     * @param i
+     * @param chapterExportes
+     * @param chapterIterator
+     * @param chapter
+     * @param dest
+     * @return
+     */
     private File addSoundtrack(final Context context,final int i, final List<File> chapterExportes,
                                final Iterator<Chapter> chapterIterator, Chapter chapter,String dest){
         File destination=new File(context.getFilesDir(),"merged_"+dest);
@@ -206,6 +236,12 @@ public class AudioExport extends ExportAlgorithm {
         return destination;
     }
 
+    /**
+     * Conversion to MP3 and save of complete file in device memory
+     * The method uses FFmpeg library
+     * FFmpeg library calls are synchronized
+     * @param context
+     */
     protected void finalizeExport(final Context context){
         String name=screenplay.getTitle().replace(" ","_");
         final File file=new File(context.getFilesDir(),"concatenation"+name+".wav");
@@ -246,6 +282,10 @@ public class AudioExport extends ExportAlgorithm {
         }
     }
 
+    /**
+     * Public method that is called to start the FFmpeg conversion and export process (conversion + save on SD)
+     * @param context
+     */
     @Override
     public void export(Context context) {
         Iterator<Chapter>chapterIterator= screenplay.getChapterIterator();
