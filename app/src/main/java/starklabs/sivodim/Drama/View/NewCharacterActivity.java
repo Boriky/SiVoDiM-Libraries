@@ -92,9 +92,10 @@ public class NewCharacterActivity extends AppCompatActivity implements NewCharac
                 final File path=new File(getFilesDir(), "testVoce.wav");
                 Engine engine=new EngineImpl(v.getContext());
                 //engine.speak((String) newCharacterVoice.getSelectedItem(),MivoqVoice.getSampleText("it"));
+                MivoqVoice voice=engine.getVoiceByName((String) newCharacterVoice.getSelectedItem());
                 engine.synthesizeToFile(path.getAbsolutePath(),
                         (String) newCharacterVoice.getSelectedItem(),
-                        "NONE", MivoqVoice.getSampleText("it"), new Engine.Listener() {
+                        "NONE", MivoqVoice.getSampleText(voice.getLanguage().substring(0,2)), new Engine.Listener() {
                             @Override
                             public void onCompleteSynthesis() {
                                 SpeechSound speechSound=new SpeechSound(path.getAbsolutePath());
