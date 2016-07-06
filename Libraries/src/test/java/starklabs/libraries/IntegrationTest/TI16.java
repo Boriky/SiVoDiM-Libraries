@@ -1,9 +1,9 @@
 package starklabs.libraries.IntegrationTest;
 
 import android.content.Context;
+import android.test.InstrumentationTestCase;
 
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import starklabs.libraries.Model.EngineManager.Engine;
 import starklabs.libraries.Model.EngineManager.EngineImpl;
@@ -12,15 +12,13 @@ import starklabs.libraries.Model.Voice.EffectImpl;
 import starklabs.libraries.Model.Voice.Emotion;
 import starklabs.libraries.Model.Voice.MivoqVoice;
 
-import static org.junit.Assert.assertEquals;
-
 /**
  * Created by AlbertoAndriolo on 01/07/2016.
  */
-public class TI16 {
+public class TI16 extends InstrumentationTestCase{
     @Test
     public void testVoiceEngine(){
-        Context context = Mockito.mock(Context.class);
+        Context context = getInstrumentation().getContext();
         Engine engine = new EngineImpl(context);
 
         MivoqVoice mivoqVoice = engine.createVoice("Fede","male","en");

@@ -2,16 +2,14 @@ package starklabs.libraries.IntegrationTest;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
-import android.util.Log;
 
 import org.junit.Test;
 
-import starklabs.libraries.Model.EngineManager.Engine;
-import starklabs.libraries.Model.EngineManager.EngineImpl;
+import java.io.File;
+import java.io.FileNotFoundException;
+
 import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
-import starklabs.libraries.Model.Voice.Effect;
-import starklabs.libraries.Model.Voice.EffectImpl;
-import starklabs.libraries.Model.Voice.Emotion;
+import starklabs.libraries.Model.Voice.Language;
 import starklabs.libraries.Model.Voice.MivoqVoice;
 
 /**
@@ -21,25 +19,27 @@ import starklabs.libraries.Model.Voice.MivoqVoice;
 public class TI15 extends InstrumentationTestCase {
     @Test
     public void testMivoqEngine() {
-        Context context = getInstrumentation().getContext();
-        //context.getApplicationContext();
-        //private Context context = InstrumentationRegistry;
+        String name = "name";
+        String myVoiceName = "myVoiceName";
+        Language language = new Language("lingua");
 
-        Engine engine = new EngineImpl(context);
+        MivoqVoice mivoqVoice = new MivoqVoice(name, myVoiceName, language);
+        String path = "/Desktop/test";
+        String text = "prova";
 
         MivoqTTSSingleton mivoqTTSSingleton = MivoqTTSSingleton.getInstance();
+
+        Context context = getInstrumentation().getContext();
+
         mivoqTTSSingleton.setContext(context);
 
-        MivoqVoice mivoqVoice = engine.createVoice("Fede","male","en");
-        Effect rate = new EffectImpl("rate");
-        rate.setValue("0.9");
-        mivoqVoice.setEmotion(Emotion.Anger);
-        mivoqVoice.setEffect(rate);
+        try {
+            mivoqTTSSingleton.synthesizeToFile(path,mivoqVoice,text);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
-        byte[] array =  mivoqTTSSingleton.synthesizeText(mivoqVoice,"text");
-
-        Log.v("tag","array.length = " + array.length);
-
-        assertEquals(0,array.length);
+        File file=new File(path);
+        assertEquals(true,file.exists());
     }
 }
