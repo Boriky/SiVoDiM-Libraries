@@ -1,7 +1,6 @@
 package starklabs.libraries.Presenter;
 
 import android.content.Context;
-import android.widget.ArrayAdapter;
 
 import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.View.VoiceListActivityInterface;
@@ -42,6 +41,18 @@ public interface VoiceListPresenter {
      * @param context
      * @return
      */
-    ArrayAdapter<String> getVoicesAdapter(Context context);
+    StringArrayAdapter getVoicesAdapter(Context context);
 
+    /** Method to set the index and the name of voice selected from the ListView of the Activity
+     *
+     * @param index position of the voice in the VoiceListActivity
+     * @param name name of the voice in the VoiceListActivity
+     */
+    void setVoiceSelected(int index, String name);
+
+    /** Method that remove the voice from the engine and save the changes in the xml
+     *
+     * @param context
+     */
+    void deleteVoiceSelected(Context context);
 }

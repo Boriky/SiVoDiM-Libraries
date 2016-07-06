@@ -1,5 +1,10 @@
 package starklabs.libraries.View;
 
+import android.app.ActionBar;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.NavigationView;
@@ -8,16 +13,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import starklabs.libraries.Model.EngineManager.Engine;
 import starklabs.libraries.Model.EngineManager.EngineImpl;
-import starklabs.libraries.Model.Voice.Effect;
-import starklabs.libraries.Model.Voice.EffectImpl;
-import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.Presenter.HomePresenter;
 import starklabs.libraries.Presenter.HomePresenterImpl;
 import starklabs.libraries.R;
@@ -26,6 +32,7 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HomeActivityInterface, TextToSpeech.OnInitListener {
 
     private static HomePresenter homePresenter;
+    private PopupWindow pw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,86 +69,32 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-/*
-        Button button = (Button) findViewById(R.id.button1);
-        assert button != null;
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
 
-                Engine myEngine=new EngineImpl(getApplicationContext());
-                MivoqVoice Fede=myEngine.createVoice("Fede", "male", "it");
-                Effect e1=new EffectImpl("Rate");
-                e1.setValue("0.8");
-                Fede.setEffect(e1);
-                myEngine.speak("Fede", "C'è un gatto, l'uomo, quell'aereo.");
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
 
-
-                MivoqTTSSingleton engine = MivoqTTSSingleton.getInstance();
-
-                engine.setContext(getApplicationContext());
-
-                MivoqVoice Fede=engine.CreateVoice("Fede", "male", "it");
-                engine.Speak(Fede, "Cosa faremo stasera, Prof? " +
-                        //"Quello che facciamo tutte le sere, Mignolo." +
-                        "Tenteremo di conquistare il mondo!");
-
-                MivoqVoice Fedede=engine.CreateVoice("Fedede", "female", "de");
-
-         //       MivoqVoice Fedefr=engine.CreateVoice("Fedefr", "male", "fr");
-
-                //String a= "data/data/starklabs.libraries/provafile.wav";
-                File path=getFilesDir();
-                File myFile=new File(path,"nomeFile.wav");
-                try {
-                    engine.SynthesizeToFile(myFile.toString(),Fede, "Cosa faremo stasera, Prof? " +
-                            "Quello che facciamo tutte le sere, Mignolo." +
-                            "Tenteremo di conquistare il mondo!");
-                    System.out.println("File scritto");
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+        Button test=(Button) findViewById(R.id.buttonT);
+        if(test!=null){
+            test.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent homeIntent = new Intent(HomeActivity.this, TestActivity.class);
+                    startActivity(homeIntent);
                 }
+            });
+        }
 
-
-                String b= "data/data/starklabs.libraries/provafilede.wav";
-                try {
-                    engine.SynthesizeToFile(b,Fedede, "Cosa faremo stasera, Prof? " +
-                            "Quello che facciamo tutte le sere, Mignolo." +
-                            "Tenteremo di conquistare il mondo!");
-                    System.out.println("File scritto");
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-
-                engine.Speak(Fedede, "Cosa faremo stasera, Prof? " +
-                        "Quello che facciamo tutte le sere, Mignolo." +
-                        "Tenteremo di conquistare il mondo!");
-
-
-                String c= "data/data/starklabs.libraries/provafilefr.wav";
-                try {
-                    engine.SynthesizeToFile(c,Fedefr, "Cosa faremo stasera, Prof? " +
-                            "Quello che facciamo tutte le sere, Mignolo." +
-                            "Tenteremo di conquistare il mondo!");
-                    System.out.println("File scritto");
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-
-        mtts = new TextToSpeech(this, this, "starklabs.libraries.Model.Mivoq.MivoqTTSService");
-        */
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        // This method should shut down the application
+        finish();
+        Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("EXIT", true);
+        startActivity(intent);
     }
 
     @Override
@@ -169,15 +122,24 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.nav_guide) {
 
             Engine myEngine=new EngineImpl(getApplicationContext());
-            MivoqVoice Fede=myEngine.createVoice("Fede", "female", "it");
-            Effect e1=new EffectImpl("Rate");
-            e1.setValue("0.8");
-            Fede.setEffect(e1);
-            myEngine.speak("Fede", "Ciao come stai");
+            myEngine.speak("Patrizia", "Ciao, sono la nuova voce di Mivoq");
+
+            /*
+            //try of synthesizeToFile method
+            MivoqVoice Patrizia=myEngine.createVoice("Patrizia", "female", "it");
+            File path=getFilesDir();
+            File myFile=new File(path,"patrizia.wav");
+            try {
+                engine.synthesizeToFile(myFile.toString(), Patrizia ,"Ciao, sono Patrizia, la nuova voce femminile di Mivoq" );
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            */
 
             toast = Toast.makeText(getApplicationContext(), "Apre il manuale utente", Toast.LENGTH_SHORT);
             toast.show();
         } else if (id == R.id.nav_info) {
+            initiatePopupWindow();
             toast = Toast.makeText(getApplicationContext(), "Apre info su app e autori", Toast.LENGTH_SHORT);
             toast.show();
         }
@@ -187,6 +149,37 @@ public class HomeActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void initiatePopupWindow() {
+        try {
+            //We need to get the instance of the LayoutInflater, use the context of this activity
+            LayoutInflater inflater = (LayoutInflater) HomeActivity.this
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            //Inflate the view from a predefined XML layout
+            View layout = inflater.inflate(R.layout.popup_layout,
+                    (ViewGroup) findViewById(R.id.popup_element));
+            // create a 300px width and 470px height PopupWindow
+            pw = new PopupWindow(layout, ActionBar.LayoutParams.WRAP_CONTENT, 600, true);
+            // display the popup in the center
+            pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
+
+            Button cancelButton = (Button) layout.findViewById(R.id.end_data_send_button);
+            cancelButton.setOnClickListener(cancel_button_click_listener);
+            // Closes the popup window when touch outside.
+            pw.setOutsideTouchable(true);
+            pw.setFocusable(true);
+            // Removes default background.
+            pw.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private View.OnClickListener cancel_button_click_listener = new View.OnClickListener() {
+        public void onClick(View v) {
+            pw.dismiss();
+        }
+    };
 
     @Override
     public void onInit(int status) {
@@ -211,4 +204,5 @@ public class HomeActivity extends AppCompatActivity
         }
         */
     }
+
 }

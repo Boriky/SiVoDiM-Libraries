@@ -6,10 +6,10 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.speech.tts.TextToSpeech;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
@@ -23,6 +23,7 @@ public class EngineImpl implements Engine{
     private static MivoqTTSSingleton myEngine= MivoqTTSSingleton.getInstance();
     private static TextToSpeech backupEngine;
     private Context myContext;
+    private boolean isConnected;
 
     private class SynthesisTask extends AsyncTask<Void,Void,Void> {
         private String myPath;
@@ -45,7 +46,7 @@ public class EngineImpl implements Engine{
             return null;
         }
 
-        protected void onPostExecute(Void v) {
+        protected void onPostExecute(Void Result) {
             if(myListener != null)
                 myListener.onCompleteSynthesis();
         }
@@ -66,17 +67,43 @@ public class EngineImpl implements Engine{
     }
 
     public EngineImpl(Context c) {
-        myContext=c;
-        if(!myEngine.hasContext())
-            myEngine.setContext(c);
-        if(backupEngine==null)
-            backupEngine= new TextToSpeech(c,
+        myContext = c;
+        myEngine.setContext(c);
+        if(backupEngine!=null)
+            backupEngine.shutdown();
+        backupEngine=null;
+        if (backupEngine == null) {
+            backupEngine = new TextToSpeech(c,
                     new TextToSpeech.OnInitListener() {
                         @Override
                         public void onInit(int status) {
                             //Initialization TTS
                         }
                     });
+            List<TextToSpeech.EngineInfo> listEngine = backupEngine.getEngines();
+            System.out.println("backupEngine = " + backupEngine.getDefaultEngine());
+            if(backupEngine.getDefaultEngine().equals("starklabs.libraries")) {
+                int i = 0;
+                System.out.println("Inizio lista engine");
+                System.out.println("listEngine = " + listEngine.size());
+                System.out.println("listEngine = " + listEngine.get(i));
+
+                while (i < listEngine.size() && listEngine.get(i).name.equals("starklabs.libraries")) {
+                    System.out.println("listEngine = " + listEngine.get(i));
+                    i++;
+                }
+
+                if (i < listEngine.size()) {
+                    backupEngine.shutdown();
+                    backupEngine = new TextToSpeech(c, new TextToSpeech.OnInitListener() {
+                        @Override
+                        public void onInit(int status) {
+                            // no need to initialize anything
+                        }
+                    }, listEngine.get(i).name);
+                }
+            }
+        }
     }
 
     public ArrayList<MivoqVoice> getVoices() {
@@ -88,7 +115,7 @@ public class EngineImpl implements Engine{
                 (ConnectivityManager)myContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
+        isConnected = activeNetwork != null &&
                 activeNetwork.isConnected();
 
 
@@ -157,7 +184,7 @@ public class EngineImpl implements Engine{
                 (ConnectivityManager)myContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
+        isConnected = activeNetwork != null &&
                 activeNetwork.isConnected();
         if (isConnected)
             System.out.println("e' connesso");
@@ -174,7 +201,7 @@ public class EngineImpl implements Engine{
                 found=true;
             }
 
-        System.out.println(VID.getName());
+        //System.out.println(VID.getName());
 
         if(isConnected)
         {
@@ -193,11 +220,59 @@ public class EngineImpl implements Engine{
     }
 
     public MivoqVoice createVoice(String name, String gender, String myLanguage) {
-        return myEngine.createVoice(name,gender,myLanguage);
+        int i=1;
+        String voiceName=name;
+        //Check if the name is empty, and in that case assign the default name
+        if(voiceName.equals("")) {voiceName="New Voice"; name="New Voice";}
+
+        //Check for spaces in the beginning of the name
+        while(voiceName.substring(0,0).equals(" "))
+            voiceName=voiceName.substring(1);
+
+        //Check for spaces in the ending of the name
+        while(voiceName.substring(voiceName.length()).equals(" "))
+            voiceName=voiceName.substring(0,voiceName.length()-1);
+
+        //Check if the name has already been used
+        // if so, it adds an incrementing number to get a unique name
+
+        while (getVoiceByName(voiceName)!=null){
+            voiceName=name.concat(Integer.toString(i));
+            i++;
+        }
+        return myEngine.createVoice(voiceName,gender,myLanguage);
     }
 
     public void removeVoice(int index) {
         if(index!= 0)
             myEngine.removeVoice(index);
+    }
+
+    @Override
+    public void save() {
+        myEngine.save();
+    }
+
+    @Override
+    public void load() { myEngine.load(); }
+
+    @Override
+    public MivoqVoice getVoiceByName(String s) {
+        ArrayList<MivoqVoice> voiceList=myEngine.getVoices();
+        for(int i=0; i<voiceList.size(); i++){
+            if (voiceList.get(i).getName().equals(s))
+                return voiceList.get(i);
+        }
+        return null;
+    }
+
+    public boolean getIsConnected(){
+        return isConnected;
+    }
+
+    @Override
+    public void setDefaultVoice(int pos) {
+        myEngine.setDefaultVoice(pos);
+        save();
     }
 }

@@ -346,8 +346,11 @@ public class SpeechImpl implements Speech {
     public static ArrayAdapter<String> getVoices(Context context){
         Vector<String> emotions = new Vector<String>();
         //callback to retrieve voices
-        MivoqTTSSingleton mivoqTTSSingleton=MivoqTTSSingleton.getInstance();
-        ArrayList<MivoqVoice>voices=mivoqTTSSingleton.getVoices();
+
+        Engine engine=new EngineImpl(context);
+
+        //MivoqTTSSingleton mivoqTTSSingleton=MivoqTTSSingleton.getInstance();
+        ArrayList<MivoqVoice>voices=engine.getVoices(); //mivoqTTSSingleton.getVoices();
         Iterator<MivoqVoice>iterator=voices.iterator();
         while (iterator.hasNext()){
             MivoqVoice voice=iterator.next();
