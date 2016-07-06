@@ -78,8 +78,9 @@ public class NewScreenplayActivity extends AppCompatActivity implements NewScree
                 screenplayPresenter.importCharacter(selected + ".scrpl", this);
             }
 
-            Intent homeActivityIntent = new Intent(this, HomeActivity.class);
-            startActivity(homeActivityIntent);
+            ListChapterActivity.setPresenter(screenplayPresenter);
+            Intent listChapterIntent = new Intent(this, ListChapterActivity.class);
+            startActivity(listChapterIntent);
         }
     }
 

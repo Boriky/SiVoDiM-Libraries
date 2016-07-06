@@ -12,6 +12,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -35,13 +37,13 @@ import starklabs.sivodim.Drama.Presenter.ScreenplayPresenterImpl;
 import starklabs.sivodim.Drama.Presenter.StringArrayAdapter;
 import starklabs.sivodim.R;
 
-public class NewChapterActivity extends AppCompatActivity implements NewChapterInterface {
+public class NewChapterActivity extends AppCompatActivity implements NewChapterInterface,
+        Toolbar.OnMenuItemClickListener{
     private static ScreenplayPresenter screenplayPresenter;
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS=2;
     private static final int RESULT_LOAD_AUDIO = 3;
     private EditText newChapterName;
-    private Button createNewChapter;
     private Button newTrack;
     private TextView trackView;
     private ImageView newWallpaper;
@@ -50,6 +52,15 @@ public class NewChapterActivity extends AppCompatActivity implements NewChapterI
 
     public static void setPresenter(ScreenplayPresenter screenplayPresenter){
         NewChapterActivity.screenplayPresenter=screenplayPresenter;
+    }
+
+    // create the options menu: it's invoked just one time when the activity has been created
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.new_chapter_menu,menu);
+        return true;
     }
 
     @Override
@@ -62,75 +73,18 @@ public class NewChapterActivity extends AppCompatActivity implements NewChapterI
         else
             screenplayPresenter.setActivity(this);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setOnMenuItemClickListener(this);
+
         getSupportActionBar().setTitle("Crea un nuovo capitolo");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         newChapterName=(EditText)findViewById(R.id.newChapterName);
-        createNewChapter=(Button)findViewById(R.id.createNewChapter);
         newTrack=(Button)findViewById(R.id.newTrack);
         trackView=(TextView)findViewById(R.id.trackView);
         newWallpaper=(ImageView)findViewById(R.id.newWallpaper);
-
-        createNewChapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String title=newChapterName.getText().toString();
-                String titleScreenplay=screenplayPresenter.getScreenplayTitle();
-
-                StringArrayAdapter titles = screenplayPresenter.getTitlesAdapter(v.getContext(), titleScreenplay+".scrpl");
-                Boolean titleTaken = false;
-                for(int i=0; i<titles.getCount(); i++) {
-                    if(titles.getItem(i).equals(title)) {
-                        titleTaken = true;
-                    }
-                }
-
-                if(title.isEmpty()) {
-                    Toast.makeText(v.getContext(),"Il titolo del capitolo non può essere vuoto",Toast.LENGTH_SHORT).show();
-                }
-                else if(titleTaken==true) {
-                    Toast.makeText(v.getContext(),"Titolo del capitolo già esistente",Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Soundtrack soundtrack = null;
-                    if (audioPath != null) {
-                        File audioChoice = new File(audioPath);
-                        File dir = new File(getFilesDir(), screenplayPresenter.getScreenplayTitle().replace(" ", "_"));
-                        if (!dir.exists()) {
-                            dir.mkdir();
-                        }
-                        File destination = new File(dir, "chpt_" + title + ".mp3");
-                        try {
-                            copyFile(audioChoice, destination);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        soundtrack = new Soundtrack(destination.getAbsolutePath());
-                        System.out.println("SAVE in: " + destination.getAbsolutePath());
-                    }
-                    Background background = null;
-                    if (wallpaperPath != null) {
-                        File wallpaperChoice = new File(wallpaperPath);
-                        File dir = new File(getFilesDir(), screenplayPresenter.getScreenplayTitle().replace(" ", "_"));
-                        if (!dir.exists()) {
-                            dir.mkdir();
-                        }
-                        File destination = new File(dir, "chpt_" + title + ".png");
-                        try {
-                            copyFile(wallpaperChoice, destination);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        background = new Background(destination.getAbsolutePath());
-                        System.out.println("SAVE in: " + destination.getAbsolutePath());
-                    }
-                    screenplayPresenter.newChapter(title, soundtrack, background);
-                    Intent intent = new Intent(v.getContext(), ListChapterActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
 
         newWallpaper.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -280,6 +234,62 @@ public class NewChapterActivity extends AppCompatActivity implements NewChapterI
         }
     }
 
+    private void createChapter(){
+                String title=newChapterName.getText().toString();
+                String titleScreenplay=screenplayPresenter.getScreenplayTitle();
+
+                // get chapter adapter from the current screenplay
+                StringArrayAdapter titles = screenplayPresenter.getTitlesAdapter(this, titleScreenplay+".scrpl");
+                Boolean titleTaken = false;
+                for(int i=0; i<titles.getCount(); i++) {
+                    if(titles.getItem(i).equals(title)) {
+                        titleTaken = true;
+                    }
+                }
+
+                if(title.isEmpty()) {
+                    Toast.makeText(this,"Il titolo del capitolo non può essere vuoto",Toast.LENGTH_SHORT).show();
+                }
+                else if(titleTaken==true) {
+                    Toast.makeText(this,"Titolo del capitolo già esistente",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Soundtrack soundtrack = null;
+                    if (audioPath != null) {
+                        File audioChoice = new File(audioPath);
+                        File dir = new File(getFilesDir(), screenplayPresenter.getScreenplayTitle().replace(" ", "_"));
+                        if (!dir.exists()) {
+                            dir.mkdir();
+                        }
+                        File destination = new File(dir, "chpt_" + title + ".mp3");
+                        try {
+                            copyFile(audioChoice, destination);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        soundtrack = new Soundtrack(destination.getAbsolutePath());
+                        System.out.println("SAVE in: " + destination.getAbsolutePath());
+                    }
+                    Background background = null;
+                    if (wallpaperPath != null) {
+                        File wallpaperChoice = new File(wallpaperPath);
+                        File dir = new File(getFilesDir(), screenplayPresenter.getScreenplayTitle().replace(" ", "_"));
+                        if (!dir.exists()) {
+                            dir.mkdir();
+                        }
+                        File destination = new File(dir, "chpt_" + title + ".png");
+                        try {
+                            copyFile(wallpaperChoice, destination);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        background = new Background(destination.getAbsolutePath());
+                        System.out.println("SAVE in: " + destination.getAbsolutePath());
+                    }
+
+                    screenplayPresenter.newChapter(this,title, soundtrack, background);
+                }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
@@ -291,5 +301,16 @@ public class NewChapterActivity extends AppCompatActivity implements NewChapterI
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.newChapterApply:
+                createChapter();
+                Toast.makeText(this,"BEGBRWNNY",Toast.LENGTH_LONG).show();
+                break;
+        }
+        return false;
     }
 }

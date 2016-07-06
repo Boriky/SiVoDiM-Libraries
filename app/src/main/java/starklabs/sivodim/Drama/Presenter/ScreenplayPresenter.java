@@ -87,7 +87,7 @@ public interface ScreenplayPresenter {
      * Add a chapter in the end of the screenplay
      * @param title The title of the chapter
      */
-    void newChapter(String title, Soundtrack soundtrack, Background background);
+    void newChapter(Context context,String title, Soundtrack soundtrack, Background background);
 
     /**
      * Create a new screenplay and save it to memory

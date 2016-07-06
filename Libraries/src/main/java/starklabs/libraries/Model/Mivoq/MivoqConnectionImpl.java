@@ -51,7 +51,7 @@ public class MivoqConnectionImpl implements MivoqConnection{
     //Insert parameters for the Mivoq Service
         Params.put("input[type]",inputType);
         Params.put("input[content]",text);
-        Params.put("input[locale]",locale);
+        Params.put("input[locale]",locale.substring(0,2));
         Params.put("output[type]",outputType);
         Params.put("output[format]",outputFormat);
         Params.put("voice[gender]",voiceGender);
@@ -75,14 +75,14 @@ public class MivoqConnectionImpl implements MivoqConnection{
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                System.out.println("c'e' stato un errore");
+                System.out.println("c'e' stato un errore nell'invio della richiesta");
                 System.out.println(error.getMessage());
             }
         } );
 
 
         myRequestQueue.add(request);
-        System.out.println("Step 1");
+        System.out.println("Aggiunta la richiesta alla coda");
     }
 
     public byte[] getResponse(){

@@ -6,17 +6,20 @@
         android:title="Salva progetto"/>
     <item
         android:id="@+id/exportMenu"
-        android:icon="@android:drawable/ic_menu_save"
+        android:icon="@mipmap/export_icon_light"
         app:showAsAction="always"
         android:title="Esporta progetto"/>
     <item
         android:id="@+id/shareMenu"
-        android:icon="@android:drawable/ic_menu_share"
+        android:icon="@mipmap/share_icon_light"
         app:showAsAction="always"
         android:title="Condividi progetto"/>
     <item
-        android:id="@+id/editMenu"
-        android:title="Modifica progetto"/>
+        android:id="@+id/videoExportMenu"
+        android:title="Esporta in video"/>
+    <item
+        android:id="@+id/videoShareMenu"
+        android:title="Condividi video"/>
     <item
         android:id="@+id/newCharacterMenu"
         android:title="Crea personaggio"/>

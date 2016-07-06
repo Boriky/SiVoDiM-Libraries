@@ -113,28 +113,28 @@ public class SpeechArrayAdapter extends ArrayAdapter {
         int color=Color.BLACK;
         switch (speechObj.getEmotion()){
             case "NONE":
-                circleAvatar.setImageResource(R.drawable.no_emotion_circle);
+                circleAvatar.setImageResource(R.drawable.no_emotion_circle_blue);
                 break;
             case "FEAR":
-                circleAvatar.setImageResource(R.drawable.fear_circle);
+                circleAvatar.setImageResource(R.drawable.fear_circle_blue);
                 break;
             case "HAPPINESS":
-                circleAvatar.setImageResource(R.drawable.happyness_circle);
+                circleAvatar.setImageResource(R.drawable.happyness_circle_blue);
                 break;
             case "ANGER":
-                circleAvatar.setImageResource(R.drawable.anger_circle);
+                circleAvatar.setImageResource(R.drawable.anger_circle_blue);
                 break;
             case "SADNESS":
-                circleAvatar.setImageResource(R.drawable.sadness_circle);
+                circleAvatar.setImageResource(R.drawable.sadness_circle_blue);
                 break;
             case "SURPRISE":
-                circleAvatar.setImageResource(R.drawable.surprise_circle);
+                circleAvatar.setImageResource(R.drawable.surprise_circle_blue);
                 break;
             case "DISGUST":
-                circleAvatar.setImageResource(R.drawable.disgust_circle);
+                circleAvatar.setImageResource(R.drawable.disgust_circle_blue);
                 break;
             default:
-                circleAvatar.setImageResource(R.drawable.no_emotion_circle);
+                circleAvatar.setImageResource(R.drawable.no_emotion_circle_blue);
                 break;
         }
         drawable=speechText.getResources().getDrawable(R.drawable.none);

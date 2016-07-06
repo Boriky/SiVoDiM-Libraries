@@ -1,6 +1,7 @@
 package starklabs.sivodim.Drama.View;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -35,8 +36,9 @@ public class EditSpeechActivity extends AppCompatActivity implements EditSpeechI
     private TextView speechText;
     private Spinner emotion;
     private Spinner character;
-    private Button applyChanges;
     private Button play;
+    private Button stop;
+    private SpeechSound speechSound;
 
     public static void setPresenter(SpeechPresenter speechPresenter){
         EditSpeechActivity.speechPresenter=speechPresenter;
@@ -56,8 +58,8 @@ public class EditSpeechActivity extends AppCompatActivity implements EditSpeechI
         speechText=(TextView)findViewById(R.id.speechText);
         emotion=(Spinner)findViewById(R.id.Emotion);
         character=(Spinner)findViewById(R.id.character);
-        applyChanges=(Button)findViewById(R.id.editSpeechApplyButton);
         play=(Button)findViewById(R.id.play);
+        stop=(Button)findViewById(R.id.stopEditSpeech);
 
         speechText.setText(speechPresenter.getSpeechText());
         //set emotion Spinner
@@ -88,47 +90,10 @@ public class EditSpeechActivity extends AppCompatActivity implements EditSpeechI
         character.setSelection(position);
 
 
-        // apply changes
-        applyChanges.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String text=speechText.getText().toString();
-                if(!text.isEmpty()) {
-                    speechPresenter.setSpeechText(text);
-                    Iterator<Character> characterIterator = speechPresenter.getScreenplayCharacters();
-                    Character selectedCharacter = null;
-                    boolean stop = false;
-                    while (characterIterator.hasNext() && !stop) {
-                        Character c = characterIterator.next();
-                        if (character.getSelectedItem().equals(c.getName())) {
-                            selectedCharacter = c;
-                            stop = true;
-                        }
-                    }
-                    speechPresenter.setSpeechCharacter(selectedCharacter);
-                    speechPresenter.setSpeechEmotion(emotion.getSelectedItem().toString());
-                    final File path = new File(speechPresenter.getAudioPath());
-                    Engine engine = new EngineImpl(getApplicationContext());
-                    engine.synthesizeToFile(path.getAbsolutePath(),
-                            speechPresenter.getSpeechCharacter().getVoiceID()
-                            , speechPresenter.getSpeechEmotion(),
-                            speechText.getText().toString(), new Engine.Listener() {
-                                @Override
-                                public void onCompleteSynthesis() {
-                                    System.out.println("Ho salvato il File");
-                                }
-                            });
-                    Intent intent = new Intent(v.getContext(), ListSpeechesActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(v.getContext(),"La battuta non può essere vuota",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                play.setEnabled(false);
                 Engine engine=new EngineImpl(getApplicationContext());
                 final File path=new File(speechPresenter.getAudioPath());
                 final String effect=(String)emotion.getSelectedItem();
@@ -158,25 +123,83 @@ public class EditSpeechActivity extends AppCompatActivity implements EditSpeechI
                             @Override
                             public void onCompleteSynthesis() {
                                 System.out.println("Ho salvato il File");
-                                SpeechSound speechSound=new SpeechSound(path.getAbsolutePath());
-                                speechSound.play();
+                                speechSound=new SpeechSound(path.getAbsolutePath());
+                                speechSound.play(new MediaPlayer.OnCompletionListener() {
+                                    @Override
+                                    public void onCompletion(MediaPlayer mp) {
+                                        stop.setVisibility(View.GONE);
+                                        play.setEnabled(true);
+                                        play.setVisibility(View.VISIBLE);
+                                    }
+                                });
+                                play.setVisibility(View.GONE);
+                                stop.setVisibility(View.VISIBLE);
                             }
                         });
             }
         });
 
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                speechSound.stop();
+                stop.setVisibility(View.GONE);
+                play.setEnabled(true);
+                play.setVisibility(View.VISIBLE);
+            }
+        });
+
+    }
+
+    private void saveChanges(){
+        // apply changes
+                String text=speechText.getText().toString();
+                if(!text.isEmpty()) {
+                    speechPresenter.setSpeechText(text);
+                    Iterator<Character> characterIterator = speechPresenter.getScreenplayCharacters();
+                    Character selectedCharacter = null;
+                    boolean stop = false;
+                    while (characterIterator.hasNext() && !stop) {
+                        Character c = characterIterator.next();
+                        if (character.getSelectedItem().equals(c.getName())) {
+                            selectedCharacter = c;
+                            stop = true;
+                        }
+                    }
+                    speechPresenter.setSpeechCharacter(selectedCharacter);
+                    speechPresenter.setSpeechEmotion(emotion.getSelectedItem().toString());
+                    final File path = new File(speechPresenter.getAudioPath());
+                    Engine engine = new EngineImpl(getApplicationContext());
+                    engine.synthesizeToFile(path.getAbsolutePath(),
+                            speechPresenter.getSpeechCharacter().getVoiceID()
+                            , speechPresenter.getSpeechEmotion(),
+                            speechText.getText().toString(), new Engine.Listener() {
+                                @Override
+                                public void onCompleteSynthesis() {
+                                    System.out.println("Ho salvato il File");
+                                }
+                            });
+                    Intent intent = new Intent(this, ListSpeechesActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this,"La battuta non può essere vuota",Toast.LENGTH_SHORT).show();
+                }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case android.R.id.home:
-                //onBackPressed();
-                Intent intent=new Intent(this,ListSpeechesActivity.class);
-                startActivity(intent);
-                return true;
+                saveChanges();
+                return false;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        saveChanges();
     }
 }

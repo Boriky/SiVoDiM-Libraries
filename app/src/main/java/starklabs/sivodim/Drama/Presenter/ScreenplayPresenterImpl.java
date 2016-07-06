@@ -16,6 +16,7 @@ import starklabs.sivodim.Drama.Model.Screenplay.ScreenplayImpl;
 import starklabs.sivodim.Drama.Model.Utilities.Background;
 import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
 import starklabs.sivodim.Drama.View.EditChapterActivity;
+import starklabs.sivodim.Drama.View.ListChapterActivity;
 import starklabs.sivodim.Drama.View.ListChapterInterface;
 import starklabs.sivodim.Drama.View.ListCharacterActivity;
 import starklabs.sivodim.Drama.View.ListSpeechesActivity;
@@ -227,12 +228,13 @@ public class ScreenplayPresenterImpl implements ScreenplayPresenter {
     }
 
     @Override
-    public void newChapter(String title, Soundtrack soundtrack, Background background) {
+    public void newChapter(Context context,String title, Soundtrack soundtrack, Background background) {
         Chapter chapter=new ChapterImpl.ChapterBuilder()
                 .setTitle(title).build();
         if(soundtrack!=null)chapter.setSoundtrack(soundtrack);
         if(background!=null)chapter.setBackground(background);
         screenplay.addChapter(chapter);
+        goToListSpeechesActivity(context,chapter.getTitle());
     }
 
 

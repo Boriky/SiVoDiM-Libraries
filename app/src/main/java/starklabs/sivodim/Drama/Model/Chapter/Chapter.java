@@ -39,6 +39,8 @@ public interface Chapter {
     Background getBackground();
 
 
+    long getDuration();
+
     // ----------------------------- SETTER ----------------------------------------------
 
     /**
@@ -74,10 +76,25 @@ public interface Chapter {
      */
     void deleteSpeech(Speech speech);
 
-    // >>>>>>>>>>>>>>>> NOT YET IMPLEMENTED <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
+    /**
+     * Delete the background of the chapter
+     */
     void deleteBackground();
+
+    /**
+     * Delete the soundtrack of the chapter
+     */
     void deleteSoundtrack();
+
+    /**
+     * Move up a speech in the chapter's order
+     * @param position the position of the speech to move up
+     */
     void moveUpSpeech(int position);
+
+    /**
+     * Move down a speech in the chapter's order
+     * @param position the position of the speech to move down
+     */
     void moveDownSpeech(int position);
 }

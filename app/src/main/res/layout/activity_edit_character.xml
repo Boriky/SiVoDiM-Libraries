@@ -56,12 +56,12 @@
             android:id="@+id/editAvatar"
             android:clickable="true" />
 
-        <Button
+        <!--Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Conferma modifiche"
             android:id="@+id/applyChanges"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal" /-->
 
     </LinearLayout>
 </RelativeLayout>

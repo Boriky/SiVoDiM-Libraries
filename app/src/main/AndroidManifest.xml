@@ -11,12 +11,12 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Speeches"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".Drama.View.HomeActivity"
-            android:label="@string/app_name"
+            android:label="Speeches"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,7 +34,8 @@
             android:name=".Drama.View.ListSpeechesActivity"
             android:label="@string/title_activity_list_speeches"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Drama.View.NewChapterActivity" />
+        <activity android:name=".Drama.View.NewChapterActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Drama.View.EditChapterActivity" />
         <activity android:name=".Drama.View.NewSpeechActivity" />
         <activity android:name=".Drama.View.EditSpeechActivity" />

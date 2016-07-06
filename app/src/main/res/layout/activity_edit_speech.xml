@@ -79,14 +79,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_horizontal">
-        <Button
+        <!--Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Modifica battuta"
             android:id="@+id/editSpeechApplyButton"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="37dp" />
+            android:layout_marginBottom="37dp" /-->
 
         <Button
             android:layout_width="wrap_content"
@@ -97,6 +97,15 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="37dp" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="stop"
+            android:id="@+id/stopEditSpeech"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            android:layout_marginBottom="37dp" />
 
     </LinearLayout>
 

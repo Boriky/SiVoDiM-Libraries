@@ -3,6 +3,7 @@ package starklabs.sivodim.Drama.Presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,9 +17,14 @@ import starklabs.sivodim.Drama.Model.Chapter.Speech;
 import starklabs.sivodim.Drama.Model.Chapter.SpeechImpl;
 import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Model.Character.CharacterContainer;
+import starklabs.sivodim.Drama.Model.Screenplay.AudioExport;
+import starklabs.sivodim.Drama.Model.Screenplay.ExportPreview;
+import starklabs.sivodim.Drama.Model.Screenplay.Screenplay;
+import starklabs.sivodim.Drama.Model.Screenplay.ScreenplayImpl;
 import starklabs.sivodim.Drama.Model.Utilities.Background;
 import starklabs.sivodim.Drama.Model.Utilities.MutableInteger;
 import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
+import starklabs.sivodim.Drama.Model.Utilities.SpeechSound;
 import starklabs.sivodim.Drama.View.EditChapterActivity;
 import starklabs.sivodim.Drama.View.EditChapterInterface;
 import starklabs.sivodim.Drama.View.EditSpeechActivity;
@@ -36,11 +42,12 @@ import starklabs.sivodim.R;
  */
 public class ChapterPresenterImpl implements ChapterPresenter {
     //The Chapter and CharacterContainer of the presenter
-    Chapter chapter;
-    CharacterContainer characterContainer;
-    Character characterSelected;
-    String emotionSelected;
-    MutableInteger nextSpeechId;
+    private Chapter chapter;
+    private CharacterContainer characterContainer;
+    private Character characterSelected;
+    private String emotionSelected;
+    private MutableInteger nextSpeechId;
+    private SpeechSound speechSound;
 
     // name of the speech.. to pick up the project directory
     String projectName;
@@ -72,6 +79,11 @@ public class ChapterPresenterImpl implements ChapterPresenter {
         this.characterContainer=characterContainer;
         this.projectName=projectName;
         this.nextSpeechId=nextSpeechId;
+    }
+
+    @Override
+    public String getProjectName(){
+        return this.projectName;
     }
 
     public ChapterPresenterImpl(ListSpeechesInterface listSpeechesInterface){
@@ -124,6 +136,16 @@ public class ChapterPresenterImpl implements ChapterPresenter {
     @Override
     public void setEmotionSelected(String emotion) {
         this.emotionSelected=emotion;
+    }
+
+    @Override
+    public void setBackground(Background background) {
+        chapter.setBackground(background);
+    }
+
+    @Override
+    public void setSoundtrack(Soundtrack soundtrack) {
+        chapter.setSoundtrack(soundtrack);
     }
 
 
@@ -284,6 +306,27 @@ public class ChapterPresenterImpl implements ChapterPresenter {
     @Override
     public void moveDownSpeech(int position) {
         chapter.moveDownSpeech(position);
+    }
+
+    @Override
+    public void exportPreview(TextView textView) {
+        Context context=textView.getContext();
+        String name=projectName+"_"+chapter.getTitle()+"_prew";
+        Screenplay screenplay=new ScreenplayImpl(name,new Integer(0));
+        screenplay.addChapter(chapter);
+        String name2=screenplay.getTitle().replace(" ","_");
+        final File file=new File(context.getFilesDir(),"concatenation"+name2+".wav");
+        final File destination=new File(context.getFilesDir(),name2+".mp3");
+        speechSound=new SpeechSound(destination.getAbsolutePath());
+        ExportPreview exportPreview=new ExportPreview(textView,speechSound);
+        exportPreview.setScreenplay(screenplay);
+        exportPreview.export(textView.getContext());
+    }
+
+    @Override
+    public void stopPreview() {
+        if(speechSound!=null && speechSound.isDefined())
+            speechSound.stop();
     }
 
 

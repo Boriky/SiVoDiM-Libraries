@@ -33,11 +33,11 @@ public class TU39 {
         mp3Converter.setDestination(destination);
 
 
-        try {
-            mp3Converter.exec();
-        } catch (FFmpegCommandAlreadyRunningException e) {
-            e.printStackTrace();
-        }
+       // try {
+       //     mp3Converter.exec();
+       // } catch (FFmpegCommandAlreadyRunningException e) {
+       //     e.printStackTrace();
+       // }
 
         File file=new File(context.getFilesDir(),"/prova.mp3");
         try {

@@ -15,7 +15,7 @@ import starklabs.sivodim.Drama.Model.Screenplay.VideoExport;
 public class TU42 {
     @Test
     public void testConcatenateImages(){
-        ExportAlgorithm exportAlgorithm=new VideoExport();
+        //ExportAlgorithm exportAlgorithm=new VideoExport();
 
     }
 }

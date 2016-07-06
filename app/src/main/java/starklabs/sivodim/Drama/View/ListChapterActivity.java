@@ -1,6 +1,10 @@
 package starklabs.sivodim.Drama.View;
 
+import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,16 +15,21 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -54,6 +63,7 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
     private FloatingActionButton deleteButton;
     private FloatingActionButton fab;
     private String title;
+    private PopupWindow pw;
 
 
     private Runnable updateBar = new Runnable() {
@@ -325,16 +335,18 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
                 Toast.makeText(this,"Salvato",Toast.LENGTH_LONG).show();
                 break;
             case R.id.exportMenu:
-                screenplayPresenter.getScreenplay().export("Audio",this);
-                Toast.makeText(this,"Esportazione riuscita",Toast.LENGTH_LONG).show();
-                loadSound();
+                TextView processFeedback=initiatePopupWindow();
+                screenplayPresenter.getScreenplay().export("Audio",this,processFeedback);
+                break;
+            case R.id.videoExportMenu:
+                TextView processFeedback2=initiatePopupWindow();
+                screenplayPresenter.getScreenplay().export("Video",this,processFeedback2);
                 break;
             case R.id.shareMenu:
                 onShare();
-                Toast.makeText(this,"Condividi",Toast.LENGTH_LONG).show();
                 break;
-            case R.id.editMenu:
-                Toast.makeText(this,"Modifica",Toast.LENGTH_LONG).show();
+            case R.id.videoShareMenu:
+                onShareVideo();
                 break;
             case R.id.newCharacterMenu:
                 screenplayPresenter.goToNewCharacterActivity(this);
@@ -346,20 +358,29 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
         return false;
     }
 
+    public void onShareVideo(){
+        String videoClipFileName=screenplayPresenter.getScreenplayTitle().replace(" ","_")+".mp4";
+        File filePath=new File(getFilesDir(),videoClipFileName);
+        // concatenate the internal cache folder with the document its path and filename
+        final File file = new File(getFilesDir(), videoClipFileName);
+// let the FileProvider generate an URI for this private file
+        final Uri uri = FileProvider.getUriForFile(this, "com.mydomain.fileprovider", file);
+// create an intent, so the user can choose which application he/she wants to use to share this file
+        final Intent intent = ShareCompat.IntentBuilder.from(this)
+                .setType("video/mp4")
+                .setSubject("Condividi sceneggiato video")
+                .setStream(uri)
+                .setChooserTitle("Condivisione di "+videoClipFileName)
+                .createChooserIntent()
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        startActivity(intent);
+    }
+
     public void onShare() {
         String audioClipFileName=screenplayPresenter.getScreenplayTitle().replace(" ","_")+".mp3";
         File filePath=new File(getFilesDir(),audioClipFileName);
-        /*final Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-        shareIntent.setType("audio/mp3");
-        shareIntent.putExtra(android.content.Intent.EXTRA_STREAM,
-                Uri.parse("file://"+file.getAbsolutePath()));
-        System.out.println("Share file: "+file.getAbsolutePath()+" <----");
-        shareIntent.setPackage("com.whatsapp");
-        startActivity(Intent.createChooser(shareIntent, "Share Audio Clip"));*/
-        /*final Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
-        shareIntent.setType("audio/mp3");
-        shareIntent.putExtra(android.content.Intent.EXTRA_STREAM, Uri.parse("file://"+file.getAbsolutePath()));
-        startActivity(Intent.createChooser(shareIntent,"Titolo"));*/
         // concatenate the internal cache folder with the document its path and filename
         final File file = new File(getFilesDir(), audioClipFileName);
 // let the FileProvider generate an URI for this private file
@@ -375,8 +396,33 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
                 .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         startActivity(intent);
+    }
 
-        System.out.println("Share file: "+file.getAbsolutePath()+" <----");
+    private TextView initiatePopupWindow() {
+        try {
+            //We need to get the instance of the LayoutInflater, use the context of this activity
+            LayoutInflater inflater = (LayoutInflater) ListChapterActivity.this
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            //Inflate the view from a predefined XML layout
+            View layout = inflater.inflate(R.layout.popup_progress,
+                    (ViewGroup) findViewById(R.id.popup_element));
+            // create a 300px width and 470px height PopupWindow
+            pw = new PopupWindow(layout, ActionBar.LayoutParams.WRAP_CONTENT, 300, true);
+            // display the popup in the center
+            pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            ProgressBar progress = (ProgressBar)layout.findViewById(R.id.statusBar);
+            // Closes the popup window when touch outside.
+            pw.setOutsideTouchable(false);
+           // pw.setFocusable(false);
+            // Removes default background.
+            pw.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            TextView textView=(TextView) layout.findViewById(R.id.processFeedback);
+            System.out.println("TEXTVIEW: "+textView);
+            return textView;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

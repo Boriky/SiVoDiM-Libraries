@@ -60,12 +60,11 @@ public class ListCharacterActivity extends AppCompatActivity implements ListChar
         });
 
 
-        characterListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        characterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Character selected=(Character) parent.getItemAtPosition(position);
                 characterPresenter.goToEditCharacterActivity(view.getContext(),selected);
-                return false;
             }
         });
     }

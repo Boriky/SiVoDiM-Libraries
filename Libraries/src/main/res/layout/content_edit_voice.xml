@@ -15,10 +15,13 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -33,7 +36,7 @@
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editText2"
+                android:id="@+id/voiceName"
                 android:layout_below="@+id/textView4"
                 android:layout_marginTop="2dp"
                 android:layout_alignParentLeft="true"
@@ -45,7 +48,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Sesso"
                 android:id="@+id/textView"
-                android:layout_below="@+id/editText2"
+                android:layout_below="@+id/voiceName"
                 android:layout_marginTop="5dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
@@ -53,11 +56,13 @@
             <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/character"
+                android:id="@+id/gender"
                 android:layout_below="@+id/textView"
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="2dp"
                 android:layout_alignParentStart="true" />
+
+            <requestFocus/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -66,14 +71,14 @@
                 android:text="Lingua"
                 android:id="@+id/textView3"
                 android:layout_marginTop="5dp"
-                android:layout_below="@+id/character"
+                android:layout_below="@+id/gender"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
             <Spinner
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/Emotion"
+                android:id="@+id/language"
                 android:layout_below="@+id/textView3"
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="2dp"
@@ -93,6 +98,59 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal">
+                <!--Distorsione-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Distorsione"
+                    android:id="@+id/lab4"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:textColor="@color/colorPrimaryDark" />
+
+                <SeekBar
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/seekBar4"
+                    android:rotation="270"
+                    android:layout_below="@+id/lab4"
+                    android:layout_marginTop="40dp"
+                    android:layout_alignParentTop="false"
+                    android:layout_alignParentLeft="false"
+                    android:layout_centerHorizontal="true" />
+
+                <!--Profondita-->
+                <SeekBar
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/seekBar5"
+                    android:rotation="342"
+                    android:layout_below="@+id/lab4"
+                    android:layout_marginLeft="170dp"
+                    android:layout_marginTop="90dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Profondità"
+                    android:id="@+id/lab5"
+                    android:layout_below="@+id/lab4"
+                    android:layout_marginTop="60dp"
+                    android:layout_marginLeft="250dp"
+                    android:textColor="@color/colorPrimaryDark"/>
+
+                <!--Altezza-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Altezza"
+                    android:id="@+id/lab2"
+                    android:layout_below="@+id/lab4"
+                    android:layout_marginTop="200dp"
+                    android:layout_marginLeft="230dp"
+                    android:textColor="@color/colorPrimaryDark"/>
                 <SeekBar
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
@@ -102,47 +160,7 @@
                     android:layout_marginLeft="150dp"
                     android:layout_marginTop="170dp" />
 
-                <SeekBar
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/seekBar2"
-                    android:rotation="126"
-                    android:layout_below="@+id/lab4"
-                    android:layout_marginLeft="70dp"
-                    android:layout_marginTop="170dp" />
-
-                <SeekBar
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/seekBar3"
-                    android:rotation="198"
-                    android:layout_below="@+id/lab4"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginTop="90dp" />
-
-                <SeekBar
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/seekBar4"
-                    android:rotation="270"
-                    android:layout_below="@+id/lab4"
-
-                    android:layout_marginTop="40dp"
-                    android:layout_alignParentTop="false"
-                    android:layout_alignParentLeft="false"
-                    android:layout_centerHorizontal="true" />
-
-                <SeekBar
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/seekBar5"
-                    android:rotation="342"
-                    android:layout_below="@+id/lab4"
-                    android:layout_marginLeft="170dp"
-                    android:layout_marginTop="90dp" />
-
-
-
+                <!--accento-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -153,18 +171,16 @@
                     android:layout_marginTop="200dp"
                     android:layout_marginLeft="30dp"
                     android:textColor="@color/colorPrimaryDark"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <SeekBar
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Energia"
-                    android:id="@+id/lab2"
+                    android:id="@+id/seekBar2"
+                    android:rotation="126"
                     android:layout_below="@+id/lab4"
-                    android:layout_marginTop="200dp"
-                    android:layout_marginLeft="220dp"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    android:layout_marginLeft="70dp"
+                    android:layout_marginTop="170dp" />
 
+                <!--velocita-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -172,32 +188,21 @@
                     android:text="Velocità"
                     android:id="@+id/lab3"
                     android:layout_below="@+id/lab4"
-                    android:layout_marginTop="70dp"
+                    android:layout_marginTop="60dp"
                     android:layout_marginLeft="10dp"
                     android:textColor="@color/colorPrimaryDark" />
-
-
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <SeekBar
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Altezza"
-                    android:id="@+id/lab4"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentTop="true"
-                    android:textColor="@color/colorPrimaryDark" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Profondità"
-                    android:id="@+id/lab5"
+                    android:id="@+id/seekBar3"
+                    android:rotation="198"
                     android:layout_below="@+id/lab4"
-                    android:layout_marginTop="70dp"
-                    android:layout_marginLeft="250dp"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="90dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:indeterminate="false"
+                    android:longClickable="false" />
             </RelativeLayout>
             <!--add voice-->
             <LinearLayout
@@ -207,19 +212,27 @@
                 android:textAlignment="center"
                 android:gravity="center_horizontal"
                 android:layout_marginTop="25dp">
+
+                <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Set default"
+                    android:id="@+id/buttonDefault" />
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Modifica Voce"
-                    android:id="@+id/AddVoiceButton"
-                    android:layout_marginRight="30dp" />
-                <ImageButton
+                    android:id="@+id/EditVoiceButton"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp" />
+
+                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/previewButton"
-                    android:src="@mipmap/ic_play"
-                    android:background="@null"
-                    android:layout_marginLeft="30dp" />
+                    android:text="PLAY"
+                    android:id="@+id/buttonPlay" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

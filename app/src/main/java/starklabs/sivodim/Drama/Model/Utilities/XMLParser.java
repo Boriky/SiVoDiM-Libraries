@@ -92,14 +92,15 @@ public class XMLParser {
                 vDebug("Titolo capitolo: "+chapterTitle);
                 String backgroundPath = chapterElem.getAttribute("background");
                 String soundtrackPath = chapterElem.getAttribute("soundtrack");
-                Background background = new Background(backgroundPath);
-                Soundtrack soundtrack = new Soundtrack(soundtrackPath);
 
                 Chapter chapter = new ChapterImpl.ChapterBuilder()
                         .setTitle(chapterTitle)
-                        .setBackground(background)
-                        .setSoundtrack(soundtrack)
                         .build();
+
+                if(!backgroundPath.equals(""))
+                    chapter.setBackground(new Background(backgroundPath));
+                if(!soundtrackPath.equals(""))
+                    chapter.setSoundtrack(new Soundtrack(soundtrackPath));
 
                 NodeList speechesList = ((Element) c1).getElementsByTagName("speech");
                 // tag cased

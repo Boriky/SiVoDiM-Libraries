@@ -2,6 +2,7 @@ package starklabs.sivodim.Drama.Presenter;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import starklabs.sivodim.Drama.Model.Chapter.Chapter;
 import starklabs.sivodim.Drama.Model.Chapter.Speech;
@@ -80,6 +81,8 @@ public interface ChapterPresenter {
 
     Soundtrack getSoundtrack();
 
+    String getProjectName();
+
     // ----------------------------- SETTER ------------------------------------------------
 
     /**
@@ -97,6 +100,10 @@ public interface ChapterPresenter {
     void setCharacterSelected(Character character);
 
     void setEmotionSelected(String emotion);
+
+    void setBackground(Background background);
+
+    void setSoundtrack(Soundtrack soundtrack);
 
     // ----------------------------- UTILITIES ------------------------------------------------
 
@@ -125,6 +132,10 @@ public interface ChapterPresenter {
      * @param position
      */
     void moveDownSpeech(int position);
+
+    void exportPreview(TextView textView);
+
+    void stopPreview();
 
     // ----------------------------- MOVE ------------------------------------------------
 

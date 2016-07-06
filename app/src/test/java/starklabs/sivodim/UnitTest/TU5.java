@@ -36,7 +36,7 @@ public class TU5 {
         when(context.getFilesDir()).thenReturn(new File("C:/Desktop"));
         Screenplay screenplay=Mockito.mock(ScreenplayImpl.class);
         when(screenplay.getTitle()).thenReturn("titolo");
-        screenplay.export("Audio",context);
+        //screenplay.export("Audio",context);
 
         File file=new File(context.getFilesDir(),"/titolo.mp3");
 

@@ -1,15 +1,23 @@
 package starklabs.sivodim.Drama.View;
 
+import android.app.ActionBar;
+import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -18,6 +26,8 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +56,9 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
     private EditText speechEditText;
     private ListView newSpeechCharactersList;
     private GridView emotionsList;
+    private PopupWindow pw;
+    //private MenuItem stopMenu;
+    private MenuItem previewMenu;
 
     public static void setPresenter(ChapterPresenter chapterPresenter){
         ListSpeechesActivity.chapterPresenter=chapterPresenter;
@@ -91,6 +104,8 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
         selectCharacterButton=(ImageButton)findViewById(R.id.setSpeechCharacterButton);
         selectEmotionButton=(ImageButton)findViewById(R.id.setSpeechEmotionButton);
         speechEditText=(EditText)findViewById(R.id.speechEditText);
+       // stopMenu=(MenuItem)findViewById(R.id.stopChapterMenu);
+        previewMenu=(MenuItem)findViewById(R.id.exportChapterMenu);
 
         speechListAdapter=chapterPresenter.getSpeeches(this);
         emotionAdapter=new EmotionArrayAdapter(this);
@@ -280,12 +295,40 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case android.R.id.home:
+                chapterPresenter.stopPreview();
                 Intent intent=new Intent(this,ListChapterActivity.class);
                 startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private TextView initiatePopupWindow() {
+        try {
+            //We need to get the instance of the LayoutInflater, use the context of this activity
+            LayoutInflater inflater = (LayoutInflater) ListSpeechesActivity.this
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            //Inflate the view from a predefined XML layout
+            View layout = inflater.inflate(R.layout.popup_progress,
+                    (ViewGroup) findViewById(R.id.popup_element));
+            // create a 300px width and 470px height PopupWindow
+            pw = new PopupWindow(layout, ActionBar.LayoutParams.WRAP_CONTENT, 300, true);
+            // display the popup in the center
+            pw.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            ProgressBar progress = (ProgressBar)layout.findViewById(R.id.statusBar);
+            // Closes the popup window when touch outside.
+            pw.setOutsideTouchable(false);
+            // pw.setFocusable(false);
+            // Removes default background.
+            pw.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            TextView textView=(TextView) layout.findViewById(R.id.processFeedback);
+            System.out.println("TEXTVIEW: "+textView);
+            return textView;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -300,7 +343,24 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
             case R.id.newCharacterMenu:
                 chapterPresenter.goToNewCharacterActivity(this);
                 break;
+            case R.id.exportChapterMenu:
+                //previewMenu.setVisible(false);
+                //stopMenu.setVisible(true);
+                TextView processFeedback=initiatePopupWindow();
+                chapterPresenter.exportPreview(processFeedback);
+            //case R.id.stopChapterMenu:
+              //  chapterPresenter.stopPreview();
+                //previewMenu.setVisible(true);
+                //stopMenu.setVisible(false);
         }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        chapterPresenter.stopPreview();
+        Intent intent=new Intent(this,ListChapterActivity.class);
+        startActivity(intent);
     }
 }

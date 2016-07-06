@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_element"
+    android:layout_width="fill_parent"
+    android:layout_height="600dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:background="@android:drawable/dialog_holo_light_frame"
+    android:padding="15dp"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Applicazione creata da Stark Labs" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="Gruppo di Ingegneria del Software 2015/2016 UNIPD" />
+
+    <TextView android:id="@+id/server_status_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Motore di sintesi sviluppato da MIVOQ s.r.l" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal|bottom">
+
+        <Button android:id="@+id/end_data_send_button"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:drawablePadding="3sp"
+            android:layout_centerHorizontal="true"
+            android:text="Cancel" />
+    </LinearLayout>
+</LinearLayout>

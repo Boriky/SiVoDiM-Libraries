@@ -42,7 +42,7 @@ import java.util.ArrayList;
 
             femaleDeAddingEffects=false;
 
-            if(gen.equals("female") && lang.equals("de"))
+            if(gen.equals("female") && myLang.equals("de"))
                 femaleDeAddingEffects=true;
 
             lang= new Language(myLang);
@@ -66,13 +66,13 @@ import java.util.ArrayList;
          */
         public String getEncodedName(String gen, String myLang)
         {
-            String myVoiceName=null;
+            String myVoiceName="roberto-hsmm";
 
-            switch (myLang)
+            switch (myLang.substring(0,2))
             {
                 case "it":
-                    if(gen.equals("female")) myVoiceName="istc-lucia-hsmm";
-                    else myVoiceName="istc-speaker_internazionale-hsmm";
+                    if(gen.equals("female")) myVoiceName="patrizia-hsmm";
+                    else myVoiceName="roberto-hsmm";
 
                     break;
                 case "fr":
@@ -115,7 +115,16 @@ import java.util.ArrayList;
 
         public void setName(String n)
         {
-            name=n;
+            String myVoiceName=n;
+            //Check for spaces in the beginning of the name
+            while(myVoiceName.substring(0,1).equals(" "))
+                myVoiceName=myVoiceName.substring(1);
+
+            //Check for spaces in the ending of the name
+            while(myVoiceName.substring(myVoiceName.length()-1).equals(" "))
+                myVoiceName=myVoiceName.substring(0,myVoiceName.length()-1);
+
+            name=myVoiceName;
         }
 
         public void setGender(String g)
@@ -164,6 +173,7 @@ import java.util.ArrayList;
 
         public String getLanguage()
         {
+            System.out.println("lang = " + lang.toString());
             return lang.toString();
         }
 
@@ -186,5 +196,31 @@ import java.util.ArrayList;
         {
             effects.remove(index);
         }
+
+        public String getState() {
+            String newLang;
+
+            switch (lang.toString())
+            {
+                case "ita":
+                case "it": newLang="ita";
+                    break;
+                case "deu":
+                case "de": newLang="deu";
+                    break;
+                case "fra":
+                case "fr": newLang="fra";
+                    break;
+                case "eng":
+                case "en": newLang="usa";
+                    break;
+                default: newLang="alg";
+            }
+            return newLang;
+        }
+
+        //public Locale getLocale() {
+        //  return new Locale("ita", "ITA", "Prova2");
+        //}
 
     }
