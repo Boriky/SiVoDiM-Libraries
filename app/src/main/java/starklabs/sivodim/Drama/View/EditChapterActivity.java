@@ -259,8 +259,10 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
                         background = new Background(destination.getAbsolutePath());
                         System.out.println("SAVE in: " + destination.getAbsolutePath());
                     }
-                    chapterPresenter.setBackground(background);
-                    chapterPresenter.setSoundtrack(soundtrack);
+                    if(background!=null)
+                        chapterPresenter.setBackground(background);
+                    if(soundtrack!=null)
+                        chapterPresenter.setSoundtrack(soundtrack);
 
                     Intent intent=new Intent(this,ListChapterActivity.class);
                     startActivity(intent);

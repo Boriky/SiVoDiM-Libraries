@@ -15,17 +15,19 @@ import starklabs.sivodim.Drama.Model.Chapter.Chapter;
 import starklabs.sivodim.Drama.Model.Chapter.ChapterImpl;
 import starklabs.sivodim.Drama.Model.Chapter.Speech;
 import starklabs.sivodim.Drama.Model.Chapter.SpeechImpl;
-import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Model.Character.CharacterImpl;
 import starklabs.sivodim.Drama.Model.Screenplay.Screenplay;
 import starklabs.sivodim.Drama.Model.Screenplay.ScreenplayImpl;
+import starklabs.sivodim.Drama.Model.Character.Character;
 
+import static org.junit.Assert.assertNotEquals;
 /**
- * Created by io on 06/07/2016.
+ * Created by Enrico on 01/07/16.
  */
 public class TI1 extends InstrumentationTestCase {
     @Test
-    public void finalTest() {
+    public void testTotal(){
+
         Screenplay screenplay=new ScreenplayImpl("Test",0);
         Chapter chapter=new ChapterImpl.ChapterBuilder()
                 .setTitle("Capitolo 1")
@@ -51,6 +53,6 @@ public class TI1 extends InstrumentationTestCase {
         File file=new File(context.getFilesDir(),"Test.mp3");
         System.out.println(file.exists());
         assertEquals(true,file.exists());
-    }
 
+    }
 }
