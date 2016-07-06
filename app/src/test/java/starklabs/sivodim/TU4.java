@@ -34,20 +34,13 @@ public class TU4 {
         Context context= Mockito.mock(Context.class);
 
         when(context.getFilesDir()).thenReturn(new File("C:/Desktop"));
-        System.out.println(context.getFilesDir());
         when(screenplay.getTitle()).thenReturn("titolo");
         ScreenplayPresenter screenplayPresenter=Mockito.mock(ScreenplayPresenterImpl.class);
         screenplayPresenter.save(screenplay,context);
         File file=new File(context.getFilesDir(),"/titolo.scrp");
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        System.out.println(file.getAbsolutePath());
         //file.createNewFile();
-        System.out.println(context.getFilesDir().exists());
+
         file.exists();
         assertEquals(true,file.exists());
 

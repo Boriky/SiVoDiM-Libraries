@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 /**
  * test TU3 that test the creation of a ScreenPlay with the correct title
  */
-public class T3 {
+public class TU3 {
     @Test
     public void testNewScreenplay(){
         Context context= Mockito.mock(Context.class);
@@ -32,8 +32,8 @@ public class T3 {
         ScreenplayPresenterImpl test = new ScreenplayPresenterImpl(s);
         String name="titolo";
         String error=",:%YIK/KL£&(L";
-        test.newScreenplay(name,context);
-        test.newScreenplay(error,context);
+        test.newScreenplay(name,context.getApplicationContext());
+        test.newScreenplay(error,context.getApplicationContext());
 
         File file=new File(context.getFilesDir(),name+".scrpl");
         File fileError=new File(context.getFilesDir(),error+".scrpl");

@@ -73,11 +73,7 @@ public class CharacterImpl implements Character {
             return this;
         }
 
-        /**
-         * Build che Character
-         * @return
-         */
-        public CharacterImpl build() {
+        public Character build() {
             if(nameB!=null) {
                 return new CharacterImpl(this);
             }

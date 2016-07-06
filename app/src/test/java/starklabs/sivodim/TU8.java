@@ -18,7 +18,7 @@ import starklabs.sivodim.Drama.Presenter.CharacterPresenterImpl;
 public class TU8 {
     @Test
     public void testAddCharacter(){
-        Screenplay screenplay=new ScreenplayImpl("titolo");
+        Screenplay screenplay=new ScreenplayImpl("titolo",0);
         Character character=Mockito.mock(Character.class);
         String name="NomePersonaggio";
         when(character.getName()).thenReturn(name);

@@ -31,6 +31,7 @@ public abstract class Image {
             long fileLength=imgFile.length();
             //use abstract method maxSize() to obtain the maximum dimension of the image
             if (fileLength<=maxSize()){
+                //System.out.println("fileLength+\"<\"+maxSize() = " + fileLength+"<"+maxSize());
                 image=BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             }
         }
