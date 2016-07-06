@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.io.File;
+import java.io.IOException;
 
 import starklabs.sivodim.Drama.Model.Screenplay.Screenplay;
 import starklabs.sivodim.Drama.Model.Screenplay.ScreenplayImpl;
@@ -35,9 +36,12 @@ public class TU4 {
         screenplayPresenter.save(screenplay,context);
         File file=new File(context.getFilesDir(),"/titolo.scrp");
 
-        //file.createNewFile();
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        file.exists();
         assertEquals(true,file.exists());
 
     }

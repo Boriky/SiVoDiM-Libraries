@@ -4,6 +4,7 @@ import org.mockito.Mockito;
 import starklabs.sivodim.Drama.Model.Chapter.Chapter;
 import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by Enrico on 23/06/16.
@@ -17,10 +18,11 @@ public class TU29 {
         Soundtrack soundtrack = new Soundtrack(path);
 
         Chapter chapter = Mockito.mock(Chapter.class);
+        when(chapter.getSoundtrack()).thenReturn(soundtrack);
         chapter.setSoundtrack(soundtrack);
 
-        assertEquals(path, soundtrack.getAudio().getAbsolutePath());
-       // assertEquals(path,chapter.getSountrack().getAudio().getAbsolutePath());
+        assertEquals(soundtrack, soundtrack.getAudio());
+        assertEquals(path,chapter.getSoundtrack().getAudio().getAbsolutePath());
 
 
         //Extension check

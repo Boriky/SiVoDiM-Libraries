@@ -1,4 +1,4 @@
-package starklabs.sivodim;
+package starklabs.sivodim.UnitTest;
 
 /**
  * Created by GINO on 21/06/2016.
@@ -39,7 +39,7 @@ public class TU2 extends InstrumentationTestCase {
     @Test
     public void testGotoListChapter(){
 
-        /**
+
         Screenplay screenplay= Mockito.mock(ScreenplayImpl.class);
         when(screenplay.getTitle()).thenReturn("titolo");
         Context context= Mockito.mock(Context.class);
@@ -64,8 +64,8 @@ public class TU2 extends InstrumentationTestCase {
         HomeInterface homeInterface=Mockito.mock(HomeInterface.class);
         HomePresenter homePresenter=new HomePresenterImpl(homeInterface);
         homePresenter.goToListChapter(context,screenplay.getTitle());
-        //ListChapterInterface listChapterInterface=Mockito.mock(ListChapterInterface.class);
-        //ScreenplayPresenter screenplayPresenter=new ScreenplayPresenterImpl(listChapterInterface);
+        ListChapterInterface listChapterInterface=Mockito.mock(ListChapterInterface.class);
+        ScreenplayPresenter screenplayPresenter=new ScreenplayPresenterImpl(listChapterInterface);
 
 
         final Instrumentation inst = new Instrumentation();
@@ -76,11 +76,10 @@ public class TU2 extends InstrumentationTestCase {
         Activity randomActivity = monitor.getLastActivity();
         // Unfortunately, it seems randomActivity is always null even after a match
         if ( randomActivity != null ) {
-            assertTrue(TARGET_ACTIVITIES.contains(randomActivity.getClass()));
+            assertTrue(randomActivity.equals(ListChapterActivity.class));
         }
         inst.removeMonitor(monitor);
 
-*/
 // register next activity that need to be monitored.
     }
 }

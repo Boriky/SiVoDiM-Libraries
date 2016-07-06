@@ -2,6 +2,7 @@ package starklabs.sivodim.UnitTest;
 
 import android.content.Context;
 
+import com.github.hiteshsondhi88.libffmpeg.FFmpegExecuteResponseHandler;
 import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException;
 
 import org.junit.Test;
@@ -22,7 +23,7 @@ import static org.mockito.Mockito.when;
 public class TU39 {
     @Test
     public void testMp3Converter() {
-        Context context= Mockito.mock(Context.class);
+        final Context context= Mockito.mock(Context.class);
         File dir=new File("C:Desktop");
         when(context.getFilesDir()).thenReturn(dir);
         File fileToConvert = new File(context.getFilesDir(),"/prova.wav");
@@ -33,30 +34,53 @@ public class TU39 {
         mp3Converter.setDestination(destination);
 
 
-       // try {
-       //     mp3Converter.exec();
-       // } catch (FFmpegCommandAlreadyRunningException e) {
-       //     e.printStackTrace();
-       // }
-
-        File file=new File(context.getFilesDir(),"/prova.mp3");
         try {
-            file.createNewFile();
-        } catch (IOException e) {
+            mp3Converter.exec(new FFmpegExecuteResponseHandler() {
+                @Override
+                public void onSuccess(String message) {
+
+                }
+
+                @Override
+                public void onProgress(String message) {
+
+                }
+
+                @Override
+                public void onFailure(String message) {
+
+                }
+
+                @Override
+                public void onStart() {
+
+                }
+
+                @Override
+                public void onFinish() {
+                    File file=new File(context.getFilesDir(),"/prova.mp3");
+                    try {
+                        file.createNewFile();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    String estensione = "";
+                    int i = file.getPath().lastIndexOf('.');
+                    if (i >= 0) {
+                        estensione = file.getPath().substring(i + 1);
+                    }
+
+
+                    String mp3 = "mp3";
+                    boolean formato_giusto = true;
+                    if (!estensione.equals(mp3))
+                        formato_giusto = false;
+                    assertEquals(true, formato_giusto);
+                }
+            });
+        } catch (FFmpegCommandAlreadyRunningException e) {
             e.printStackTrace();
         }
-        String estensione = "";
-        int i = file.getPath().lastIndexOf('.');
-        if (i >= 0) {
-            estensione = file.getPath().substring(i + 1);
-        }
-
-
-        String mp3 = "mp3";
-        boolean formato_giusto = true;
-        if (!estensione.equals(mp3))
-            formato_giusto = false;
-        assertEquals(true, formato_giusto);
 
 
     }

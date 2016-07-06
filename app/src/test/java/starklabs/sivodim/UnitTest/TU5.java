@@ -1,7 +1,8 @@
-package starklabs.sivodim;
+package starklabs.sivodim.UnitTest;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -36,7 +37,8 @@ public class TU5 {
         when(context.getFilesDir()).thenReturn(new File("C:/Desktop"));
         Screenplay screenplay=Mockito.mock(ScreenplayImpl.class);
         when(screenplay.getTitle()).thenReturn("titolo");
-        //screenplay.export("Audio",context);
+        TextView textView=new TextView(context);
+        screenplay.export("Audio",context,textView);
 
         File file=new File(context.getFilesDir(),"/titolo.mp3");
 
