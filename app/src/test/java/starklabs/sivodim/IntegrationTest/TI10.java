@@ -15,48 +15,40 @@ import starklabs.sivodim.Drama.Model.Chapter.Chapter;
 import starklabs.sivodim.Drama.Model.Chapter.ChapterImpl;
 import starklabs.sivodim.Drama.Model.Chapter.Speech;
 import starklabs.sivodim.Drama.Model.Chapter.SpeechImpl;
+import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Model.Character.CharacterImpl;
 import starklabs.sivodim.Drama.Model.Screenplay.Screenplay;
 import starklabs.sivodim.Drama.Model.Screenplay.ScreenplayImpl;
-import starklabs.sivodim.Drama.Model.Character.Character;
-import starklabs.sivodim.Drama.Model.Utilities.SpeechSound;
 
-import static org.junit.Assert.assertNotEquals;
 /**
- * Created by Enrico on 01/07/16.
+ * Created by Francesco Bizzaro on 06/07/2016.
  */
-public class TI1 extends InstrumentationTestCase {
+public class TI10 extends InstrumentationTestCase{
     @Test
-    public void testTotal(){
+    public void testScreenplay(){
 
         Screenplay screenplay=new ScreenplayImpl("Test",0);
+        assertNotNull(screenplay);
         Chapter chapter=new ChapterImpl.ChapterBuilder()
                 .setTitle("Capitolo 1")
                 .build();
+        assertNotNull(chapter);
         screenplay.addChapter(chapter);
+        assertEquals(chapter,screenplay.getChapter("Test"));
+
         Context context=getInstrumentation().getContext();
         assertNotNull(context);
 
         Engine engine=new EngineImpl(context);
-
         MivoqVoice voice=engine.createVoice("voice","male","it");
+
         Character character=new CharacterImpl.CharacterBuilder()
                 .setName("character")
                 .setVoice(voice.getName())
                 .build();
-        Speech speech=new SpeechImpl.SpeechBuilder()
-                .setText("Ciao")
-                .setCharacter(character)
-                .setEmotion("HAPPINESS")
-                .build();
-        chapter.addSpeech(speech);
-        TextView textView=new TextView(context);
-        screenplay.export("Audio",context,textView);
-        File file=new File(context.getFilesDir(),"Test.mp3");
-        System.out.println(file.exists());
-        assertEquals(true,file.exists());
+        assertNotNull(character);
+        screenplay.addCharacter(character);
+        assertEquals(character,screenplay.getCharacterByName("character"));
 
-        SpeechSound exported=new SpeechSound(file.getAbsolutePath());
-        assertEquals(true,exported.getDuration()>0L);
     }
 }
