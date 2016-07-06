@@ -4,7 +4,6 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import starklabs.libraries.Model.EngineManager.Engine;
 import starklabs.libraries.Model.EngineManager.EngineImpl;
@@ -12,8 +11,6 @@ import starklabs.libraries.Model.Voice.Effect;
 import starklabs.libraries.Model.Voice.EffectImpl;
 import starklabs.libraries.Model.Voice.Emotion;
 import starklabs.libraries.Model.Voice.MivoqVoice;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created by AlbertoAndriolo on 01/07/2016.
