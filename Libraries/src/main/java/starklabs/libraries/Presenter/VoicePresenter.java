@@ -74,6 +74,7 @@ public interface VoicePresenter {
     void setDefaultVoice(int pos);
 
     void setDefaultVoice(boolean b);
+
     boolean isDefaultVoice();
 
     void setVoiceName(String s);
