@@ -6,11 +6,11 @@ import java.io.File;
  * Created by Francesco Bizzaro on 25/05/2016.
  */
 public class Background extends Image {
-    private static final long maxSize=10485760;
+
     /**
      * The maximum dimension for a background
      */
-    private static final long maxSize=1048576;
+    private static final long maxSize=10485760;
 
     /**
      * A File that links the picture for the background
