@@ -1,12 +1,10 @@
 package starklabs.libraries.IntegrationTest;
 
 import android.content.Context;
-import android.test.suitebuilder.annotation.LargeTest;
+import android.test.InstrumentationTestCase;
+import android.util.Log;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 
 import starklabs.libraries.Model.EngineManager.Engine;
 import starklabs.libraries.Model.EngineManager.EngineImpl;
@@ -15,32 +13,17 @@ import starklabs.libraries.Model.Voice.Effect;
 import starklabs.libraries.Model.Voice.EffectImpl;
 import starklabs.libraries.Model.Voice.Emotion;
 import starklabs.libraries.Model.Voice.MivoqVoice;
-/*
-import static org.junit.Assert.assertEquals;
-import android.support.test.runner.AndroidJUnit4;
-import android.support.test.runner.AndroidJUnitRunner;
-import android.test.ActivityInstrumentationTestCase2;
-import android.support.test.InstrumentationRegistry;
-*/
 
 /**
  * Created by Enrico on 01/07/16.
  */
-@RunWith(AndroidJUnit4.class)
-@LargeTest
 
-public class TI15 {
-    @Rule
-    public ActivityTestRule mActivityRule = new
-    MainActivity.class);
-
-
+public class TI15 extends InstrumentationTestCase {
     @Test
-    public void testMivoqEngine(){
-        Context context = Mockito.mock(Context.class);
-        context.getApplicationContext();
-      //  private Context context = InstrumentationRegistry;
-
+    public void testMivoqEngine() {
+        Context context = getInstrumentation().getContext();
+        //context.getApplicationContext();
+        //private Context context = InstrumentationRegistry;
 
         Engine engine = new EngineImpl(context);
 
@@ -53,9 +36,10 @@ public class TI15 {
         mivoqVoice.setEmotion(Emotion.Anger);
         mivoqVoice.setEffect(rate);
 
-        byte[] array =  mivoqTTSSingleton.synthesizeText(mivoqVoice,"text"); //errore!
+        byte[] array =  mivoqTTSSingleton.synthesizeText(mivoqVoice,"text");
 
-      //  assertEquals(false,array);
+        Log.v("tag","array.length = " + array.length);
 
+        assertEquals(0,array.length);
     }
 }

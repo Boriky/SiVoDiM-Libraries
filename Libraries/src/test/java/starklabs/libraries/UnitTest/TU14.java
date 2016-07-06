@@ -1,23 +1,24 @@
-package starklabs.libraries;
+package starklabs.libraries.UnitTest;
 
 import android.content.Context;
+import android.test.InstrumentationTestCase;
 
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
 import starklabs.libraries.Model.Voice.MivoqVoice;
-import static org.junit.Assert.assertEquals;
 
 
 /**
  * Created by Enrico on 28/06/16.
  */
-public class TU14 {
+public class TU14 extends InstrumentationTestCase{
+
+
     @Test
     public void testSyntesizeText(){
         MivoqTTSSingleton mivoqTTSSingleton = MivoqTTSSingleton.getInstance();
-        Context context = Mockito.mock(Context.class);
+        Context context = getInstrumentation().getContext();
         mivoqTTSSingleton.setContext(context);
 
         String name = "name";

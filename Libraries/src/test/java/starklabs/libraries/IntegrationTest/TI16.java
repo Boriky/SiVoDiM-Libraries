@@ -1,16 +1,17 @@
 package starklabs.libraries.IntegrationTest;
 
 import android.content.Context;
-import starklabs.libraries.Model.Voice.EffectImpl;
-import starklabs.libraries.Model.Voice.Effect;
 
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import starklabs.libraries.Model.EngineManager.Engine;
 import starklabs.libraries.Model.EngineManager.EngineImpl;
+import starklabs.libraries.Model.Voice.Effect;
+import starklabs.libraries.Model.Voice.EffectImpl;
 import starklabs.libraries.Model.Voice.Emotion;
 import starklabs.libraries.Model.Voice.MivoqVoice;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -36,6 +37,5 @@ public class TI16 {
 
         engine.removeVoice(index-1);
         assertEquals(true,engine.getVoices().size()==index-1);
-
     }
 }
