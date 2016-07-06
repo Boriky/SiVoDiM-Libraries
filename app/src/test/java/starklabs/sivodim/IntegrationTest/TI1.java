@@ -1,4 +1,4 @@
-package starklabs.sivodim;
+package starklabs.sivodim.IntegrationTest;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
@@ -19,8 +19,6 @@ import starklabs.sivodim.Drama.Model.Character.Character;
 import starklabs.sivodim.Drama.Model.Character.CharacterImpl;
 import starklabs.sivodim.Drama.Model.Screenplay.Screenplay;
 import starklabs.sivodim.Drama.Model.Screenplay.ScreenplayImpl;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by io on 06/07/2016.
