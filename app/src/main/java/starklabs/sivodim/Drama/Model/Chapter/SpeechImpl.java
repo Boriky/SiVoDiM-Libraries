@@ -184,6 +184,7 @@ public class SpeechImpl implements Speech {
     @Override
     public void synthesizeAudio(Context context, final String path) {
         setAudioStatus(false);
+        this.audioPath=path;
         Engine engine=new EngineImpl(context);
         File file=new File(path);
         if(!file.getParentFile().exists()){
@@ -292,29 +293,6 @@ public class SpeechImpl implements Speech {
      */
     @Override
     public Character getCharacter() { return this.character; }
-
-    @Override
-    public void synthesizeAudio(Context context, final String path) {
-        setAudioStatus(false);
-        this.audioPath=path;
-        Engine engine=new EngineImpl(context);
-        File file=new File(path);
-        if(!file.getParentFile().exists()){
-                file.getParentFile().mkdir();
-        }
-        engine.synthesizeToFile(path,
-                getCharacter().getVoiceID(),
-                getEmotion(),
-                getText(),
-                new Engine.Listener() {
-            @Override
-            public void onCompleteSynthesis() {
-                setAudioPath(path);
-                setAudioStatus(true);
-                System.out.println("Sintesi finita");
-            }
-        });
-    }
 
     @Override
     public String getAudioPath() {
