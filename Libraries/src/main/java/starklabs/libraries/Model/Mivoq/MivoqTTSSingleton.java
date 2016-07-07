@@ -49,7 +49,7 @@ public class MivoqTTSSingleton {
     public void setContext(Context T) {
         System.out.println("richiamo setContext------------------------");
 
-        if(T!=null && myContext==null) {
+        if(T!=null) {
             myContext = T;
             load();
             if(voiceList.isEmpty()) {
