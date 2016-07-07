@@ -358,7 +358,6 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         chapterPresenter.stopPreview();
         Intent intent=new Intent(this,ListChapterActivity.class);
         startActivity(intent);

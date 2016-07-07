@@ -315,6 +315,12 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
     }
 
     @Override
+    public void onBackPressed() {
+        Intent intent=new Intent(this,HomeActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch (item.getItemId()){
             case android.R.id.home:
