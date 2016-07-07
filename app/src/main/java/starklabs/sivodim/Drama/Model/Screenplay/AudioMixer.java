@@ -50,6 +50,37 @@ public class AudioMixer extends FfmpegConnector {
                 secondaryFile.getAbsolutePath() +
                 " -filter_complex amix=inputs=2:duration=first:dropout_transition=3 " +
                 destination.getAbsolutePath();
+
+        /*String cmd2="-y -i "+
+                primaryFile.getAbsolutePath()
+                +" -i "+
+                secondaryFile.getAbsolutePath()
+                +" -filter_complex [0:a]volume=0.5[a0];"+
+                "[1:a]volume=6dB[a1];[a0][a1]amerge=inputs=2[a]"+
+                " -map [a] -ac 2 -c:a pcm_s16le "+
+                destination.getAbsolutePath();
+
+        String cmd3="-y -i " +
+                primaryFile.getAbsolutePath() +
+                " -i " +
+                secondaryFile.getAbsolutePath() +
+                " -filter_complex amix=inputs=2:duration=first:dropout_transition=3 " +
+                destination.getAbsolutePath();
+
+        String cmd4="-y -i "+
+                primaryFile.getAbsolutePath()
+                +" -i "+
+                secondaryFile.getAbsolutePath()
+                +" -filter_complex "+
+                "[0:a]volume=.25[A];[1:a][A]amerge[out] -map [out] -c:a pcm_s16le "+
+                destination.getAbsolutePath();
+
+        String cmd5="-y -i "+
+                primaryFile.getAbsolutePath()+" -i "+
+                secondaryFile.getAbsolutePath()+" -filter_complex [0:a]volume=0.5[a0]; "+
+                "[1:a]volume=6dB[a1]; [a0][a1]amerge=inputs=2[a] -map [a] -ac 2 -c:a libfdk_aac "+
+                destination.getAbsolutePath();*/
+
         return cmd;
     }
 

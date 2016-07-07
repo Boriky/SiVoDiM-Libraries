@@ -91,7 +91,16 @@ public class AudioExport extends ExportAlgorithm {
                  audioConcatenator.exec(new FFmpegExecuteResponseHandler() {
                      @Override
                      public void onSuccess(String message) {
-
+                         if(chapter.getSoundtrack()!=null && chapter.getSoundtrack().getAudio()!=null
+                                 && chapter.getSoundtrack().getAudio().exists()) {
+                             System.out.println("ENTRO IN ADD SOUNDTRACK");
+                             addSoundtrack(context, finalI, chapterExportes, chapterIterator,
+                                     chapter, destination.getName());
+                         }
+                         else{
+                             System.out.println("NON C'E' SOUNDTRACK");
+                             concatenateSpeeches(context,finalI,chapterExportes,chapterIterator);
+                         }
                      }
 
                      @Override
@@ -101,7 +110,10 @@ public class AudioExport extends ExportAlgorithm {
 
                      @Override
                      public void onFailure(String message) {
-                         System.out.println("FAIL CONCAT"+message);
+                         Intent intent=new Intent(context,ListChapterActivity.class);
+                         context.startActivity(intent);
+                         Toast.makeText(context,"Errore nella creazione del capitolo "+finalI,
+                                 Toast.LENGTH_SHORT).show();
                      }
 
                      @Override
@@ -111,16 +123,7 @@ public class AudioExport extends ExportAlgorithm {
 
                      @Override
                      public void onFinish() {
-                        if(chapter.getSoundtrack()!=null && chapter.getSoundtrack().getAudio()!=null
-                                && chapter.getSoundtrack().getAudio().exists()) {
-                            System.out.println("ENTRO IN ADD SOUNDTRACK");
-                            addSoundtrack(context, finalI, chapterExportes, chapterIterator,
-                                    chapter, destination.getName());
-                        }
-                        else{
-                            System.out.println("NON C'E' SOUNDTRACK");
-                            concatenateSpeeches(context,finalI,chapterExportes,chapterIterator);
-                            }
+
                      }
                  });
              } catch (FFmpegCommandAlreadyRunningException e) {
@@ -154,7 +157,7 @@ public class AudioExport extends ExportAlgorithm {
                  audioConcatenator.exec(new FFmpegExecuteResponseHandler() {
                      @Override
                      public void onSuccess(String message) {
-
+                         finalizeExport(context);
                      }
 
                      @Override
@@ -164,7 +167,10 @@ public class AudioExport extends ExportAlgorithm {
 
                      @Override
                      public void onFailure(String message) {
-
+                         Intent intent=new Intent(context,ListChapterActivity.class);
+                         context.startActivity(intent);
+                        Toast.makeText(context,"Errore nella concatenazione dei capitoli",
+                                Toast.LENGTH_SHORT).show();
                      }
 
                      @Override
@@ -174,7 +180,7 @@ public class AudioExport extends ExportAlgorithm {
 
                      @Override
                      public void onFinish() {
-                         finalizeExport(context);
+
                      }
                  });
              } catch (FFmpegCommandAlreadyRunningException e) {
@@ -208,7 +214,7 @@ public class AudioExport extends ExportAlgorithm {
             audioMixer.exec(new FFmpegExecuteResponseHandler() {
                 @Override
                 public void onSuccess(String message) {
-
+                    concatenateSpeeches(context,i,chapterExportes,chapterIterator);
                 }
 
                 @Override
@@ -218,7 +224,9 @@ public class AudioExport extends ExportAlgorithm {
 
                 @Override
                 public void onFailure(String message) {
-                    System.out.println("FAIL SOUNDTRACK "+message);
+                    Intent intent=new Intent(context,ListChapterActivity.class);
+                    context.startActivity(intent);
+                    Toast.makeText(context,"Errore nell'inserimento della Soundtrack",Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -228,7 +236,7 @@ public class AudioExport extends ExportAlgorithm {
 
                 @Override
                 public void onFinish() {
-                    concatenateSpeeches(context,i,chapterExportes,chapterIterator);
+
                 }
             });
         } catch (FFmpegCommandAlreadyRunningException e) {
@@ -252,7 +260,10 @@ public class AudioExport extends ExportAlgorithm {
             mp3Converter.exec(new FFmpegExecuteResponseHandler() {
                 @Override
                 public void onSuccess(String message) {
-
+                    System.out.println("FINITO FFMPEG!!!!!!");
+                    Intent intent=new Intent(context,ListChapterActivity.class);
+                    context.startActivity(intent);
+                    Toast.makeText(context,"Esportazione conclusa",Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -262,7 +273,9 @@ public class AudioExport extends ExportAlgorithm {
 
                 @Override
                 public void onFailure(String message) {
-
+                    Intent intent=new Intent(context,ListChapterActivity.class);
+                    context.startActivity(intent);
+                    Toast.makeText(context,"Errore nell'esportazione mp3",Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -272,10 +285,7 @@ public class AudioExport extends ExportAlgorithm {
 
                 @Override
                 public void onFinish() {
-                    System.out.println("FINITO FFMPEG!!!!!!");
-                    Intent intent=new Intent(context,ListChapterActivity.class);
-                    context.startActivity(intent);
-                    Toast.makeText(context,"Esportazione conclusa",Toast.LENGTH_SHORT).show();
+
                 }
             });
         } catch (FFmpegCommandAlreadyRunningException e) {

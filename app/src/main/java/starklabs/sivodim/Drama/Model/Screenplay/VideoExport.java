@@ -78,7 +78,9 @@ public class VideoExport extends ExportAlgorithm {
                 mp3Converter.exec(new FFmpegExecuteResponseHandler() {
                     @Override
                     public void onSuccess(String message) {
-
+                        //call methods for video export..
+                        Iterator<Chapter>iterator=screenplay.getChapterIterator();
+                        makeChapterVideo(context,0,iterator,new ArrayList<File>());
                     }
 
                     @Override
@@ -88,7 +90,9 @@ public class VideoExport extends ExportAlgorithm {
 
                     @Override
                     public void onFailure(String message) {
-
+                        Intent intent=new Intent(context,ListChapterActivity.class);
+                        context.startActivity(intent);
+                        Toast.makeText(context,"Errore nella creazione dell'audio",Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -98,9 +102,7 @@ public class VideoExport extends ExportAlgorithm {
 
                     @Override
                     public void onFinish() {
-                        //call methods for video export..
-                        Iterator<Chapter>iterator=screenplay.getChapterIterator();
-                        makeChapterVideo(context,0,iterator,new ArrayList<File>());
+
                     }
                 });
             } catch (FFmpegCommandAlreadyRunningException e) {
@@ -183,7 +185,9 @@ public class VideoExport extends ExportAlgorithm {
                 imageVideoConverter.exec(new FFmpegExecuteResponseHandler() {
                     @Override
                     public void onSuccess(String message) {
-
+                        timePassed=0;
+                        createOverlay(context,finalI,chapterIterator,
+                                chapterExportes,chapter.getSpeechIterator(),0);
                     }
 
                     @Override
@@ -193,7 +197,10 @@ public class VideoExport extends ExportAlgorithm {
 
                     @Override
                     public void onFailure(String message) {
-
+                        Intent intent=new Intent(context,ListChapterActivity.class);
+                        context.startActivity(intent);
+                        Toast.makeText(context,"Errore nella creazione dello sfondo"+finalI,
+                                Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -203,9 +210,7 @@ public class VideoExport extends ExportAlgorithm {
 
                     @Override
                     public void onFinish() {
-                        timePassed=0;
-                        createOverlay(context,finalI,chapterIterator,
-                                chapterExportes,chapter.getSpeechIterator(),0);
+
                     }
                 });
             } catch (FFmpegCommandAlreadyRunningException e) {
@@ -263,7 +268,8 @@ public class VideoExport extends ExportAlgorithm {
                     videoOverlayer.exec(new FFmpegExecuteResponseHandler() {
                         @Override
                         public void onSuccess(String message) {
-
+                            createOverlay(context,i,chapterIterator,chapterExportes,
+                                    speechIterator,finalJ);
                         }
 
                         @Override
@@ -273,7 +279,10 @@ public class VideoExport extends ExportAlgorithm {
 
                         @Override
                         public void onFailure(String message) {
-
+                            Intent intent=new Intent(context,ListChapterActivity.class);
+                            context.startActivity(intent);
+                            Toast.makeText(context,"Errore nell'inserimento di avatar",
+                                    Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -283,8 +292,7 @@ public class VideoExport extends ExportAlgorithm {
 
                         @Override
                         public void onFinish() {
-                            createOverlay(context,i,chapterIterator,chapterExportes,
-                                speechIterator,finalJ);
+
                         }
                     });
                 } catch (FFmpegCommandAlreadyRunningException e) {
@@ -315,7 +323,7 @@ public class VideoExport extends ExportAlgorithm {
             videoConcatenator.exec(new FFmpegExecuteResponseHandler() {
                 @Override
                 public void onSuccess(String message) {
-
+                    finalizeExport(context);
                 }
 
                 @Override
@@ -325,7 +333,10 @@ public class VideoExport extends ExportAlgorithm {
 
                 @Override
                 public void onFailure(String message) {
-
+                    Intent intent=new Intent(context,ListChapterActivity.class);
+                    context.startActivity(intent);
+                    Toast.makeText(context,"Errore nell'unione dei capitoli",
+                            Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -335,7 +346,7 @@ public class VideoExport extends ExportAlgorithm {
 
                 @Override
                 public void onFinish() {
-                    finalizeExport(context);
+
                 }
             });
         } catch (FFmpegCommandAlreadyRunningException e) {
@@ -357,26 +368,6 @@ public class VideoExport extends ExportAlgorithm {
             audioVideoMixer.exec(new FFmpegExecuteResponseHandler() {
                 @Override
                 public void onSuccess(String message) {
-
-                }
-
-                @Override
-                public void onProgress(String message) {
-                    System.out.println(message);
-                }
-
-                @Override
-                public void onFailure(String message) {
-
-                }
-
-                @Override
-                public void onStart() {
-                    feedback.setText("Esporto in mp4..");
-                }
-
-                @Override
-                public void onFinish() {
                     System.out.println("FINITO FFMPEG!!!!!!");
                     try {
                         File destCopy=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES);
@@ -387,6 +378,29 @@ public class VideoExport extends ExportAlgorithm {
                     Intent intent=new Intent(context,ListChapterActivity.class);
                     context.startActivity(intent);
                     Toast.makeText(context,"Esportazione conclusa",Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onProgress(String message) {
+                    System.out.println(message);
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    Intent intent=new Intent(context,ListChapterActivity.class);
+                    context.startActivity(intent);
+                    Toast.makeText(context,"Errore nell'esportazione mp4",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onStart() {
+                    feedback.setText("Esporto in mp4..");
+                }
+
+                @Override
+                public void onFinish() {
+
                 }
             });
         } catch (FFmpegCommandAlreadyRunningException e) {
