@@ -124,12 +124,13 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        /*DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
-        }*/
+           // super.onBackPressed();
+            Toast.makeText(this,"Premi il tasto home per uscire",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

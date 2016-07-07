@@ -36,6 +36,7 @@ public class MivoqTTSService extends TextToSpeechService{
     @Override
     public String onGetDefaultVoiceNameFor (String lang, String country, String variant) {
         ArrayList<MivoqVoice> list= engine.getVoices();
+        if(list.isEmpty())return "Not Available";
         int i=0;
         MivoqVoice voice = list.get(0);
         if(list.size()>0) {
