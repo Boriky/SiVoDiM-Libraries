@@ -45,6 +45,7 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
     private TextView trackView;
     private String backgroundPath;
     private String soundtrackPath;
+    private Button resetButton;
 
     public static void setPresenter(ChapterPresenter chapterPresenter){
         EditChapterActivity.chapterPresenter=chapterPresenter;
@@ -68,6 +69,7 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
         editSoundtrack=(Button)findViewById(R.id.newTrack);
         editWallpaper=(ImageView) findViewById(R.id.newWallpaper);
         trackView=(TextView)findViewById(R.id.trackView);
+        resetButton=(Button)findViewById(R.id.resetButton);
 
         chapterName.setText(chapterPresenter.getChapterTitle());
         Background background=chapterPresenter.getChapterBackground();
@@ -90,6 +92,19 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
                 loadMedia("Audio");
             }
         });
+
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backgroundPath=null;
+                soundtrackPath=null;
+                editWallpaper.setImageResource(R.mipmap.add_wallpaper);
+                trackView.setText("Nessuna traccia selezionata");
+                chapterPresenter.setBackground(null);
+                chapterPresenter.setSoundtrack(null);
+            }
+        });
+
     }
 
     private void loadMedia(String type){

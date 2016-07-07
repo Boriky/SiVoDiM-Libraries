@@ -83,6 +83,7 @@ public class AudioExport extends ExportAlgorithm {
                  empty=false;
              }
              if(empty){
+                 System.out.println("ENTRA IN EMPTY BRANCH");
                  concatenateSpeeches(context,finalI,chapterExportes,chapterIterator);
              }
              else{
