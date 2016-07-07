@@ -90,7 +90,8 @@ public class NewScreenplayActivity extends AppCompatActivity implements NewScree
         Vector<String> titles = screenplayPresenter.getStringArray();
         Boolean titleTaken = false;
         for(int i=0; i<titles.size(); i++) {
-            if(titles.get(i).equals(title)) {
+            String titleEx=titles.get(i).toLowerCase().replace(" ","_");
+            if(titleEx.equals(title.toLowerCase().replace(" ","_"))) {
                 titleTaken = true;
             }
         }

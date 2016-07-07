@@ -274,7 +274,8 @@ public class NewChapterActivity extends AppCompatActivity implements NewChapterI
                 StringArrayAdapter titles = screenplayPresenter.getTitlesAdapter(this, titleScreenplay+".scrpl");
                 Boolean titleTaken = false;
                 for(int i=0; i<titles.getCount(); i++) {
-                    if(titles.getItem(i).equals(title)) {
+                    String titleEx=titles.getItem(i).toLowerCase().replace(" ","_");
+                    if(titleEx.equals(title.toLowerCase().replace(" ","_"))) {
                         titleTaken = true;
                     }
                 }

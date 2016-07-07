@@ -352,7 +352,15 @@ public class ListChapterActivity extends AppCompatActivity implements ListChapte
                 onShare();
                 break;
             case R.id.videoShareMenu:
-                onShareVideo();
+                File videoP=new File(getFilesDir(),
+                    screenplayPresenter.getScreenplayTitle().replace(" ","_")+".mp4");
+                if(videoP.exists()){
+                    onShareVideo();
+                    System.out.println("IL VIDEO ESISTE: "+videoP.getAbsolutePath());
+                }
+                else{
+                    Toast.makeText(this,"Prima esporta in video lo sceneggiato",Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.newCharacterMenu:
                 screenplayPresenter.goToNewCharacterActivity(this);
