@@ -43,7 +43,8 @@
             android:name=".Drama.View.ListCharacterActivity"
             android:label="@string/title_activity_list_character"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Drama.View.NewCharacterActivity" />
+        <activity android:name=".Drama.View.NewCharacterActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".Drama.View.EditCharacterActivity" />
         <activity android:name=".Drama.View.UserManualActivity"></activity>
         <provider

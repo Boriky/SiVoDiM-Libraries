@@ -95,12 +95,12 @@ public class AudioExport extends ExportAlgorithm {
 
                      @Override
                      public void onProgress(String message) {
-
+                        System.out.println(message);
                      }
 
                      @Override
                      public void onFailure(String message) {
-
+                         System.out.println("FAIL CONCAT"+message);
                      }
 
                      @Override
@@ -217,7 +217,7 @@ public class AudioExport extends ExportAlgorithm {
 
                 @Override
                 public void onFailure(String message) {
-
+                    System.out.println("FAIL SOUNDTRACK "+message);
                 }
 
                 @Override

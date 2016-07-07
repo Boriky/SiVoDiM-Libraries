@@ -234,7 +234,7 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
                         if (!dir.exists()) {
                             dir.mkdir();
                         }
-                        File destination = new File(dir, "chpt_" + title + ".mp3");
+                        File destination = new File(dir, "chpt_" + title.replace(" ","_") + ".mp3");
                         try {
                             copyFile(audioChoice, destination);
                         } catch (IOException e) {
@@ -250,7 +250,7 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
                         if (!dir.exists()) {
                             dir.mkdir();
                         }
-                        File destination = new File(dir, "chpt_" + title + ".png");
+                        File destination = new File(dir, "chpt_" + title.replace(" ","_") + ".png");
                         try {
                             copyFile(wallpaperChoice, destination);
                         } catch (IOException e) {

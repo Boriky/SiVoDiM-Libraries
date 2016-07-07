@@ -214,7 +214,7 @@ public class EditCharacterActivity extends AppCompatActivity implements EditChar
                         if (!dir.exists()) {
                             dir.mkdir();
                         }
-                        File destination = new File(dir, name + ".png");
+                        File destination = new File(dir, name.replace(" ","_") + ".png");
                         try {
                             copyFile(avatarChoice, destination);
                         } catch (IOException e) {
@@ -223,13 +223,13 @@ public class EditCharacterActivity extends AppCompatActivity implements EditChar
                         avatar = new Avatar(destination.getAbsolutePath());
                     }
                     characterPresenter.getCharacter().setAvatar(avatar);
-                    if(characterPresenter.getCharacter().getAvatar()!=null) {
+                    //if(characterPresenter.getCharacter().getAvatar()!=null ) {
                         Intent intent = new Intent(this, ListCharacterActivity.class);
                         startActivity(intent);
-                    }
-                    else {
+                    //}
+                    /*else {
                         Toast.makeText(this,"Dimensione dell'avatar troppo grande",Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
                 }
                 else {
                     Toast.makeText(this,"Il nome del personaggio non può essere vuoto",Toast.LENGTH_SHORT).show();

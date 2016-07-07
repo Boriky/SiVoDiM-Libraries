@@ -12,6 +12,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -40,7 +43,8 @@ import starklabs.sivodim.Drama.Presenter.CharacterPresenter;
 import starklabs.sivodim.Drama.Presenter.CharacterPresenterImpl;
 import starklabs.sivodim.R;
 
-public class NewCharacterActivity extends AppCompatActivity implements NewCharacterInterface {
+public class NewCharacterActivity extends AppCompatActivity implements NewCharacterInterface,
+        Toolbar.OnMenuItemClickListener{
     private static CharacterPresenter characterPresenter;
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS=2;
@@ -55,6 +59,16 @@ public class NewCharacterActivity extends AppCompatActivity implements NewCharac
         NewCharacterActivity.characterPresenter=characterPresenter;
     }
 
+    // create the options menu: it's invoked just one time when the activity has been created
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.new_character_menu,menu);
+        return true;
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +78,10 @@ public class NewCharacterActivity extends AppCompatActivity implements NewCharac
             characterPresenter=new CharacterPresenterImpl(this);
         else
             characterPresenter.setActivity(this);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setOnMenuItemClickListener(this);
 
         getSupportActionBar().setTitle("Creazione personaggio");
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -110,14 +128,14 @@ public class NewCharacterActivity extends AppCompatActivity implements NewCharac
             }
         });
 
-        newCharacterApply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    }
+
+    private void createCharacter(){
                 //insert check for not same names
                 String name = newCharacterName.getText().toString();
 
                 Boolean nameTaken = false;
-                CharacterArrayAdapter names = characterPresenter.getCharacterArrayAdapter(v.getContext());
+                CharacterArrayAdapter names = characterPresenter.getCharacterArrayAdapter(this);
                 for(int i=0; i<names.getCount(); i++) {
                     if(names.getItem(i).getName().equals(name)) {
                         nameTaken=true;
@@ -125,10 +143,10 @@ public class NewCharacterActivity extends AppCompatActivity implements NewCharac
                 }
 
                 if(name.isEmpty()) {
-                    Toast.makeText(v.getContext(), "Il nome del personaggio non può essere vuoto", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Il nome del personaggio non può essere vuoto", Toast.LENGTH_SHORT).show();
                 }
                 else if(nameTaken==true) {
-                    Toast.makeText(v.getContext(), "Nome del personaggio già esistente", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Nome del personaggio già esistente", Toast.LENGTH_SHORT).show();
                 } else {
                     String voice = (String) newCharacterVoice.getSelectedItem();
                     Avatar avatar = null;
@@ -139,7 +157,7 @@ public class NewCharacterActivity extends AppCompatActivity implements NewCharac
                         if (!dir.exists()) {
                             dir.mkdir();
                         }
-                        File destination = new File(dir, name + ".png");
+                        File destination = new File(dir, name.replace(" ","_") + ".png");
                         try {
                             copyFile(avatarChoice, destination);
                         } catch (IOException e) {
@@ -149,10 +167,8 @@ public class NewCharacterActivity extends AppCompatActivity implements NewCharac
                         System.out.println("SAVE in: " + destination.getAbsolutePath());
                     }
                     characterPresenter.newCharacter(name, voice, avatar);
-                    characterPresenter.goToListCharacterActivity(v.getContext());
+                    characterPresenter.goToListCharacterActivity(this);
                 }
-            }
-        });
     }
 
     private void loadPicture(){
@@ -270,5 +286,15 @@ public class NewCharacterActivity extends AppCompatActivity implements NewCharac
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.newCharacterApply:
+                createCharacter();
+                break;
+        }
+        return false;
     }
 }
