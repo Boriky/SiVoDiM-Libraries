@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.regex.Pattern;
 
 import starklabs.sivodim.Drama.Model.Chapter.SpeechImpl;
 import starklabs.sivodim.Drama.Model.Character.Character;
@@ -86,6 +87,37 @@ public class EditCharacterActivity extends AppCompatActivity implements EditChar
                 loadPicture();
             }
         });
+    }
+
+    private boolean correctName(){
+        String text=editName.getText().toString();
+        if(text.isEmpty())return false;
+        if(Pattern.matches("(.*)(\\W+)(.*)",text.replace(" ","_")))return false;
+        if(text.contains(":"))return false;
+        if(text.contains("."))return false;
+        if(text.contains(";"))return false;
+        if(text.contains(","))return false;
+        if(text.contains("?"))return false;
+        if(text.contains("ù"))return false;
+        if(text.contains("/"))return false;
+        if(text.contains("("))return false;
+        if(text.contains(")"))return false;
+        if(text.contains("="))return false;
+        if(text.contains("^"))return false;
+        if(text.contains("è"))return false;
+        if(text.contains("ì"))return false;
+        if(text.contains("à"))return false;
+        if(text.contains("ò"))return false;
+        if(text.contains("!"))return false;
+        if(text.contains("|"))return false;
+        if(text.contains("\""))return false;
+        if(text.contains("£"))return false;
+        if(text.contains("$"))return false;
+        if(text.contains("%"))return false;
+        if(text.contains("&"))return false;
+        if(text.contains("+"))return false;
+        if(text.contains("*"))return false;
+        return true;
     }
 
 
@@ -198,7 +230,7 @@ public class EditCharacterActivity extends AppCompatActivity implements EditChar
 
     private void saveChanges(){
                 String name=editName.getText().toString();
-                if(!name.isEmpty()) {
+                if(correctName()) {
                     character.setName(name);
                     character.setVoice((String) editVoice.getSelectedItem());
 
@@ -232,7 +264,7 @@ public class EditCharacterActivity extends AppCompatActivity implements EditChar
                     }*/
                 }
                 else {
-                    Toast.makeText(this,"Il nome del personaggio non può essere vuoto",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,"Il nome del personaggio è valido",Toast.LENGTH_SHORT).show();
                 }
 
     }

@@ -27,6 +27,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.regex.Pattern;
 
 import starklabs.sivodim.Drama.Model.Utilities.Background;
 import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
@@ -234,6 +235,37 @@ public class NewChapterActivity extends AppCompatActivity implements NewChapterI
         }
     }
 
+    private boolean correctName(){
+        String text=newChapterName.getText().toString();
+        if(text.isEmpty())return false;
+        if(Pattern.matches("(.*)(\\W+)(.*)",text.replace(" ","_")))return false;
+        if(text.contains(":"))return false;
+        if(text.contains("."))return false;
+        if(text.contains(";"))return false;
+        if(text.contains(","))return false;
+        if(text.contains("?"))return false;
+        if(text.contains("ù"))return false;
+        if(text.contains("/"))return false;
+        if(text.contains("("))return false;
+        if(text.contains(")"))return false;
+        if(text.contains("="))return false;
+        if(text.contains("^"))return false;
+        if(text.contains("è"))return false;
+        if(text.contains("ì"))return false;
+        if(text.contains("à"))return false;
+        if(text.contains("ò"))return false;
+        if(text.contains("!"))return false;
+        if(text.contains("|"))return false;
+        if(text.contains("\""))return false;
+        if(text.contains("£"))return false;
+        if(text.contains("$"))return false;
+        if(text.contains("%"))return false;
+        if(text.contains("&"))return false;
+        if(text.contains("+"))return false;
+        if(text.contains("*"))return false;
+        return true;
+    }
+
     private void createChapter(){
                 String title=newChapterName.getText().toString();
                 String titleScreenplay=screenplayPresenter.getScreenplayTitle();
@@ -247,8 +279,8 @@ public class NewChapterActivity extends AppCompatActivity implements NewChapterI
                     }
                 }
 
-                if(title.isEmpty()) {
-                    Toast.makeText(this,"Il titolo del capitolo non può essere vuoto",Toast.LENGTH_SHORT).show();
+                if(!correctName()) {
+                    Toast.makeText(this,"Il titolo del capitolo è valido",Toast.LENGTH_SHORT).show();
                 }
                 else if(titleTaken==true) {
                     Toast.makeText(this,"Titolo del capitolo già esistente",Toast.LENGTH_SHORT).show();

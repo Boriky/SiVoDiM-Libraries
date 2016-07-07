@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.PatternMatcher;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -24,6 +25,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import starklabs.sivodim.Drama.Model.Utilities.Background;
 import starklabs.sivodim.Drama.Model.Utilities.Soundtrack;
@@ -219,9 +222,40 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
         }
     }
 
+    private boolean correctName(){
+        String text=chapterName.getText().toString();
+        if(text.isEmpty())return false;
+        if(Pattern.matches("(.*)(\\W+)(.*)",text.replace(" ","_")))return false;
+        if(text.contains(":"))return false;
+        if(text.contains("."))return false;
+        if(text.contains(";"))return false;
+        if(text.contains(","))return false;
+        if(text.contains("?"))return false;
+        if(text.contains("ù"))return false;
+        if(text.contains("/"))return false;
+        if(text.contains("("))return false;
+        if(text.contains(")"))return false;
+        if(text.contains("="))return false;
+        if(text.contains("^"))return false;
+        if(text.contains("è"))return false;
+        if(text.contains("ì"))return false;
+        if(text.contains("à"))return false;
+        if(text.contains("ò"))return false;
+        if(text.contains("!"))return false;
+        if(text.contains("|"))return false;
+        if(text.contains("\""))return false;
+        if(text.contains("£"))return false;
+        if(text.contains("$"))return false;
+        if(text.contains("%"))return false;
+        if(text.contains("&"))return false;
+        if(text.contains("+"))return false;
+        if(text.contains("*"))return false;
+        return true;
+    }
+
     private void saveChanges(){
-                if(chapterName.getText().toString().isEmpty()) {
-                    Toast.makeText(this,"Il titolo non può essere vuoto",Toast.LENGTH_SHORT).show();
+                if(!correctName()) {
+                    Toast.makeText(this,"Il titolo non è valido",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     String title=chapterName.getText().toString();

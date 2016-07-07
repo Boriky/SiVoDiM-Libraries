@@ -28,6 +28,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.regex.Pattern;
 
 import starklabs.libraries.Model.EngineManager.Engine;
 import starklabs.libraries.Model.EngineManager.EngineImpl;
@@ -130,6 +131,37 @@ public class NewCharacterActivity extends AppCompatActivity implements NewCharac
 
     }
 
+    private boolean correctName(){
+        String text=newCharacterName.getText().toString();
+        if(text.isEmpty())return false;
+        if(Pattern.matches("(.*)(\\W+)(.*)",text.replace(" ","_")))return false;
+        if(text.contains(":"))return false;
+        if(text.contains("."))return false;
+        if(text.contains(";"))return false;
+        if(text.contains(","))return false;
+        if(text.contains("?"))return false;
+        if(text.contains("ù"))return false;
+        if(text.contains("/"))return false;
+        if(text.contains("("))return false;
+        if(text.contains(")"))return false;
+        if(text.contains("="))return false;
+        if(text.contains("^"))return false;
+        if(text.contains("è"))return false;
+        if(text.contains("ì"))return false;
+        if(text.contains("à"))return false;
+        if(text.contains("ò"))return false;
+        if(text.contains("!"))return false;
+        if(text.contains("|"))return false;
+        if(text.contains("\""))return false;
+        if(text.contains("£"))return false;
+        if(text.contains("$"))return false;
+        if(text.contains("%"))return false;
+        if(text.contains("&"))return false;
+        if(text.contains("+"))return false;
+        if(text.contains("*"))return false;
+        return true;
+    }
+
     private void createCharacter(){
                 //insert check for not same names
                 String name = newCharacterName.getText().toString();
@@ -142,8 +174,8 @@ public class NewCharacterActivity extends AppCompatActivity implements NewCharac
                     }
                 }
 
-                if(name.isEmpty()) {
-                    Toast.makeText(this, "Il nome del personaggio non può essere vuoto", Toast.LENGTH_SHORT).show();
+                if(!correctName()) {
+                    Toast.makeText(this, "Il nome del personaggio non è valido", Toast.LENGTH_SHORT).show();
                 }
                 else if(nameTaken==true) {
                     Toast.makeText(this, "Nome del personaggio già esistente", Toast.LENGTH_SHORT).show();

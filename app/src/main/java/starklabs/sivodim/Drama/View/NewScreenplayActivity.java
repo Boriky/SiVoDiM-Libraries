@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenter;
 import starklabs.sivodim.Drama.Presenter.ScreenplayPresenterImpl;
@@ -53,6 +54,36 @@ public class NewScreenplayActivity extends AppCompatActivity implements NewScree
 
     }
 
+    private boolean correctName(String text){
+        if(text.isEmpty())return false;
+        if(Pattern.matches("(.*)(\\W+)(.*)",text.replace(" ","_")))return false;
+        if(text.contains(":"))return false;
+        if(text.contains("."))return false;
+        if(text.contains(";"))return false;
+        if(text.contains(","))return false;
+        if(text.contains("?"))return false;
+        if(text.contains("ù"))return false;
+        if(text.contains("/"))return false;
+        if(text.contains("("))return false;
+        if(text.contains(")"))return false;
+        if(text.contains("="))return false;
+        if(text.contains("^"))return false;
+        if(text.contains("è"))return false;
+        if(text.contains("ì"))return false;
+        if(text.contains("à"))return false;
+        if(text.contains("ò"))return false;
+        if(text.contains("!"))return false;
+        if(text.contains("|"))return false;
+        if(text.contains("\""))return false;
+        if(text.contains("£"))return false;
+        if(text.contains("$"))return false;
+        if(text.contains("%"))return false;
+        if(text.contains("&"))return false;
+        if(text.contains("+"))return false;
+        if(text.contains("*"))return false;
+        return true;
+    }
+
     public void onClick(View v) {
         String title = editTextProjectName.getText().toString();
 
@@ -64,8 +95,8 @@ public class NewScreenplayActivity extends AppCompatActivity implements NewScree
             }
         }
 
-        if(title.isEmpty()) {
-            Toast.makeText(v.getContext(),"Il titolo dello sceneggiato non può essere vuoto",Toast.LENGTH_SHORT).show();
+        if(!correctName(title)) {
+            Toast.makeText(v.getContext(),"Il titolo dello sceneggiato non è valido",Toast.LENGTH_SHORT).show();
         }
         else if(titleTaken==true) {
             Toast.makeText(v.getContext(),"Titolo dello sceneggiato già esistente",Toast.LENGTH_SHORT).show();
