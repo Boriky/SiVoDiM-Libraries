@@ -30,16 +30,16 @@ public class TI7 extends InstrumentationTestCase {
         voicePresenter.setVoiceName("newVoiceName");
         assertEquals(voice.getName(), voicePresenter.getEngine().getVoiceByName("newVoiceName").toString());
 
-        voicePresenter.setDefaultVoice(0);
-        assertEquals(0, voicePresenter.isDefaultVoice());
+        voicePresenter.setDefaultVoice(true);
+        assertEquals(true, voicePresenter.isDefaultVoice());
 
         //set language in position 1: English
         voicePresenter.setLanguage(1);
-        assertEquals(1, voicePresenter.getLanguage());
+        assertEquals("en", voicePresenter.getLanguage());
 
         //set gender in position 0: Male
         voicePresenter.setGender(0);
-        assertEquals(0, voicePresenter.getGender());
+        assertEquals("male", voicePresenter.getGender());
 
         VoiceListPresenter voiceListPresenter=new VoiceListPresenterImpl(engine);
         ArrayList<MivoqVoice> listVoice = voicePresenter.getEngine().getVoices();
