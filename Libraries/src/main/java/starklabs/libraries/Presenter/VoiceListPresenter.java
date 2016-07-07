@@ -50,9 +50,11 @@ public interface VoiceListPresenter {
      */
     void setVoiceSelected(int index, String name);
 
-    /** Method that remove the voice from the engine and save the changes in the xml
-     *
-     * @param context
-     */
+    int getVoiceSelected();
+
+        /** Method that remove the voice from the engine and save the changes in the xml
+         *
+         * @param context
+         */
     void deleteVoiceSelected(Context context);
 }

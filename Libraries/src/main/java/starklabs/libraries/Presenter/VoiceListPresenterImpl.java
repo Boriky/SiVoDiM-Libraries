@@ -82,4 +82,8 @@ public class VoiceListPresenterImpl implements VoiceListPresenter{
         engine.save();
     }
 
+    public int getVoiceSelected(){
+        return voiceSelectedInt;
+    }
+
 }

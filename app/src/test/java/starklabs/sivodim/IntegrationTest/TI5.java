@@ -32,7 +32,7 @@ import starklabs.sivodim.Drama.Presenter.SpeechPresenterImpl;
 public class TI5 extends InstrumentationTestCase {
 
     @Test
-    public void testPresenters(){
+    public void testLibrariesPresenters(){
         Screenplay screenplay=new ScreenplayImpl("Screenplay",0);
         assertNotNull(screenplay);
         ScreenplayPresenter screenplayPresenter=new ScreenplayPresenterImpl(screenplay);
