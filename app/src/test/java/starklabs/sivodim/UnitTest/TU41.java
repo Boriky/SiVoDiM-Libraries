@@ -7,6 +7,7 @@ package starklabs.sivodim.UnitTest;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Context;
+import android.test.InstrumentationTestCase;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -21,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Test TU41 that tests AudioMixer functionality
  */
-public class TU41 extends Instrumentation{
+public class TU41 extends InstrumentationTestCase{
     @Test
     public void testAudioMixer(){
         Context mContext = new Activity();

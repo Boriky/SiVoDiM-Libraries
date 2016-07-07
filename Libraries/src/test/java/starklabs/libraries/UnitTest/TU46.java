@@ -24,11 +24,11 @@ public class TU46 {
     public void testMivoqVoiceGetter(){
         String name="name by user";
         String realname="name by Mivoq";
-        String lang="it";
+        String lang="ita";
         String gender="Maschio";
         String effect="effect";
-        String effectString="[{F0Add:60.0,F0Flut:0.5,Rate:0.8}{effect:null}]";
-        String encodedName="istc-speaker_internazionale-hsmm";
+        String effectString="[{F0Add:60.0,F0Flut:0.5,Rate:0.8},{effect:null}]";
+        String encodedName="roberto-hsmm";
         Effect fect=new EffectImpl(effect);
         Language language=new Language(lang);
         MivoqVoice mivoqVoice=new MivoqVoice(name,realname,language);

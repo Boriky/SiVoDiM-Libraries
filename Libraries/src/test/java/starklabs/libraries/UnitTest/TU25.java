@@ -1,6 +1,7 @@
-package starklabs.libraries;
+package starklabs.libraries.UnitTest;
 
 import android.content.Context;
+import android.test.InstrumentationTestCase;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -23,7 +24,7 @@ import static org.mockito.Mockito.when;
 /**
  * Created by Enrico on 27/06/16.
  */
-public class TU25 {
+public class TU25 extends InstrumentationTestCase {
     @Test
 
     public void testLoadVoiceNames(){

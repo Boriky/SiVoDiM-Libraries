@@ -1,6 +1,7 @@
 package starklabs.sivodim.UnitTest;
 
 import android.content.Context;
+import android.test.InstrumentationTestCase;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -18,7 +19,7 @@ import static org.mockito.Mockito.when;
 /**
  * test TU3 that test the creation of a ScreenPlay with the correct title
  */
-public class TU3 {
+public class TU3 extends InstrumentationTestCase{
     //changed name of test
     @Test
     public void testNewScreenplay(){

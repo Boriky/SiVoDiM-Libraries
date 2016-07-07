@@ -22,7 +22,7 @@ public class TU19 {
 
         String name = "name";
         String gender = "male";
-        String myLanguage = "de";
+        String myLanguage = "deu";
 
         //Create real voice
         MivoqVoice enri = mivoqTTSSingleton.createVoice(name, gender, myLanguage);

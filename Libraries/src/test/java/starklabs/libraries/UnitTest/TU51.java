@@ -15,6 +15,7 @@ public class TU51 {
     @Test
     public void testGetVoice(){
         MivoqTTSSingleton mivoqTTSSingleton=MivoqTTSSingleton.getInstance();
+        mivoqTTSSingleton.createVoice("nome","male","it");
         assertEquals("starklabs.libraries.Model.Mivoq.MivoqTTSSingleton",mivoqTTSSingleton.getClass().getName());
         boolean check=true;
         if(mivoqTTSSingleton.getVoices().isEmpty()){

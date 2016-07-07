@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class TU31 {
     @Test
     public void testSetBackground() {
-        String path = "C:Desktop/test/prova.png";
+        String path = "C:/Desktop/test/prova.png";
         File img=new File(path);
         System.out.println("img = " + img.exists());
         Background background = new Background(img.getAbsolutePath());

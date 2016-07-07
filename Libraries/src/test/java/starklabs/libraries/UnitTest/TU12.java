@@ -9,6 +9,8 @@ import android.test.InstrumentationTestCase;
 
 import org.junit.Test;
 
+import java.io.File;
+
 import starklabs.libraries.Model.EngineManager.Engine;
 import starklabs.libraries.Model.EngineManager.EngineImpl;
 import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
@@ -23,7 +25,14 @@ public class TU12 extends InstrumentationTestCase {
     public void testTTS(){
         Context context=getInstrumentation().getContext();
         Engine engine= new EngineImpl(context);
+        MivoqVoice voice=engine.createVoice("voice","male","it");
         MivoqTTSSingleton mivoqTTSSingleton=MivoqTTSSingleton.getInstance();
-        mivoqTTSSingleton.speak(new MivoqVoice("voice","my voice",new Language("it")),"ciao");
+        try {
+            mivoqTTSSingleton.synthesizeToFile("C:/Desktop/synth.wav",voice,"testo di prova");
+
+        }catch (Exception e){
+
+        }
+        assertEquals(true,new File("C:/Desktop/synth.wav").exists());
     }
 }

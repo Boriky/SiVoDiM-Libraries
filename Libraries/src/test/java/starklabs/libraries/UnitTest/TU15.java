@@ -20,7 +20,7 @@ public class TU15 {
 
         String name ="name";
         String gender = "male";
-        String myLanguage = "de";
+        String myLanguage = "deu";
 
         String de = "dfki-stefan-hsmm";
 
@@ -38,9 +38,10 @@ public class TU15 {
         //Create real voice
         MivoqVoice enri=mivoqTTSSingleton.createVoice(name,gender,myLanguage);
 
-        assertEquals(true,enri.getGender()==mivoqVoiceFintoDe.getGender());
-        assertEquals(true,enri.getLanguage()==mivoqVoiceFintoDe.getLanguage());
-        assertEquals(true,enri.getVoiceName()==mivoqVoiceFintoDe.getVoiceName());
+        assertEquals(true,enri.getGender().equals(mivoqVoiceFintoDe.getGender()));
+        System.out.println(enri.getLanguage()+" ---- "+mivoqVoiceFintoDe.getLanguage());
+        assertEquals(true,enri.getLanguage().equals(mivoqVoiceFintoDe.getLanguage()));
+        assertEquals(true,enri.getVoiceName().equals(mivoqVoiceFintoDe.getVoiceName()));
 
     }
 
