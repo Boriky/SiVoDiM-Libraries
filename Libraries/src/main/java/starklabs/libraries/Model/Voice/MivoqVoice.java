@@ -151,7 +151,7 @@ import java.util.ArrayList;
             String result="[";
 
             if(myEmotion!=null)
-                result+=myEmotion.toString();
+                result+=myEmotion.toString()+",";
 
             for (int i=0; i<effects.size(); i++)
             {

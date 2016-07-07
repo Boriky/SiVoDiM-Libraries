@@ -1,6 +1,5 @@
 package starklabs.libraries.View;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -125,15 +124,6 @@ public class VoiceListActivity extends AppCompatActivity implements VoiceListAct
                 return super.onOptionsItemSelected(item);
 
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(VoiceListActivity.this, HomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("EXIT", true);
-        startActivity(intent);
-        finish();
     }
 
     @Override

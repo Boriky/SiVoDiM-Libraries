@@ -11,8 +11,6 @@ import starklabs.libraries.Model.Mivoq.MivoqTTSSingleton;
  */
 public class DownloadVoiceData extends ListActivity implements TextToSpeech.OnInitListener{
 
-    private static final String TAG = "TextToSpeechSettings";
-    private static final boolean DBG = false;
     private TextToSpeech mTts = new TextToSpeech(this, this, "starklabs.libraries");
 
     @Override

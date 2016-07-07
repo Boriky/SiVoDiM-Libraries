@@ -1,6 +1,5 @@
 package starklabs.libraries.View;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -17,6 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import starklabs.libraries.Model.Voice.Effect;
+import starklabs.libraries.Model.Voice.EffectImpl;
 import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.Presenter.VoicePresenter;
 import starklabs.libraries.R;
@@ -123,6 +123,24 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
             }
         });
 
+        if(mivoqVoice.getEffects().size()==0)
+        {
+            Effect rate=new EffectImpl("Rate");
+            rate.setValue("1");
+            Effect f0Add=new EffectImpl("F0Add");
+            f0Add.setValue("0");
+            Effect hMMTractScaler=new EffectImpl("HMMTractScaler");
+            hMMTractScaler.setValue("1.0");
+            Effect whisper=new EffectImpl("Whisper");
+            whisper.setValue("0");
+            Effect f0Scale=new EffectImpl("F0Scale");
+            f0Scale.setValue("1");
+            mivoqVoice.setEffect(rate);
+            mivoqVoice.setEffect(f0Add);
+            mivoqVoice.setEffect(hMMTractScaler);
+            mivoqVoice.setEffect(whisper);
+            mivoqVoice.setEffect(f0Scale);
+        }
         //set effect seekBar
         //set rate (velocita) effect
         SeekBar seekRate = (SeekBar) findViewById(R.id.seekBar3);
@@ -256,8 +274,7 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
                 voicePresenter.getEngine().save();
 
                 voicePresenter = null;
-                Intent homeIntent = new Intent(EditVoiceActivity.this, VoiceListActivity.class);
-                startActivity(homeIntent);
+                back();
             }
         });
 
@@ -271,6 +288,12 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
                 boolean connected=voicePresenter.getEngine().getIsConnected();
                 if(!connected)
                     Toast.makeText(v.getContext(), "Il sistema non è connesso. La sintesi avverrà con il TTS Android", Toast.LENGTH_LONG).show();
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -314,7 +337,10 @@ public class EditVoiceActivity extends AppCompatActivity implements EditVoiceAct
     @Override
     public void onBackPressed() {
         voicePresenter.getEngine().load();
-        Intent homeIntent = new Intent(EditVoiceActivity.this, VoiceListActivity.class);
-        startActivity(homeIntent);
+        super.onBackPressed();
+    }
+
+    public void back(){
+        super.onBackPressed();
     }
 }

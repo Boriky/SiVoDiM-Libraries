@@ -4,6 +4,7 @@ import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
+import android.os.Environment;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.HurlStack;
@@ -186,8 +187,7 @@ public class MivoqTTSSingleton {
     public void save(){
         if(myContext== null) return;
 
-
-        File dir = myContext.getFilesDir();
+        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         File voicesFile = new File(dir, "voices.xml");
 
         XMLParser xmlParser = new XMLParser();
@@ -202,7 +202,7 @@ public class MivoqTTSSingleton {
             return;
         }
 
-        File dir = myContext.getFilesDir();
+        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         File voicesFile = new File(dir, "voices.xml");
 
         if(voicesFile!=null && voicesFile.exists()) {

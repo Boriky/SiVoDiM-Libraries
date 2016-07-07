@@ -16,8 +16,6 @@ import starklabs.libraries.Model.Voice.MivoqVoice;
 public class CheckVoiceData extends Activity {
 
 
-    private final static String voiceDataPath = "";
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
 

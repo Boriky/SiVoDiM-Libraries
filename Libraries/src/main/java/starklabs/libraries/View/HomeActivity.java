@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import starklabs.libraries.Model.EngineManager.Engine;
 import starklabs.libraries.Model.EngineManager.EngineImpl;
+import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.Presenter.HomePresenter;
 import starklabs.libraries.Presenter.HomePresenterImpl;
 import starklabs.libraries.R;
@@ -88,16 +89,6 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
-        // This method should shut down the application
-        finish();
-        Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("EXIT", true);
-        startActivity(intent);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -122,18 +113,21 @@ public class HomeActivity extends AppCompatActivity
         if (id == R.id.nav_guide) {
 
             Engine myEngine=new EngineImpl(getApplicationContext());
+            MivoqVoice Patrizia=myEngine.createVoice("Patrizia", "female", "it");
+
             myEngine.speak("Patrizia", "Ciao, sono la nuova voce di Mivoq");
 
             /*
             //try of synthesizeToFile method
-            MivoqVoice Patrizia=myEngine.createVoice("Patrizia", "female", "it");
+
             File path=getFilesDir();
-            File myFile=new File(path,"patrizia.wav");
-            try {
-                engine.synthesizeToFile(myFile.toString(), Patrizia ,"Ciao, sono Patrizia, la nuova voce femminile di Mivoq" );
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            File myFile=new File(path,"patriziaSAD.wav");
+            myEngine.synthesizeToFile(myFile.getAbsolutePath(), "Patrizia", "SADNESS", "Testo con emozione felicità", new Engine.Listener() {
+                @Override
+                public void onCompleteSynthesis() {
+                    //VUOTO
+                }
+            });
             */
 
             toast = Toast.makeText(getApplicationContext(), "Apre il manuale utente", Toast.LENGTH_SHORT);
@@ -183,26 +177,6 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onInit(int status) {
-        /*
-        int status1= mtts.setEngineByPackageName("starklabs.libraries.Model.Mivoq.MivoqTTService");
-        System.out.println(status1);
-        mtts.speak("Sono android", TextToSpeech.QUEUE_FLUSH, null);
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        mtts.speak("Sono androidiano", TextToSpeech.QUEUE_FLUSH, null);
-
-        try {
-            System.out.println("-------------------------");
-            System.out.println(getApplicationContext().getPackageManager().getPackageInfo("starklabs.libraries.Model.Mivoq.MivoqTTService",
-                    PackageManager.COMPONENT_ENABLED_STATE_DEFAULT).toString());
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("------------NOT FOUND-------------");
-        }
-        */
     }
 
 }

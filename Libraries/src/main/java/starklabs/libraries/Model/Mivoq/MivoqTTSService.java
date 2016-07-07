@@ -39,8 +39,9 @@ public class MivoqTTSService extends TextToSpeechService{
         int i=0;
         MivoqVoice voice = list.get(0);
         if(list.size()>0) {
-            while(i<=list.size() && !list.get(i).getName().equals(variant) ) i++;
+            while(i < list.size() && !list.get(i).getName().equals(variant) ) i++;
 
+            if(i>=list.size()) i=0;
             voice = list.get(i);
 
             if (i < list.size())
@@ -71,7 +72,7 @@ public class MivoqTTSService extends TextToSpeechService{
 
         ArrayList<MivoqVoice> list= engine.getVoices();
         int i=0;
-        while(i<=list.size() && !list.get(i).getName().equals(nome[2]) ) i++;
+        while(i < list.size() && !list.get(i).getName().equals(nome[2]) ) i++;
 
         if(i < list.size()) {
             voiceID = i;
@@ -124,6 +125,7 @@ public class MivoqTTSService extends TextToSpeechService{
         MivoqVoice defaultVoice = engine.getVoices().get(voiceID);
         byte[] result = engine.synthesizeText(defaultVoice, req.getText());
 
+        if(result.length<=44)return;
         int bufferSize = mCallback.getMaxBufferSize();
 
         int i = 0;
