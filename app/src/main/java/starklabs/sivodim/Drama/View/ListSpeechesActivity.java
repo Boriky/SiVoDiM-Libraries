@@ -269,7 +269,7 @@ public class ListSpeechesActivity extends AppCompatActivity implements ListSpeec
                 if(characterSelected==null) {
                     Toast.makeText(v.getContext(),"Selezionare un personaggio per confermare la creazione della battuta",Toast.LENGTH_SHORT).show();
                 }
-                else if(text==null) {
+                else if(text==null || text.equals("")) {
                     Toast.makeText(v.getContext(),"Inserire del testo per confermare la creazione della battuta",Toast.LENGTH_SHORT).show();
                 }
                 else {

@@ -280,7 +280,7 @@ public class NewChapterActivity extends AppCompatActivity implements NewChapterI
                 }
 
                 if(!correctName()) {
-                    Toast.makeText(this,"Il titolo del capitolo è valido",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,"Il titolo del capitolo non è valido",Toast.LENGTH_SHORT).show();
                 }
                 else if(titleTaken==true) {
                     Toast.makeText(this,"Titolo del capitolo già esistente",Toast.LENGTH_SHORT).show();

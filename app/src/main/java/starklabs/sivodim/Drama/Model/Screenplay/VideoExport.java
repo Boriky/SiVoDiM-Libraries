@@ -99,7 +99,6 @@ public class VideoExport extends ExportAlgorithm {
                     @Override
                     public void onFinish() {
                         //call methods for video export..
-                        timePassed=0;
                         Iterator<Chapter>iterator=screenplay.getChapterIterator();
                         makeChapterVideo(context,0,iterator,new ArrayList<File>());
                     }
@@ -204,6 +203,7 @@ public class VideoExport extends ExportAlgorithm {
 
                     @Override
                     public void onFinish() {
+                        timePassed=0;
                         createOverlay(context,finalI,chapterIterator,
                                 chapterExportes,chapter.getSpeechIterator(),0);
                     }
@@ -242,10 +242,6 @@ public class VideoExport extends ExportAlgorithm {
         if(speechIterator.hasNext()){
             Speech speech=speechIterator.next();
             String name=screenplay.getTitle().replace(" ","_");
-            final File destination=new File(context.getFilesDir(),"ch_"+i+"tmp_"+j+name+".mp4");
-            final File video=chapterExportes.remove(chapterExportes.size()-1);
-            chapterExportes.add(destination);
-            final int finalJ=(j+1)%2;
             final int begin=(int) Math.round(((double)timePassed)/1000D);
             timePassed+=speech.getDuration();
             final int end=(int) Math.round(((double)timePassed)/1000D);
@@ -253,9 +249,13 @@ public class VideoExport extends ExportAlgorithm {
                     speech.getCharacter().getAvatar().getPath()==null ||
                     speech.getCharacter().getAvatar().getPath().equals("")){
                 createOverlay(context,i,chapterIterator,chapterExportes,
-                        speechIterator,finalJ);
+                        speechIterator,j);
             }
             else {
+                final File destination=new File(context.getFilesDir(),"ch_"+i+"tmp_"+j+name+".mp4");
+                final File video=chapterExportes.remove(chapterExportes.size()-1);
+                chapterExportes.add(destination);
+                final int finalJ=(j+1)%2;
                 VideoOverlayer videoOverlayer=new VideoOverlayer(context,video,
                     speech.getCharacter().getAvatar(),
                     begin,end,destination);
@@ -293,7 +293,7 @@ public class VideoExport extends ExportAlgorithm {
             }
         }
         else {
-            timePassed+=200;
+            //timePassed+=200;
             makeChapterVideo(context,i,chapterIterator,chapterExportes);
         }
 
