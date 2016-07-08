@@ -94,8 +94,14 @@ public class MivoqTTSSingleton {
             request.setVoiceGender(v.getGender());
             request.setVoiceName(v.getVoiceName());
             request.setLocale(v.getLanguage());
-            request.setEffects(v.getStringEffects());
+            if(v.getGender().toString().equals("female") && (v.getLanguage().toString().equals("deu")) || v.getLanguage().toString().equals("de"))
+                v.setFemaleDe(true);
 
+            request.setEffects(v.getStringEffects());
+            System.out.println("v.getStringEffects() = " + v.getStringEffects());
+
+            System.out.println("v.gender = " + v.getGender());
+            System.out.println("v.getLanguage() = " + v.getLanguage());
             // Workaround to fix ' and . problems
             String FixText= text;
 
