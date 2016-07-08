@@ -108,7 +108,7 @@ public class MivoqTTSSingleton {
             FixText=FixText.replace("'","' ");
             FixText+= ".";
 
-            // Set text here     |
+            // Set text here
             //		     |
             //		     V
             request.sendRequest(FixText);
