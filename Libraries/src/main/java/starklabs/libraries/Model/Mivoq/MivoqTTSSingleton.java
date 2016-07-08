@@ -83,7 +83,7 @@ public class MivoqTTSSingleton {
 
         MivoqConnection request= myFactory.createConnection();
 
-        if(v.getLanguage().equals("it"))
+        if(v.getLanguage().equals("ita"))
             request= myNewFactory.createConnection();
 
         synchronized(request)
@@ -94,7 +94,12 @@ public class MivoqTTSSingleton {
             request.setVoiceGender(v.getGender());
             request.setVoiceName(v.getVoiceName());
             request.setLocale(v.getLanguage());
+            if(v.getGender().toString().equals("female") && (v.getLanguage().toString().equals("deu")) || v.getLanguage().toString().equals("de"))
+                v.setFemaleDe(true);
+
             request.setEffects(v.getStringEffects());
+            System.out.println("v.getStringEffects() = " + v.getStringEffects());
+
 
             // Workaround to fix ' and . problems
             String FixText= text;

@@ -93,6 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal">
+
                 <!--Distorsione-->
                 <TextView
                     android:layout_width="wrap_content"
@@ -124,7 +125,7 @@
                     android:rotation="342"
                     android:progress="50"
                     android:layout_below="@+id/lab4"
-                    android:layout_marginLeft="170dp"
+                    android:layout_marginLeft="176dp"
                     android:layout_marginTop="90dp" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -177,7 +178,7 @@
                     android:rotation="126"
                     android:progress="50"
                     android:layout_below="@+id/lab4"
-                    android:layout_marginLeft="70dp"
+                    android:layout_marginLeft="67dp"
                     android:layout_marginTop="170dp" />
 
                 <!--velocita-->
@@ -198,7 +199,7 @@
                     android:rotation="198"
                     android:progress="50"
                     android:layout_below="@+id/lab4"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="40dp"
                     android:layout_marginTop="90dp"
                     android:focusable="false"
                     android:focusableInTouchMode="false"

@@ -1,18 +1,12 @@
 package starklabs.libraries.Model.Mivoq;
 
-import android.annotation.TargetApi;
 import android.media.AudioFormat;
-import android.os.Build;
 import android.speech.tts.SynthesisCallback;
 import android.speech.tts.SynthesisRequest;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeechService;
-import android.speech.tts.Voice;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import starklabs.libraries.Model.Voice.MivoqVoice;
@@ -150,7 +144,7 @@ public class MivoqTTSService extends TextToSpeechService{
 
 
     }
-
+/*
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public List<Voice> onGetVoices()
@@ -170,4 +164,5 @@ public class MivoqTTSService extends TextToSpeechService{
 
         return result;
     }
+    */
 }

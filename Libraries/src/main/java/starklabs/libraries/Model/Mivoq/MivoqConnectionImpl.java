@@ -58,6 +58,7 @@ public class MivoqConnectionImpl implements MivoqConnection{
         Params.put("voice[name]",voiceName);
         Params.put("voice[selection_algorythm",selectAlgorithm);
         Params.put("utterance[effects]",effects);
+        System.out.println("----------effects-------------- = " + effects);
 
         request = new AudioRequest(Request.Method.POST, url, Params,
                 new Response.Listener<byte[]>()

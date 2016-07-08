@@ -22,9 +22,6 @@ import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
-import starklabs.libraries.Model.EngineManager.Engine;
-import starklabs.libraries.Model.EngineManager.EngineImpl;
-import starklabs.libraries.Model.Voice.MivoqVoice;
 import starklabs.libraries.Presenter.HomePresenter;
 import starklabs.libraries.Presenter.HomePresenterImpl;
 import starklabs.libraries.R;
@@ -111,33 +108,11 @@ public class HomeActivity extends AppCompatActivity
         int id = item.getItemId();
         Toast toast;
         if (id == R.id.nav_guide) {
-
-            Engine myEngine=new EngineImpl(getApplicationContext());
-            MivoqVoice Patrizia=myEngine.createVoice("Patrizia", "female", "it");
-
-            myEngine.speak("Patrizia", "Ciao, sono la nuova voce di Mivoq");
-
-            /*
-            //try of synthesizeToFile method
-
-            File path=getFilesDir();
-            File myFile=new File(path,"patriziaSAD.wav");
-            myEngine.synthesizeToFile(myFile.getAbsolutePath(), "Patrizia", "SADNESS", "Testo con emozione felicità", new Engine.Listener() {
-                @Override
-                public void onCompleteSynthesis() {
-                    //VUOTO
-                }
-            });
-            */
-
-            toast = Toast.makeText(getApplicationContext(), "Apre il manuale utente", Toast.LENGTH_SHORT);
-            toast.show();
+            Intent intent=new Intent(this,UserManual.class);
+            startActivity(intent);
         } else if (id == R.id.nav_info) {
             initiatePopupWindow();
-            toast = Toast.makeText(getApplicationContext(), "Apre info su app e autori", Toast.LENGTH_SHORT);
-            toast.show();
         }
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
