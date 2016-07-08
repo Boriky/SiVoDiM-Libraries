@@ -98,7 +98,7 @@ public class UserManualActivity extends AppCompatActivity implements UserManualI
                 " e immagine di sfondo;</li>\n" +
                 "<li>Lista personaggi: accesso alla lista completa di tutti i personaggi appartenenti allo\n" +
                 "sceneggiato aperto.</li></ul>\n" +
-                "<h3>3.2 Creare un nuovo sceneggiato</h3\n" +
+                "<h3>3.2 Creare un nuovo sceneggiato</h3>\n" +
                 "<p>Avviata l’applicazione si potrà sin da subito creare nuovi sceneggiati. Per creare un nuovo\n" +
                 "progetto è necessario:</p>\n" +
                 "<ol>\n" +
