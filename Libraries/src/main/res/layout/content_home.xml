@@ -14,7 +14,8 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
+        android:background="@android:drawable/dialog_holo_light_frame"
         android:text="Crea Nuova Voce"
         android:id="@+id/buttonNewVoice"
         android:layout_alignParentRight="true"
@@ -26,7 +27,8 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
+        android:background="@android:drawable/dialog_holo_light_frame"
         android:text="Lista Voci"
         android:id="@+id/buttonVoiceList"
         android:layout_below="@+id/buttonNewVoice"
@@ -38,6 +40,7 @@
         android:layout_marginTop="15dp" />
 
     <Button
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Test"
