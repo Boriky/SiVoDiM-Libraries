@@ -83,7 +83,7 @@ public class MivoqTTSSingleton {
 
         MivoqConnection request= myFactory.createConnection();
 
-        if(v.getLanguage().equals("it"))
+        if(v.getLanguage().equals("ita"))
             request= myNewFactory.createConnection();
 
         synchronized(request)

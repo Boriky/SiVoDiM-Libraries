@@ -361,28 +361,73 @@ public class VideoExport extends ExportAlgorithm {
     private void finalizeExport(final Context context){
         String name=screenplay.getTitle().replace(" ","_");
         File video=new File(context.getFilesDir(),"concat_mp4_"+name+".mp4");
-        final File destination=new File(context.getFilesDir(),name+".mp4");
+        final File destination=new File(context.getFilesDir(),name+".mov");
         File audio=new File(context.getFilesDir(),name+".mp3");
         AudioVideoMixer audioVideoMixer=new AudioVideoMixer(context,video,audio,destination);
         try {
             audioVideoMixer.exec(new FFmpegExecuteResponseHandler() {
                 @Override
                 public void onSuccess(String message) {
-                    System.out.println("FINITO FFMPEG!!!!!!");
-                    try {
-                        File destCopy=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES);
-                        copyFile(destination,new File(destCopy,destination.getName()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Intent intent=new Intent(context,ListChapterActivity.class);
-                    context.startActivity(intent);
-                    Toast.makeText(context,"Esportazione conclusa",Toast.LENGTH_SHORT).show();
+                    mp4Conversion(context);
                 }
 
                 @Override
                 public void onProgress(String message) {
                     System.out.println(message);
+                }
+
+                @Override
+                public void onFailure(String message) {
+                    Intent intent=new Intent(context,ListChapterActivity.class);
+                    context.startActivity(intent);
+                    Toast.makeText(context,"Errore nell'unione audio-video",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onStart() {
+                    feedback.setText("Esporto il video..");
+                }
+
+                @Override
+                public void onFinish() {
+
+                }
+            });
+        } catch (FFmpegCommandAlreadyRunningException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void mp4Conversion(final Context context){
+        String name=screenplay.getTitle().replace(" ","_");
+        File video=new File(context.getFilesDir(),name+".mov");
+        final File destination=new File(context.getFilesDir(),name+".mp4");
+        Mp4Converter mp4Converter=new Mp4Converter(context,video,destination);
+        try {
+            mp4Converter.exec(new FFmpegExecuteResponseHandler() {
+                @Override
+                public void onSuccess(String message) {
+                    try {
+                        File destCopy=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES);
+                        copyFile(destination,new File(destCopy,destination.getName()));
+                        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                                Uri.fromFile(destCopy)));
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromFile(destination));
+                        intent.setDataAndType(Uri.fromFile(destination), "video/mp4");
+                        context.startActivity(intent);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Intent intent=new Intent(context,ListChapterActivity.class);
+                    context.startActivity(intent);
+                    Toast.makeText(context,"Il video è stato creato e inserito nella cartella Movies",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onProgress(String message) {
+
                 }
 
                 @Override
@@ -395,7 +440,7 @@ public class VideoExport extends ExportAlgorithm {
 
                 @Override
                 public void onStart() {
-                    feedback.setText("Esporto in mp4..");
+                    feedback.setText("Converto in mp4..");
                 }
 
                 @Override
