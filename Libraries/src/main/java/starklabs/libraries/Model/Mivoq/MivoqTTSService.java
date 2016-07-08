@@ -58,7 +58,7 @@ public class MivoqTTSService extends TextToSpeechService{
     public int onLoadVoice (String voiceName) {
         String nome[]= voiceName.split("-");
 
-        if(voiceName.equals("Not Available")) //A little problem here, think how to fix it
+        if(voiceName.equals("Not Available"))
             return TextToSpeech.SUCCESS;
 
         if(nome[0]== null || nome[1]==null || nome[2]==null)
@@ -93,8 +93,6 @@ public class MivoqTTSService extends TextToSpeechService{
     protected String[] onGetLanguage() {
         MivoqVoice defaultVoice = engine.getVoices().get(voiceID);
         String[] result= {defaultVoice.getLanguage(),defaultVoice.getState(),defaultVoice.getName()};
-
-        //String[] a={"ita", "ITA", "Prova2"};
         return result;
     }
 
@@ -137,8 +135,6 @@ public class MivoqTTSService extends TextToSpeechService{
     protected Set<String> onGetFeaturesForLanguage (String lang, String country, String variant) {
 
         Set<String> result= super.onGetFeaturesForLanguage (lang,country, variant);
-
-        //result.add(TextToSpeech.Engine.KEY_FEATURE_NETWORK_SYNTHESIS);
 
         return result;
 

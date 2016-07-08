@@ -10,8 +10,6 @@ public class Language {
     private String state;
     private String modifier;
 
-    // lang_state.modifier
-
     public Language(String l)
     {
         lang=l;
@@ -53,12 +51,6 @@ public class Language {
         }
 
         String result=newLang;
-        /*if(state != null && state.equals(state))
-        {
-            result+="-"+state;
-            if(modifier != null && modifier.equals(modifier))
-                result+="-"+modifier;
-        }*/
         return result;
     }
 }

@@ -69,11 +69,10 @@ public interface VoicePresenter {
 
     int getLanguagePos(String langTag);
 
-
-    //which of the two method
     void setDefaultVoice(int pos);
 
     void setDefaultVoice(boolean b);
+
     boolean isDefaultVoice();
 
     void setVoiceName(String s);

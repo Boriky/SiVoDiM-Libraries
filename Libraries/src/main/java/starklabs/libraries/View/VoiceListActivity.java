@@ -54,7 +54,7 @@ public class VoiceListActivity extends AppCompatActivity implements VoiceListAct
         doneButton=(FloatingActionButton)findViewById(R.id.doneButton);
         deleteButton=(FloatingActionButton)findViewById(R.id.deleteButton);
 
-        //Setting to default the list adapter (if any longclick item is selected
+        //Setting to default the list adapter (if any longclick item is selected)
         if(voiceListView!= null) {
             voiceListView.setSelection(-1);
         }

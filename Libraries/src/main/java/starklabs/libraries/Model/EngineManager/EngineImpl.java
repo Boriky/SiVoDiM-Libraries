@@ -69,9 +69,6 @@ public class EngineImpl implements Engine{
     public EngineImpl(Context c) {
         myContext = c;
         myEngine.setContext(c);
-        //if(backupEngine!=null)
-        //    backupEngine.shutdown();
-        //backupEngine=null;
         if (backupEngine == null) {
             backupEngine = new TextToSpeech(c,
                     new TextToSpeech.OnInitListener() {
@@ -94,7 +91,6 @@ public class EngineImpl implements Engine{
                 }
 
                 if (i < listEngine.size()) {
-                    //backupEngine.shutdown();
                     backupEngine = new TextToSpeech(c, new TextToSpeech.OnInitListener() {
                         @Override
                         public void onInit(int status) {

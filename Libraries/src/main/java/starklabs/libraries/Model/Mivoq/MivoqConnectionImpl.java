@@ -17,7 +17,6 @@ public class MivoqConnectionImpl implements MivoqConnection{
     private String locale;
     private String voiceGender;
     private String voiceName;
-    //private String VoiceAge;
     private String effects;
 
     private static final String selectAlgorithm= "ssml";

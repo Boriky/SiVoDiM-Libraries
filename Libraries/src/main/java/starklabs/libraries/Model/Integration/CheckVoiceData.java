@@ -23,7 +23,6 @@ public class CheckVoiceData extends Activity {
 
         int result = TextToSpeech.Engine.CHECK_VOICE_DATA_PASS;
         Intent returnData = new Intent();
-        //returnData.putExtra(TextToSpeech.Engine.EXTRA_VOICE_DATA_ROOT_DIRECTORY, voiceDataPath);
 
         ArrayList<MivoqVoice> voiceList = getVoices();
         if (voiceList== null || voiceList.isEmpty()) {
@@ -47,8 +46,6 @@ public class CheckVoiceData extends Activity {
     }
 
     public ArrayList<MivoqVoice> getVoices() {
-
-        //Da integrare con l'effettiva lettura delle voci
 
         MivoqTTSSingleton engine= MivoqTTSSingleton.getInstance();
 
