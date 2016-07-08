@@ -130,6 +130,7 @@ import java.util.ArrayList;
         public void setGender(String g)
         {
             gender=g;
+            setGenderLanguage(g, lang.toString());
         }
 
         public String getVoiceName()
@@ -159,8 +160,11 @@ import java.util.ArrayList;
                 if( i != effects.size()-1 )
                     result+= "," ;
             }
-            if(femaleDeAddingEffects)
-                result+=",{HMMTractScaler:1.3,F0Add:120.0}";
+            if(femaleDeAddingEffects){
+                if(!result.equals("["))
+                    result+=",";
+                result+="{HMMTractScaler:1.3,F0Add:120.0}";
+            }
 
             result+="]";
             return result;
