@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#ffffff"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".View.VoiceListActivity"
     tools:showIn="@layout/activity_voice_list">
@@ -20,6 +21,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:background="#ffffff"
         android:drawSelectorOnTop="false"
         android:divider="#ffffff" />
 </RelativeLayout>
