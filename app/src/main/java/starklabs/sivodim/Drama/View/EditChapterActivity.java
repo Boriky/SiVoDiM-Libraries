@@ -215,8 +215,15 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            editWallpaper.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-            backgroundPath=picturePath;
+            Background background=new Background(picturePath);
+            if (background.getImage()==null){
+                Toast.makeText(editWallpaper.getContext(), "La dimensione del file è troppo grande",
+                        Toast.LENGTH_SHORT).show();
+            }
+            else {
+                editWallpaper.setImageBitmap(background.getImage());
+                backgroundPath = picturePath;
+            }
         }
 
         if (requestCode == RESULT_LOAD_AUDIO && resultCode == RESULT_OK && null != data) {
@@ -232,8 +239,15 @@ public class EditChapterActivity extends AppCompatActivity implements EditChapte
             cursor.close();
 
             File audioFile=new File(audioPath);
-            trackView.setText(audioFile.getName());
-            this.soundtrackPath=audioPath;
+            Soundtrack soundtrack=new Soundtrack(audioPath);
+            if(soundtrack.getAudio()==null){
+                Toast.makeText(editSoundtrack.getContext(), "La dimensione del file è troppo grande",
+                        Toast.LENGTH_SHORT).show();
+            }
+            else {
+                trackView.setText(audioFile.getName());
+                this.soundtrackPath = audioPath;
+            }
         }
     }
 

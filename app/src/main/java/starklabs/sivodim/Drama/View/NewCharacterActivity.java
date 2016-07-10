@@ -303,8 +303,15 @@ public class NewCharacterActivity extends AppCompatActivity implements NewCharac
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            newCharacterAvatar.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-            avatarPath=picturePath;
+            Avatar avatar=new Avatar(picturePath);
+            if(avatar.getImage()==null) {
+                Toast.makeText(newCharacterAvatar.getContext(), "La dimensione del file è troppo grande",
+                        Toast.LENGTH_SHORT).show();
+            }
+            else{
+                newCharacterAvatar.setImageBitmap(avatar.getImage());
+                avatarPath=picturePath;
+            }
         }
     }
 

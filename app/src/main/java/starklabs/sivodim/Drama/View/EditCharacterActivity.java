@@ -221,9 +221,15 @@ public class EditCharacterActivity extends AppCompatActivity implements EditChar
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            editAvatar.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-            avatarPath=picturePath;
-
+            Avatar avatar=new Avatar(picturePath);
+            if(avatar.getImage()==null){
+                Toast.makeText(editAvatar.getContext(), "La dimensione del file è troppo grande",
+                        Toast.LENGTH_SHORT).show();
+            }
+            else {
+                editAvatar.setImageBitmap(avatar.getImage());
+                avatarPath = picturePath;
+            }
 
         }
     }

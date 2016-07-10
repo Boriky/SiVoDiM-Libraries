@@ -212,8 +212,15 @@ public class NewChapterActivity extends AppCompatActivity implements NewChapterI
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            newWallpaper.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-            wallpaperPath=picturePath;
+            Background background=new Background(picturePath);
+            if(background.getImage()==null){
+                Toast.makeText(newWallpaper.getContext(), "La dimensione del file è troppo grande",
+                        Toast.LENGTH_SHORT).show();
+            }
+            else{
+                newWallpaper.setImageBitmap(background.getImage());
+                wallpaperPath=picturePath;
+            }
         }
 
         if (requestCode == RESULT_LOAD_AUDIO && resultCode == RESULT_OK && null != data) {
@@ -230,8 +237,15 @@ public class NewChapterActivity extends AppCompatActivity implements NewChapterI
             cursor.close();
 
             File audioFile=new File(audioPath);
-            trackView.setText(audioFile.getName());
-            this.audioPath=audioPath;
+            Soundtrack soundtrack=new Soundtrack(audioPath);
+            if(soundtrack.getAudio()==null){
+                Toast.makeText(trackView.getContext(), "La dimensione del file è troppo grande",
+                        Toast.LENGTH_SHORT).show();
+            }
+            else {
+                trackView.setText(audioFile.getName());
+                this.audioPath=audioPath;
+            }
         }
     }
 
