@@ -41,6 +41,8 @@ public interface Chapter {
 
     long getDuration();
 
+    int getSpeechNumber();
+
     // ----------------------------- SETTER ----------------------------------------------
 
     /**

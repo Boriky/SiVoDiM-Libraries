@@ -80,7 +80,8 @@ public class VideoExport extends ExportAlgorithm {
                     public void onSuccess(String message) {
                         //call methods for video export..
                         Iterator<Chapter>iterator=screenplay.getChapterIterator();
-                        makeChapterVideo(context,0,iterator,new ArrayList<File>());
+                        //makeChapterVideo(context,0,iterator,new ArrayList<File>());
+                        makeChapterVideo2(context,0,iterator,null,null,new ArrayList<File>());
                     }
 
                     @Override
@@ -128,6 +129,91 @@ public class VideoExport extends ExportAlgorithm {
     private void exportAudio(Context context){
         audioExport.export(context);
     }
+
+
+    //###############################################################################
+    // alternative for Video export
+
+    private void makeChapterVideo2(final Context context, int i, final Iterator<Chapter>chapterIterator,final Chapter chapter,final Iterator<Speech>speechIterator,final ArrayList<File>frames){
+        if(speechIterator!=null && speechIterator.hasNext()){
+            Speech speech=speechIterator.next();
+            File audioFile=new File(speech.getAudioPath());
+            File pic=new File(audioFile.getParentFile(),"pic"+i);
+            ImageCombiner imageCombiner=new ImageCombiner(
+                    context,
+                    chapter.getBackground(),
+                    speech.getCharacter().getAvatar(),
+                    pic);
+            imageCombiner.combine();
+            String name=screenplay.getTitle().replace(" ","_");
+            final File destination=new File(context.getFilesDir(),"frame_"+i+name+".mp4");
+            frames.add(destination);
+            int duration= (int) Math.round(((double)speech.getDuration())/1000D);
+            final int finalI=i+1;
+            Background background=new Background(pic.getAbsolutePath());
+            ImageVideoConverter imageVideoConverter=new ImageVideoConverter(
+                    context,
+                    background,
+                    duration,
+                    destination);
+            try {
+                imageVideoConverter.exec(new FFmpegExecuteResponseHandler() {
+                    @Override
+                    public void onSuccess(String message) {
+                        makeChapterVideo2(context,finalI,chapterIterator,
+                                chapter,speechIterator,frames);
+                    }
+
+                    @Override
+                    public void onProgress(String message) {
+                        System.out.println(message);
+                    }
+
+                    @Override
+                    public void onFailure(String message) {
+                        Intent intent=new Intent(context,ListChapterActivity.class);
+                        context.startActivity(intent);
+                        Toast.makeText(context,"Errore nella creazione del frame"+finalI,
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onStart() {
+                        feedback.setText("Creo il frame "+finalI+"/"+frameNumber()+"..");
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                });
+            } catch (FFmpegCommandAlreadyRunningException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(chapterIterator!=null && chapterIterator.hasNext()){
+            //change chapter
+            Chapter chapterNext=chapterIterator.next();
+            makeChapterVideo2(context,i,chapterIterator,chapterNext,
+                    chapterNext.getSpeechIterator(),frames);
+        }
+        else {
+            //finalize
+           concatenateChapters(context,frames);
+        }
+    }
+
+    private int frameNumber(){
+        Iterator<Chapter> chapterIterator=screenplay.getChapterIterator();
+        int num=0;
+        while (chapterIterator.hasNext()){
+            Chapter chapter=chapterIterator.next();
+            num+=chapter.getSpeechNumber();
+        }
+        return num;
+    }
+
+    //###############################################################################
 
     /**
      * Generate a video for a chapter

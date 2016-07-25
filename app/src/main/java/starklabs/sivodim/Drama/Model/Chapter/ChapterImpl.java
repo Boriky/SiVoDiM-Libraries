@@ -163,6 +163,11 @@ public class ChapterImpl implements Chapter{
         return dur;
     }
 
+    @Override
+    public int getSpeechNumber() {
+        return speeches.size();
+    }
+
     /**
      * Move the selected speech (position) down in the list
      * @param position the position of the speech to move up
